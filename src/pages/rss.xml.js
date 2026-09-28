@@ -1,9 +1,9 @@
 import rss from '@astrojs/rss';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import { getPosts } from '../lib/posts';
+import { getArticles } from '../lib/content';
 
 export async function GET(context) {
-	const posts = await getPosts();
+	const posts = await getArticles();
 	return rss({
 		title: SITE_TITLE,
 		description: SITE_DESCRIPTION,
@@ -12,7 +12,7 @@ export async function GET(context) {
 			title: post.data.title,
 			description: post.data.description,
 			pubDate: post.data.pubDate,
-			link: `/blog/${post.id}/`,
+			link: `/writing/${post.id}/`,
 		})),
 	});
 }

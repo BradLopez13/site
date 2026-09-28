@@ -1,68 +1,30 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import PostList from '../components/PostList.astro';
-import { LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import { getPosts } from '../lib/posts';
+import ArticleList from '../components/ArticleList.astro';
+import WorkList from '../components/WorkList.astro';
+import { LINKS } from '../consts';
+import Base from '../layouts/Base.astro';
+import { getArticles, getWork } from '../lib/content';
 
-const latest = (await getPosts()).slice(0, 3);
+const work = (await getWork()).slice(0, 3);
+const articles = (await getArticles()).slice(0, 3);
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>Brad López</h1>
-			<p>
-				Full-stack developer in Madrid: Node.js and TypeScript on the server, React on the client.
-				At work I maintain production codebases that I can't show, so the projects below are where
-				you can see how I work. Here I write about the decisions behind them and the bugs I hit.
-			</p>
+<Base>
+	{/* TODO(step 3): the one strong sentence comes out of the design direction. */}
+	<h1>Brad López</h1>
+	<p>Full-stack developer in Madrid. Node.js and TypeScript on the server, React on the client.</p>
 
-			<h2>Projects</h2>
-			<dl>
-				<dt>
-					<a href="https://github.com/BradLopez13/reservas">reservas</a> ·
-					<a href="https://reservas-web-two.vercel.app">live demo</a>
-				</dt>
-				<dd>
-					Court bookings that must not sell the same slot twice. Three concurrency strategies against
-					real PostgreSQL, opaque cookie sessions, idempotency keys. Fastify, React, Zod.
-				</dd>
-				<dt>
-					<a href="https://github.com/BradLopez13/casino_online">casino_online</a> ·
-					<a href="https://casino-online-nu.vercel.app">live demo</a>
-				</dt>
-				<dd>
-					Final project of my web development degree (2025): a play-money casino in Angular 19 and
-					Firebase, with its Firestore rules covered by emulator tests.
-				</dd>
-			</dl>
+	<h2>Selected work</h2>
+	<WorkList work={work} />
+	<p><a href="/work">All work</a></p>
 
-			<h2>Writing</h2>
-			<PostList posts={latest} />
-			<p><a href="/blog">All articles</a></p>
+	<h2>Writing</h2>
+	<ArticleList articles={articles} />
+	<p><a href="/writing">All articles</a></p>
 
-			<h2>Contact</h2>
-			<p>
-				<a href={LINKS.linkedin}>LinkedIn</a> · <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
-
-<style>
-	h2 {
-		margin-top: 1.5em;
-		font-size: 1.5em;
-	}
-	dd {
-		margin: 0 0 1em 0;
-	}
-</style>
+	<h2>Contact</h2>
+	<p>
+		<a href={LINKS.linkedin}>LinkedIn</a> · <a href={LINKS.github}>GitHub</a> ·
+		<a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
+	</p>
+</Base>

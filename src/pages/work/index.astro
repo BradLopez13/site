@@ -1,0 +1,25 @@
+---
+import WorkList from '../../components/WorkList.astro';
+import Base from '../../layouts/Base.astro';
+import { getWork } from '../../lib/content';
+
+const work = await getWork();
+const projects = work.filter(({ data }) => data.kind === 'project');
+const cases = work.filter(({ data }) => data.kind === 'company');
+---
+
+<Base title="Work" description="Public projects with live demos, and case studies from company work.">
+	<h1>Work</h1>
+
+	<h2>Projects</h2>
+	<WorkList work={projects} />
+
+	{
+		cases.length > 0 && (
+			<>
+				<h2>At work</h2>
+				<WorkList work={cases} />
+			</>
+		)
+	}
+</Base>

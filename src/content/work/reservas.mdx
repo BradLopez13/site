@@ -1,0 +1,26 @@
+---
+kind: project
+title: reservas
+summary: 'Court bookings that must never sell the same slot twice, even with 50 requests racing for it.'
+hard: 'Three concurrency strategies raced against real PostgreSQL; exactly one booking wins.'
+demo: 'https://reservas-web-two.vercel.app'
+repo: 'https://github.com/BradLopez13/reservas'
+period: '2026'
+stack: ['Fastify', 'PostgreSQL', 'Drizzle', 'Zod', 'React', 'Playwright']
+order: 1
+draft: true
+---
+
+{/*
+Case study: problem, role, decisions, result. Brad writes it. Sources: reservas README and docs/adr.
+- Problem: what question does the project answer, and why is it hard?
+- Decisions: EXCLUDE vs FOR UPDATE vs optimistic (ADR 0001), cookie sessions vs JWT (ADR 0002), shared Zod contracts (ADR 0003).
+- What broke along the way: trustProxy behind the Vercel rewrite, CONTENCION.
+- Result: tests, CI, live demo. Link article 1 once it is out.
+*/}
+
+## Problem
+
+## Decisions
+
+## Result

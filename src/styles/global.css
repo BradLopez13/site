@@ -143,3 +143,37 @@ hr {
 	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
+
+/* Shared lists (work and writing). Placeholder styling until the design direction is approved. */
+.list {
+	list-style: none;
+	padding: 0;
+}
+.list li {
+	margin-bottom: 1.5em;
+}
+.list li > a {
+	font-weight: 700;
+}
+.meta {
+	margin: 0;
+	color: rgb(var(--gray));
+	font-size: 0.9em;
+}
+.draft {
+	display: inline-block;
+	margin-left: 0.5em;
+	padding: 0 0.4em;
+	border: 1px solid currentColor;
+	border-radius: 4px;
+	font-size: 0.7em;
+	color: #b45309;
+}
+.facts {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	gap: 0 1em;
+}
+.facts dd {
+	margin: 0;
+}

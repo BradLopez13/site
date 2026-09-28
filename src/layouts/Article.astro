@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+import Base from './Base.astro';
+
+type Props = CollectionEntry<'writing'>['data'];
+
+const { title, description, pubDate, updatedDate, draft } = Astro.props;
+---
+
+<Base title={title} description={description}>
+	<article>
+		<header>
+			{draft && <p class="draft">Draft · only visible in dev</p>}
+			<p class="meta">
+				<FormattedDate date={pubDate} />
+				{updatedDate && <> · updated <FormattedDate date={updatedDate} /></>}
+			</p>
+			<h1>{title}</h1>
+		</header>
+		<slot />
+	</article>
+</Base>

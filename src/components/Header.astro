@@ -4,20 +4,19 @@ import HeaderLink from './HeaderLink.astro';
 ---
 
 <header>
-	<nav>
+	<nav aria-label="Main">
 		<a class="name" href="/">{SITE_TITLE}</a>
 		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
+			<HeaderLink href="/work">Work</HeaderLink>
+			<HeaderLink href="/writing">Writing</HeaderLink>
+			<HeaderLink href="/about">About</HeaderLink>
 		</div>
 	</nav>
 </header>
 <style>
 	header {
-		margin: 0;
 		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+		border-bottom: 1px solid rgb(var(--gray-light));
 	}
 	nav {
 		display: flex;
@@ -31,14 +30,13 @@ import HeaderLink from './HeaderLink.astro';
 		color: rgb(var(--black));
 		text-decoration: none;
 	}
-	nav .internal-links a {
+	.internal-links a {
 		display: inline-block;
 		padding: 1em 0.5em;
 		color: rgb(var(--black));
-		border-bottom: 4px solid transparent;
 		text-decoration: none;
 	}
-	nav .internal-links a.active {
-		border-bottom-color: var(--accent);
+	.internal-links a.active {
+		text-decoration: underline;
 	}
 </style>

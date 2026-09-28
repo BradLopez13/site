@@ -1,0 +1,12 @@
+---
+import ArticleList from '../../components/ArticleList.astro';
+import Base from '../../layouts/Base.astro';
+import { getArticles } from '../../lib/content';
+
+const articles = await getArticles();
+---
+
+<Base title="Writing" description="Articles on the decisions and bugs behind my projects.">
+	<h1>Writing</h1>
+	<ArticleList articles={articles} />
+</Base>

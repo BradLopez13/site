@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Base from './Base.astro';
+
+type Props = CollectionEntry<'work'>['data'];
+
+const data = Astro.props;
+---
+
+<Base title={data.title} description={data.summary}>
+	<article>
+		<header>
+			{data.draft && <p class="draft">Draft · only visible in dev</p>}
+			{
+				data.kind === 'company' && !data.cleared && (
+					<p class="draft">Not cleared · never built until the contract is checked</p>
+				)
+			}
+			<h1>{data.title}</h1>
+			<p>{data.summary}</p>
+			<dl class="facts">
+				{
+					data.kind === 'company' && (
+						<>
+							<dt>Company</dt>
+							<dd>{data.company}</dd>
+							<dt>Role</dt>
+							<dd>{data.role}</dd>
+						</>
+					)
+				}
+				<dt>When</dt>
+				<dd>{data.period}</dd>
+				<dt>Stack</dt>
+				<dd>{data.stack.join(' · ')}</dd>
+				{
+					data.kind === 'project' && (
+						<>
+							<dt>Links</dt>
+							<dd>
+								<a href={data.demo}>Live demo</a> · <a href={data.repo}>Repository</a>
+							</dd>
+						</>
+					)
+				}
+			</dl>
+		</header>
+		<slot />
+	</article>
+</Base>
