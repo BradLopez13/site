@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { onTabKey } from './tabs';
 import { backendSteps } from '../../data/reservas';
 import { dict, type Lang } from '../../i18n';
 
@@ -18,6 +19,8 @@ export default function BackendTour({ lang }: { lang: Lang }) {
 						type="button"
 						role="tab"
 						aria-selected={i === step}
+						tabIndex={i === step ? 0 : -1}
+						onKeyDown={(e) => onTabKey(e, i, backendSteps.length, setStep)}
 						aria-controls="tour-panel"
 						onClick={() => setStep(i)}
 					>

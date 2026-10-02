@@ -106,6 +106,22 @@ kbd {
 	white-space: nowrap;
 }
 
+/* Browser surfaces carry the palette too. */
+::selection {
+	background: var(--violet);
+	color: var(--white);
+}
+html {
+	scrollbar-color: var(--line-on-ink) var(--fog);
+	accent-color: var(--violet);
+	caret-color: var(--violet);
+}
+.game-score dd,
+time,
+.stat strong {
+	font-variant-numeric: tabular-nums;
+}
+
 /* ---------- layout ---------- */
 .wrap {
 	padding-inline: max(var(--gutter), calc((100% - var(--max)) / 2));
@@ -224,10 +240,10 @@ kbd {
 .tag {
 	font-size: 0.875rem;
 	font-weight: 700;
-	color: var(--violet);
+	color: var(--ink);
 }
 .dark .tag {
-	color: var(--violet-soft);
+	color: var(--muted-on-ink);
 }
 .card {
 	background: var(--white);
@@ -239,7 +255,7 @@ kbd {
 	font-family: var(--font-display);
 	font-weight: 800;
 	font-size: clamp(1.5rem, 3vw, 2.5rem);
-	color: var(--violet);
+	color: var(--ink);
 	line-height: 1.1;
 }
 .stat span {
@@ -269,13 +285,7 @@ kbd {
 	width: 0.625rem;
 	height: 0.625rem;
 	border-radius: 50%;
-	background: var(--err);
-}
-.frame-dots i:nth-child(2) {
-	background: var(--warn);
-}
-.frame-dots i:nth-child(3) {
-	background: var(--ok);
+	background: var(--line-on-ink);
 }
 .frame-url {
 	flex: 1;
@@ -721,11 +731,20 @@ html.js button:active {
 }
 @keyframes k-pulse {
 	40% {
-		transform: scale(1.25);
+		transform: scale(1.18);
 	}
 }
 
 /* ---------- shared bits used by several pages ---------- */
+/* Small text links still get a 2.75rem (44px) target. */
+.more-link,
+.frame-live,
+.site-footer .bottom a,
+.brand {
+	display: inline-flex;
+	align-items: center;
+	min-block-size: 2.75rem;
+}
 /* Grid and flex children may shrink below their content (scroll rows inside them). */
 .side > *,
 .hero > *,

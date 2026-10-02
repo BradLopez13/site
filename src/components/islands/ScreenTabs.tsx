@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { onTabKey } from './tabs';
 
 export type Screen = { label: string; url: string; src: string; alt: string; width: number; height: number };
 
@@ -35,7 +36,7 @@ export default function ScreenTabs({ screens, live, openLabel, tabsLabel }: { sc
 			</div>
 			<div className="seg seg-plain" role="tablist" aria-label={tabsLabel}>
 				{screens.map((s, k) => (
-					<button key={s.label} type="button" role="tab" aria-selected={k === i} onClick={() => setI(k)}>
+					<button key={s.label} type="button" role="tab" aria-selected={k === i} tabIndex={k === i ? 0 : -1} onKeyDown={(e) => onTabKey(e, k, screens.length, setI)} onClick={() => setI(k)}>
 						{s.label}
 					</button>
 				))}

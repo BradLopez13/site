@@ -17,6 +17,9 @@ export default defineConfig({
 		sitemap({ i18n: { defaultLocale: 'en', locales: { en: 'en-GB', es: 'es-ES' } } }),
 		react(),
 	],
+	vite: {
+		optimizeDeps: { include: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime', 'react/jsx-dev-runtime'] },
+	},
 	markdown: {
 		shikiConfig: { theme: 'vitesse-dark' },
 	},

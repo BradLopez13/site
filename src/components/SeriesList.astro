@@ -3,37 +3,41 @@ import { series } from '../data/series';
 import { base, dateFmt, dict, langFromUrl } from '../i18n';
 import { getArticles } from '../lib/content';
 
+// Shows the articles that exist in this language. Planned parts stay hidden until two are out:
+// a list that ends on "planned" reads as unfinished.
 const lang = langFromUrl(Astro.url);
 const t = dict(lang).series;
 const articles = await getArticles(lang);
 const bySlug = new Map(articles.map((a) => [a.slug, a]));
 const fmtDate = dateFmt(lang, { month: 'long', year: 'numeric' });
-// The first part not written yet is "coming next"; the rest are "planned".
-const nextPart = series.find((s) => !(s.slug && bySlug.has(s.slug)))?.part;
+const written = series.filter((s) => s.slug && bySlug.has(s.slug));
+const next = written.length >= 2 ? series.find((s) => !(s.slug && bySlug.has(s.slug))) : undefined;
 ---
 
 <ol class="series" data-stagger="up">
 	{
-		series.map((s) => {
-			const a = s.slug ? bySlug.get(s.slug) : undefined;
-			const title = t.parts[s.part - 1];
+		written.map((s) => {
+			const a = bySlug.get(s.slug!)!;
 			return (
 				<li>
-					{a ? (
-						<a href={`${base(lang)}/writing/${a.slug}/`}>
-							<span class="n">{s.part}</span>
-							<span class="t">{title}</span>
-							<span class="when">{a.data.draft ? t.draft : fmtDate.format(a.data.pubDate)}</span>
-						</a>
-					) : (
-						<div>
-							<span class="n">{s.part}</span>
-							<span class="t">{title}</span>
-							<span class="when">{s.part === nextPart ? t.next : t.planned}</span>
-						</div>
-					)}
+					<a href={`${base(lang)}/writing/${a.slug}/`}>
+						<span class="n">{s.part}</span>
+						<span class="t">{t.parts[s.part - 1]}</span>
+						<span class="when">{a.data.draft ? t.draft : fmtDate.format(a.data.pubDate)}</span>
+					</a>
 				</li>
 			);
 		})
+	}
+	{
+		next && (
+			<li>
+				<div>
+					<span class="n">{next.part}</span>
+					<span class="t">{t.parts[next.part - 1]}</span>
+					<span class="when">{t.next}</span>
+				</div>
+			</li>
+		)
 	}
 </ol>

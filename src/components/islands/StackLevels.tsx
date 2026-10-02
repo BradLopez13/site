@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { onTabKey } from './tabs';
 import { skills } from '../../data/job';
 import { dict, type Lang } from '../../i18n';
 
@@ -12,8 +13,8 @@ export default function StackLevels({ lang }: { lang: Lang }) {
 	return (
 		<div className="stack" style={{ ['--gap' as string]: '1.5rem' }}>
 			<div className="seg" role="tablist" aria-label={t.knowLabel} style={{ alignSelf: 'flex-start' }}>
-				{(Object.keys(skills) as Id[]).map((k) => (
-					<button key={k} type="button" role="tab" aria-selected={k === id} onClick={() => setId(k)}>
+				{(Object.keys(skills) as Id[]).map((k, n, all) => (
+					<button key={k} type="button" role="tab" aria-selected={k === id} tabIndex={k === id ? 0 : -1} onKeyDown={(e) => onTabKey(e, n, all.length, (m) => setId(all[m]))} onClick={() => setId(k)}>
 						{t.levels[k].label}
 					</button>
 				))}

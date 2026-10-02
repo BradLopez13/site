@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { onTabKey } from './tabs';
 import { caseSlug, jobThemes } from '../../data/job';
 import { base, dict, type Lang } from '../../i18n';
 
@@ -11,7 +12,7 @@ export default function JobTiles({ lang }: { lang: Lang }) {
 		<div className="stack" style={{ ['--gap' as string]: '1rem' }}>
 			<div className="tiles" role="tablist" aria-label={t.label}>
 				{jobThemes.map((j, k) => (
-					<button key={j.id} type="button" role="tab" aria-selected={k === i} aria-controls="job-panel" onClick={() => setI(k)}>
+					<button key={j.id} type="button" role="tab" aria-selected={k === i} tabIndex={k === i ? 0 : -1} onKeyDown={(e) => onTabKey(e, k, jobThemes.length, setI)} aria-controls="job-panel" onClick={() => setI(k)}>
 						<span className="tag">{t.themes[j.id].tag}</span>
 						<span className="tile-title">{t.themes[j.id].title}</span>
 					</button>

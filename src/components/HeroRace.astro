@@ -1,0 +1,49 @@
+---
+// The reservas race as a still-moving picture: CSS only, so it plays before any island hydrates.
+// Every lane bounces off the wall except one, which gets into the slot. Under reduced motion it
+// rests on that final frame.
+interface Props {
+	caption: string;
+	slot: string;
+}
+
+const { caption, slot } = Astro.props;
+const lanes = 16;
+const winner = 9;
+---
+
+<figure class="hero-race dark" data-a="up" style="--d: 800ms">
+	<div class="race-track hero-track" style={`height: ${lanes * 0.4375}rem; --slot: 7.5rem`} aria-hidden="true">
+		{
+			Array.from({ length: lanes }, (_, i) => (
+				<div
+					class:list={['lane', i === winner ? 'win' : 'refuse']}
+					style={`top: ${i * 0.4375}rem; --d: ${i === winner ? 0 : (((i * 17) % 7) * 0.02).toFixed(2)}s`}
+				>
+					<span />
+				</div>
+			))
+		}
+		<div class="race-wall"></div>
+		<div class="race-slot">{slot}</div>
+	</div>
+	<figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+	.hero-race {
+		margin: 0;
+		grid-column: 1 / -1;
+		display: grid;
+		gap: 0.875rem;
+		padding: clamp(1rem, 2.4vw, 1.75rem) clamp(1rem, 3vw, 2.25rem);
+		border-radius: 1.5rem;
+		background: var(--ink);
+		color: var(--paper);
+	}
+	.hero-race figcaption {
+		font-size: 0.9375rem;
+		color: var(--muted-on-ink);
+		max-width: 60ch;
+	}
+</style>

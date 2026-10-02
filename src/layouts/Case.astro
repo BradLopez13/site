@@ -16,7 +16,6 @@ const t = dict(lang);
 	<section class="wrap case-hero">
 		<div class="stack" style="--gap: 1.375rem">
 			<a href={`${base(lang)}/work/`} class="back">{t.common.allWork}</a>
-			{company && <span class="badge">{t.case.atJob}</span>}
 			{data.draft && <span class="badge draft">{t.common.draft}</span>}
 			{company && !data.cleared && <span class="badge draft">{t.case.notCleared}</span>}
 			<Split text={data.title} as="h1" mode={company ? 'blur' : 'rot'} class:list={['display-xl', { long: company }]} delay={150} />

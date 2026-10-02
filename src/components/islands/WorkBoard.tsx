@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { onTabKey } from './tabs';
 import { caseSlug, jobThemes, layerRules, type JobId } from '../../data/job';
 import { base, dict, type Dict, type Lang } from '../../i18n';
 
@@ -82,7 +83,7 @@ export default function WorkBoard({ lang }: { lang: Lang }) {
 		<div className="board">
 			<div className="board-list" role="tablist" aria-orientation="vertical" aria-label={all.work.casesLabel}>
 				{jobThemes.map((j, k) => (
-					<button key={j.id} type="button" role="tab" aria-selected={k === i} aria-controls="board-panel" onClick={() => setI(k)}>
+					<button key={j.id} type="button" role="tab" aria-selected={k === i} tabIndex={k === i ? 0 : -1} onKeyDown={(e) => onTabKey(e, k, jobThemes.length, setI)} aria-controls="board-panel" onClick={() => setI(k)}>
 						<span className="tag">{t.themes[j.id].tag}</span>
 						<span className="tile-title">{t.themes[j.id].title}</span>
 					</button>

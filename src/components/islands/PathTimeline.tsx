@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { onTabKey } from './tabs';
 import { pathStops, pathTags } from '../../data/job';
 import { dict, type Lang } from '../../i18n';
 
@@ -12,7 +13,7 @@ export default function PathTimeline({ lang }: { lang: Lang }) {
 			<div className="path" role="tablist" aria-label={t.pathLabel}>
 				<span className="path-rail" aria-hidden="true" />
 				{pathStops.map((s, k) => (
-					<button key={s} type="button" role="tab" aria-selected={k === i} aria-controls="path-panel" onClick={() => setI(k)}>
+					<button key={s} type="button" role="tab" aria-selected={k === i} tabIndex={k === i ? 0 : -1} onKeyDown={(e) => onTabKey(e, k, pathStops.length, setI)} aria-controls="path-panel" onClick={() => setI(k)}>
 						<span className="path-dot" aria-hidden="true" />
 						<span className="tag">{t.path[s].when}</span>
 						<span className="tile-title">{t.path[s].short}</span>

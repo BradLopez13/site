@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { onTabKey } from './tabs';
 import { dict, type Lang } from '../../i18n';
 
 // Illustrative data and field names: the real model is private, the shape of the problem is not.
@@ -26,8 +27,8 @@ export default function ErpFlow({ lang }: { lang: Lang }) {
 	return (
 		<div className="stack" style={{ ['--gap' as string]: '1.75rem' }}>
 			<div className="seg" role="tablist" aria-label={t.label} style={{ alignSelf: 'flex-start' }}>
-				{(Object.keys(examples) as Id[]).map((k) => (
-					<button key={k} type="button" role="tab" aria-selected={k === id} onClick={() => setId(k)}>
+				{(Object.keys(examples) as Id[]).map((k, n, all) => (
+					<button key={k} type="button" role="tab" aria-selected={k === id} tabIndex={k === id ? 0 : -1} onKeyDown={(e) => onTabKey(e, n, all.length, (m) => setId(all[m]))} onClick={() => setId(k)}>
 						{t[k]}
 					</button>
 				))}

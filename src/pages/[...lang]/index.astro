@@ -2,6 +2,7 @@
 import type { ImageMetadata } from 'astro';
 import { getImage, Image } from 'astro:assets';
 import SeriesList from '../../components/SeriesList.astro';
+import HeroRace from '../../components/HeroRace.astro';
 import Split from '../../components/Split.astro';
 import ApiGame from '../../components/islands/ApiGame';
 import BackendTour from '../../components/islands/BackendTour';
@@ -9,6 +10,7 @@ import JobTiles from '../../components/islands/JobTiles';
 import ScreenTabs from '../../components/islands/ScreenTabs';
 import { LINKS } from '../../consts';
 import { stackDaily } from '../../data/job';
+import { getArticles, getWork } from '../../lib/content';
 import Base from '../../layouts/Base.astro';
 import { base, dict, fmt, langPaths, type Lang } from '../../i18n';
 import { pista } from '../../data/reservas';
@@ -24,6 +26,12 @@ const lang: Lang = Astro.params.lang === 'es' ? 'es' : 'en';
 const t = dict(lang);
 const h = t.home;
 const b = base(lang);
+
+// Only link to pages that exist in this build: drafts are left out of production.
+const published = new Set((await getWork(lang)).map((w) => w.slug));
+const hasArticles = (await getArticles(lang)).length > 0;
+// Five that carry the most weight; the full, honest list lives on /about.
+const stackTop = stackDaily.filter((s) => ['TypeScript', 'React', 'Node.js', 'MongoDB', 'Azure Cosmos DB'].includes(s));
 
 const shot = async (src: ImageMetadata, label: string, url: string, alt: string) => {
 	const img = await getImage({ src, width: 1280, format: 'webp' });
@@ -48,16 +56,19 @@ const chips = [
 
 <Base>
 	<section class="wrap hero">
-		<div class="stack" style="--gap: clamp(1.25rem, 3vw, 2.25rem)">
-			<Split as="h1" text={h.title} class="display-xl" delay={150} />
-			<p class="lede" data-a="up" style="--d: 500ms">{h.lede}</p>
+		<div class="stack hero-copy" style="--gap: clamp(1rem, 2.4vw, 1.75rem)">
+			<Split as="h1" text={h.title} class="hero-title" delay={150} />
+			<p class="lede" data-a="up" style="--d: 450ms">{h.lede}</p>
+			<ul class="facts" aria-label={h.factsLabel} data-stagger="up">
+				{h.facts.map((f) => <li>{f}</li>)}
+			</ul>
 			<div class="row" data-a="up" style="--d: 650ms">
-				<a class="btn btn-primary" href="#play">{h.ctaPlay}</a>
-				<a class="btn btn-ghost" href={`${b}/work/`}>{h.ctaWork}</a>
+				<a class="btn btn-primary" href={`mailto:${LINKS.email}`}>{t.common.writeMe}</a>
+				<a class="btn btn-ghost" href="#play">{h.ctaPlay}</a>
 			</div>
 		</div>
 		<div class="portrait">
-			<Image src={brad} alt={h.photoAlt} widths={[360, 520, 760]} sizes="(min-width: 62.5em) 30rem, 80vw" loading="eager" fetchpriority="high" data-a="clip" style="--d: 200ms" />
+			<Image src={brad} alt={h.photoAlt} widths={[360, 520, 760]} sizes="(min-width: 62.5em) 24rem, 80vw" loading="eager" fetchpriority="high" data-a="clip" style="--d: 200ms" />
 			{
 				chips.map((c, i) => (
 					<span class={`chip ${c.tone}`} style={`${c.pos}; animation-delay: ${i * 1.5}s`} aria-hidden="true">
@@ -67,6 +78,7 @@ const chips = [
 				))
 			}
 		</div>
+		<HeroRace caption={h.raceCaption} slot={`${pista.nombre}, ${pista.franja}`} />
 	</section>
 
 	<section id="work" class="band-dark dark wrap section live-band" data-a="up">
@@ -83,9 +95,14 @@ const chips = [
 				<h3 class="display-m">reservas</h3>
 				<p>{h.reservasDesc}</p>
 				<div class="row">
-					<a class="btn btn-primary" href={LINKS.reservasDemo}>{t.common.openDemo}</a>
+					{
+						published.has('reservas') ? (
+							<a class="btn btn-primary" href={`${b}/work/reservas/`}>{t.common.caseStudy}</a>
+						) : (
+							<a class="btn btn-primary" href={LINKS.reservasDemo}>{t.common.openDemo}</a>
+						)
+					}
 					<a class="btn btn-ghost" href={LINKS.reservasRepo}>{t.common.code}</a>
-					<a class="btn btn-ghost" href={`${b}/work/reservas/`}>{t.common.caseStudy}</a>
 				</div>
 			</div>
 		</div>
@@ -102,13 +119,14 @@ const chips = [
 				<div class="frame-bar">
 					<span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
 					<span class="frame-url">casino-online-nu.vercel.app/login</span>
+					<a href={LINKS.casinoDemo} class="frame-live">{t.common.openLive}</a>
 				</div>
 				<Image src={casinoShot} alt={h.casinoAlt} width={1280} class="frame-img" />
 			</div>
 		</div>
 	</section>
 
-	<section class="wrap section stack" style="--gap: 2.5rem">
+	<section class="wrap section stack band-white" style="--gap: 2.5rem">
 		<div class="split-head">
 			<Split text={h.backendTitle} class="display-l" mode="blur" />
 			<p>{h.backendLede}</p>
@@ -124,7 +142,7 @@ const chips = [
 		<JobTiles client:visible lang={lang} />
 		<div class="row" style="--gap: 0.625rem" data-stagger>
 			<strong>{h.everyDay}</strong>
-			{stackDaily.map((s) => <span class="pill">{s}</span>)}
+			{stackTop.map((s) => <span class="pill">{s}</span>)}
 		</div>
 		<a href={`${b}/about/`} class="more-link">{h.everything}</a>
 	</section>
@@ -142,37 +160,70 @@ const chips = [
 		<ApiGame client:visible lang={lang} />
 	</section>
 
-	<section id="writing" class="wrap section side">
-		<div class="stack" style="--gap: 1rem">
-			<Split text={h.writingTitle} class="display-l" mode="rot" />
-			<p>{h.writingLede}</p>
-			<a href={`${b}/rss.xml`} class="more-link">{t.common.rss}</a>
-		</div>
-		<SeriesList />
-	</section>
+	{
+		hasArticles && (
+			<section id="writing" class="wrap section side">
+				<div class="stack" style="--gap: 1rem">
+					<Split text={h.writingTitle} class="display-l" mode="rot" />
+					<p>{h.writingLede}</p>
+					<a href={`${b}/rss.xml`} class="more-link">{t.common.rss}</a>
+				</div>
+				<SeriesList />
+			</section>
+		)
+	}
 </Base>
 
 <style>
+	.hero :global(.hero-title) {
+		font-weight: 900;
+		font-size: clamp(2.25rem, 5.2vw, 4.75rem);
+		line-height: 1;
+		letter-spacing: -0.03em;
+		max-width: 14ch;
+	}
+	.facts {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.5rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-weight: 600;
+		font-size: 1rem;
+	}
+	.facts li {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.facts li::before {
+		content: '';
+		width: 0.4375rem;
+		height: 0.4375rem;
+		border-radius: 50%;
+		background: var(--ink);
+	}
 	.hero {
 		display: grid;
 		gap: 2.5rem 4rem;
 		align-items: center;
-		padding-block: clamp(1rem, 4vw, 3.5rem) clamp(3.5rem, 8vw, 7.5rem);
+		padding-block: clamp(0.5rem, 2.5vw, 2rem) clamp(3.5rem, 8vw, 7.5rem);
 	}
 	@media (min-width: 62.5em) {
 		.hero {
-			grid-template-columns: minmax(0, 1fr) 30rem;
+			grid-template-columns: minmax(0, 1fr) 24rem;
 		}
 	}
 	.portrait {
 		position: relative;
-		max-width: 30rem;
+		max-width: 24rem;
 		width: 80%;
 		justify-self: center;
 	}
 	.portrait :global(img) {
 		width: 100%;
-		aspect-ratio: 3 / 4;
+		aspect-ratio: 4 / 5;
 		object-fit: cover;
 		border-radius: 99em 99em 1.75rem 1.75rem;
 	}
@@ -283,6 +334,14 @@ const chips = [
 	.more-link {
 		font-weight: 700;
 		align-self: flex-start;
+	}
+	/* The backend band sits on white so the page alternates fog, espresso, white, fog, violet. */
+	.band-white {
+		background: var(--white);
+		border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+	}
+	.band-white + section {
+		padding-top: clamp(3.5rem, 8vw, 8rem);
 	}
 	.play {
 		background: var(--violet);
