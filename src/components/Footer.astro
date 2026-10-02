@@ -1,11 +1,14 @@
 ---
 import { LINKS } from '../consts';
+import { base, dict, langFromUrl } from '../i18n';
 
 interface Props {
 	lead?: string;
 }
 
-const { lead = 'Hiring for backend or full-stack work, or want to argue about locks? I answer every email.' } = Astro.props;
+const lang = langFromUrl(Astro.url);
+const t = dict(lang).footer;
+const { lead = t.lead } = Astro.props;
 ---
 
 <footer class="band-dark dark wrap site-footer" id="contact">
@@ -15,9 +18,9 @@ const { lead = 'Hiring for backend or full-stack work, or want to argue about lo
 		<div class="row" style="--gap: 1.75rem">
 			<a href={LINKS.linkedin}>LinkedIn</a>
 			<a href={LINKS.github}>GitHub</a>
-			<a href="/rss.xml">RSS</a>
+			<a href={`${base(lang)}/rss.xml`}>RSS</a>
 		</div>
-		<span class="muted">Madrid, Spain. EU citizen.</span>
+		<span class="muted">{t.place}</span>
 	</div>
 </footer>
 

@@ -2,7 +2,8 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_TITLE } from '../consts';
+import { dict, langFromUrl } from '../i18n';
 
 interface Props {
 	title?: string;
@@ -10,11 +11,12 @@ interface Props {
 	footerLead?: string;
 }
 
-const { title, description = SITE_DESCRIPTION, footerLead } = Astro.props;
+const lang = langFromUrl(Astro.url);
+const { title, description = dict(lang).meta.description, footerLead } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<BaseHead title={title ? `${title} · ${SITE_TITLE}` : SITE_TITLE} description={description} />
 	</head>

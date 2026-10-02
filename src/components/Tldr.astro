@@ -1,12 +1,15 @@
 ---
+import { dict, langFromUrl } from '../i18n';
+
 interface Props {
 	items: { label: string; text: string; tone: 'bad' | 'violet' | 'ok' }[];
 	jump?: string;
 }
 const { items, jump } = Astro.props;
+const t = dict(langFromUrl(Astro.url)).article;
 ---
 
-<section aria-label="In 30 seconds" class="tldr" data-stagger="drop">
+<section aria-label={t.inBrief} class="tldr" data-stagger="drop">
 	{
 		items.map((t) => (
 			<div class="card stack" style="--gap: 0.625rem">
@@ -18,8 +21,8 @@ const { items, jump } = Astro.props;
 	{
 		jump && (
 			<a href={jump} class="tldr-jump dark">
-				<span class="tag">No time?</span>
-				<strong>Jump to the race</strong>
+				<span class="tag">{t.noTime}</span>
+				<strong>{t.jump}</strong>
 			</a>
 		)
 	}

@@ -1,0 +1,64 @@
+---
+kind: company
+title: 'Entran reservas de eventos, salen facturas que acepta un contable.'
+tagline: 'La capa entre una plataforma de eventos y un ERP de facturación, hecha después de aprender contabilidad desde cero.'
+summary: 'Una capa de mapeo y normalización entre una plataforma de eventos y un ERP de facturación: facturas simplificadas, gastos e IVA.'
+where: 'Trabajo actual, Madrid'
+role: 'Diseñé y construí la capa de integración'
+period: '2025 a hoy'
+stack: ['TypeScript', 'Node.js', 'Express']
+order: 10
+cleared: false
+draft: true
+---
+
+import Block from '../../../components/Block.astro';
+import Decisions from '../../../components/Decisions.astro';
+import Vocab from '../../../components/Vocab.astro';
+import ErpFlow from '../../../components/islands/ErpFlow';
+import Split from '../../../components/Split.astro';
+
+{/*
+ANTES DE PUBLICAR: revisa el contrato. Sin código, sin capturas internas, sin nombres de clientes ni proveedores,
+sin cifras confidenciales, salvo lo que ya sea público o se apruebe por escrito. Pon cleared: true solo después.
+El diagrama usa datos y nombres de campos inventados a propósito.
+*/}
+
+<Block title="El problema" lead="Dos sistemas, dos vocabularios." mode="up" reveal="up">
+  <Vocab
+    left="La plataforma de eventos dice"
+    leftWords={['reserva', 'asistente', 'tarifa', 'pagado']}
+    right="El ERP de facturación dice"
+    rightWords={['factura simplificada', 'línea de gasto', 'base imponible', 'IVA']}
+  />
+  <p class="problem-verdict">Una factura casi correcta sigue estando mal.</p>
+  <Fragment slot="story">
+    <p>Ninguno de los dos sistemas habla el idioma del otro. Yo nunca había hecho contabilidad: antes de escribir el mapeo tuve que aprender qué es una factura simplificada, cuándo un importe es un gasto de gestión y cómo se desglosa el IVA, para que el modelo encajara con cómo lo lee un contable.</p>
+  </Fragment>
+</Block>
+
+<section class="panel-dark dark section-gap" data-a="blur">
+  <div class="stack" style="--gap: 1.75rem">
+    <div class="stack" style="--gap: 0.625rem">
+      <Split text="Cómo una reserva se convierte en factura" mode="rot" class="display-m" />
+      <p class="muted">Datos y nombres de campos ilustrativos. El modelo real es privado; la forma del problema, no.</p>
+    </div>
+    <ErpFlow client:visible lang="es" />
+  </div>
+</section>
+
+<Block title="Decisiones" mode="blur" reveal="right">
+  <Decisions
+    items={[
+      { title: 'Primero normalizar, después mapear', why: '[Por qué hay una capa en términos contables entre los dos sistemas en lugar de mapear campo a campo.]' },
+      { title: '[Segunda decisión]', why: '[Por ejemplo: cómo tratas importes y redondeos, o qué pasa cuando el ERP rechaza una factura.]' },
+      { title: '[Tercera decisión]', why: '[Cómo comprobaste el resultado con alguien que sabe de contabilidad.]' },
+    ]}
+  />
+</Block>
+
+<Block title="Lo que me llevé" lead="[Una línea: la lección, con tus palabras.]" mode="up" reveal="left" open="Leer más" close="Ocultar">
+  <Fragment slot="story">
+    <p class="placeholder">[Sin cifras: qué cambió cuando la integración entró en producción y qué te enseñó aprender un dominio nuevo desde cero.]</p>
+  </Fragment>
+</Block>

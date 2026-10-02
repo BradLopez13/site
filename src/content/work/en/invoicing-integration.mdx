@@ -12,11 +12,11 @@ cleared: false
 draft: true
 ---
 
-import Block from '../../components/Block.astro';
-import Decisions from '../../components/Decisions.astro';
-import Vocab from '../../components/Vocab.astro';
-import ErpFlow from '../../components/islands/ErpFlow';
-import Split from '../../components/Split.astro';
+import Block from '../../../components/Block.astro';
+import Decisions from '../../../components/Decisions.astro';
+import Vocab from '../../../components/Vocab.astro';
+import ErpFlow from '../../../components/islands/ErpFlow';
+import Split from '../../../components/Split.astro';
 
 {/*
 BEFORE PUBLISHING: check the contract. No code, no internal screenshots, no client or vendor names,
@@ -43,7 +43,7 @@ The diagram uses made-up data and field names on purpose.
       <Split text="How one booking becomes an invoice" mode="rot" class="display-m" />
       <p class="muted">Illustrative data and field names. The real model is private; the shape of the problem is not.</p>
     </div>
-    <ErpFlow client:visible />
+    <ErpFlow client:visible lang="en" />
   </div>
 </section>
 

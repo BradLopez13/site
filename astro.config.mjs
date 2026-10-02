@@ -11,7 +11,12 @@ export default defineConfig({
 	site: process.env.VERCEL_PROJECT_PRODUCTION_URL
 		? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
 		: 'http://localhost:4321',
-	integrations: [mdx(), sitemap(), react()],
+	integrations: [
+		mdx(),
+		// hreflang pairs for /x and /es/x in the sitemap.
+		sitemap({ i18n: { defaultLocale: 'en', locales: { en: 'en-GB', es: 'es-ES' } } }),
+		react(),
+	],
 	markdown: {
 		shikiConfig: { theme: 'vitesse-dark' },
 	},

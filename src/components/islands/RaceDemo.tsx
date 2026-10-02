@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
+import { dict, type Lang } from '../../i18n';
 
 type Strategy = 'lock' | 'retry' | 'refuse';
 
-const strategies: { id: Strategy; label: string; explain: string }[] = [
-	{ id: 'lock', label: 'Wait in line', explain: 'SELECT … FOR UPDATE locks the court: the others wait their turn, then find the slot taken.' },
-	{ id: 'retry', label: 'Retry on conflict', explain: 'Nobody waits: the losers see the version changed and try again, up to three times.' },
-	{ id: 'refuse', label: 'Let PostgreSQL refuse', explain: 'The EXCLUDE constraint rejects every overlapping insert with 23P01: the database decides.' },
-];
+const strategies: Strategy[] = ['lock', 'retry', 'refuse'];
 
 // A simulation of the race test in reservas: one lane per request, one slot at the end.
 // Timings are illustrative; the real test runs against PostgreSQL in Testcontainers.
-export default function RaceDemo({ slot = 'Pádel 1, 19:30' }: { slot?: string }) {
+export default function RaceDemo({ lang, slot = 'Pádel 1, 19:30' }: { lang: Lang; slot?: string }) {
+	const t = dict(lang).race;
 	const [strategy, setStrategy] = useState<Strategy>('refuse');
 	const track = useRef<HTMLDivElement>(null);
 	// Only decides how many lanes fit; the lane distance itself comes from CSS container units,
@@ -31,24 +29,23 @@ export default function RaceDemo({ slot = 'Pádel 1, 19:30' }: { slot?: string }
 	const lanes = small ? 25 : 50;
 	const winner = Math.floor(lanes / 2) - 1;
 	const slot_rem = small ? 5 : 9.375;
-	const current = strategies.find((s) => s.id === strategy)!;
 
 	return (
 		<figure className="race dark">
 			<div className="race-head">
-				<div className="seg" role="group" aria-label="Strategy">
+				<div className="seg" role="group" aria-label={t.label}>
 					{strategies.map((s) => (
-						<button key={s.id} type="button" aria-pressed={s.id === strategy} onClick={() => setStrategy(s.id)}>
-							{s.label}
+						<button key={s} type="button" aria-pressed={s === strategy} onClick={() => setStrategy(s)}>
+							{t[s].label}
 						</button>
 					))}
 				</div>
 				<div className="race-legend">
 					<span>
-						<i className="ok" /> 201 Created
+						<i className="ok" /> {t.created}
 					</span>
 					<span>
-						<i className="warn" /> 409 PISTA_OCUPADA
+						<i className="warn" /> {t.occupied}
 					</span>
 				</div>
 			</div>
@@ -79,7 +76,7 @@ export default function RaceDemo({ slot = 'Pádel 1, 19:30' }: { slot?: string }
 				</div>
 			</div>
 			<figcaption>
-				{current.explain} A simulation of the race test in reservas; timings are illustrative.
+				{t[strategy].explain} {t.caption}
 			</figcaption>
 		</figure>
 	);

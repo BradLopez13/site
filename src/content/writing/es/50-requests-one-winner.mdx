@@ -1,0 +1,61 @@
+---
+title: '50 peticiones, una ganadora: tres formas de evitar reservas dobles en PostgreSQL'
+description: 'Bloqueos pesimistas, versiones optimistas y una restricción EXCLUDE, compitiendo entre sí en reservas.'
+pubDate: '2026-10-05'
+part: 1
+draft: true
+---
+
+import Tldr from '../../../components/Tldr.astro';
+import RaceDemo from '../../../components/islands/RaceDemo';
+
+{/* Versión en castellano del artículo 1. Brad escribe el texto; draft: false para publicar. */}
+
+<div class="wide">
+  <Tldr
+    jump="#demo"
+    items={[
+      { label: 'El problema', text: 'Leer, comprobar e insertar se rompe cuando dos peticiones se solapan.', tone: 'bad' },
+      { label: 'Tres soluciones', text: 'Bloquear la pista, reintentar si hay conflicto o dejar que PostgreSQL lo rechace.', tone: 'violet' },
+      { label: 'El veredicto', text: 'EXCLUDE en producción: aguanta inserte el código que inserte.', tone: 'ok' },
+    ]}
+  />
+</div>
+
+<p class="placeholder">[Tu arranque: el momento en que dos personas pulsan Reservar en la última franja, con tus palabras.]</p>
+
+## Leer, comprobar, insertar
+
+<p class="placeholder">[Qué cabe entre el SELECT de una petición y el INSERT de la otra.]</p>
+
+<div class="wide" id="demo">
+  <RaceDemo client:visible lang="es" />
+</div>
+
+## Que decida PostgreSQL
+
+<p class="placeholder">[Qué dice la restricción, qué es 23P01 y por qué hace falta btree_gist.]</p>
+
+```sql
+-- apps/api/drizzle/0001_exclude_solape.sql (commit 4385119)
+EXCLUDE USING gist ("pista_id" WITH =, "periodo" WITH &&)
+  WHERE ("estado" = 'confirmada');
+```
+
+```ts
+// apps/api/src/modules/reservas/infra/persistence/reservas/exclude.ts (commit da5a7f9)
+async crear(tx, d) {
+  try {
+    return await insertar(tx, d);
+  } catch (e) {
+    if (codigoPg(e) === '23P01') throw new PistaOcupadaError();
+    throw e;
+  }
+},
+```
+
+<p class="placeholder">[Por qué los tests de la pesimista y la optimista quitan la restricción antes de correr.]</p>
+
+## Por qué EXCLUDE en producción
+
+<p class="placeholder">[El argumento de la ruta que alguien añade mañana, y lo que descartaste: SERIALIZABLE en todo, un mutex en memoria en Vercel.]</p>

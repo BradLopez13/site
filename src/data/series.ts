@@ -1,7 +1,3 @@
-// The four-part series on reservas. Parts appear here as "planned" until their article exists.
-export const series = [
-	{ part: 1, slug: '50-requests-one-winner', title: '50 requests, one winner: three ways to stop double bookings in PostgreSQL' },
-	{ part: 2, title: 'My rate limiter was rate-limiting my proxy' },
-	{ part: 3, title: 'Sessions without JWT' },
-	{ part: 4, title: 'Idempotency keys, and the 503 you must not cache' },
-];
+// The four-part series on reservas. Titles live in src/i18n/*.json under series.parts.
+// A part shows as "planned" until its article exists in that language.
+export const series = [{ part: 1, slug: '50-requests-one-winner' }, { part: 2 }, { part: 3 }, { part: 4 }] as { part: number; slug?: string }[];

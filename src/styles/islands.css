@@ -470,6 +470,8 @@ html.js .pan {
 	}
 }
 .board-panel {
+	/* Diagrams inside lay out by the panel's width, not the screen's. */
+	container-type: inline-size;
 	display: flex;
 	flex-direction: column;
 	gap: 1.75rem;
@@ -499,12 +501,16 @@ html.js .pan {
 .flowline-item {
 	display: contents;
 }
-@media (min-width: 47.5em) {
+@container (min-width: 40rem) {
 	.flowline {
-		grid-template-columns: 1fr 4.375rem 1fr 4.375rem 1fr;
+		grid-template-columns: minmax(0, 1fr) 3.5rem minmax(0, 1fr) 3.5rem minmax(0, 1fr);
 		align-items: center;
 		gap: 0;
 	}
+}
+.flowbox {
+	overflow-wrap: break-word;
+	hyphens: auto;
 }
 .flowbox {
 	display: flex;
@@ -527,24 +533,37 @@ html.js .pan {
 	background: var(--violet);
 	color: var(--white);
 }
+/* Dashed arrow between boxes: vertical while they stack, horizontal once they sit side by side. */
 .flow {
 	display: block;
-	height: 0.1875rem;
-	margin: 0 0.625rem;
-	background-image: linear-gradient(90deg, var(--violet) 50%, transparent 50%);
-	background-size: 0.875rem 0.1875rem;
-	background-repeat: repeat-x;
-	animation: k-flow 0.8s linear infinite;
+	width: 0.1875rem;
+	height: 1.375rem;
+	margin: 0 auto;
+	background-image: linear-gradient(180deg, var(--violet) 50%, transparent 50%);
+	background-size: 0.1875rem 0.75rem;
+	background-repeat: repeat-y;
+	animation: k-flow-v 0.8s linear infinite;
 }
-@media (max-width: 47.5em) {
-	.flow {
-		width: 0.1875rem;
-		height: 1.375rem;
-		margin: 0 auto;
-		background-image: linear-gradient(180deg, var(--violet) 50%, transparent 50%);
-		background-size: 0.1875rem 0.75rem;
-		background-repeat: repeat-y;
-		animation-name: k-flow-v;
+@container (min-width: 40rem) {
+	.flowline .flow {
+		width: auto;
+		height: 0.1875rem;
+		margin: 0 0.625rem;
+		background-image: linear-gradient(90deg, var(--violet) 50%, transparent 50%);
+		background-size: 0.875rem 0.1875rem;
+		background-repeat: repeat-x;
+		animation-name: k-flow;
+	}
+}
+@media (min-width: 62.5em) {
+	.erp .flow {
+		width: auto;
+		height: 0.1875rem;
+		margin: 0 0.625rem;
+		background-image: linear-gradient(90deg, var(--violet) 50%, transparent 50%);
+		background-size: 0.875rem 0.1875rem;
+		background-repeat: repeat-x;
+		animation-name: k-flow;
 	}
 }
 @keyframes k-flow {

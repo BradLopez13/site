@@ -1,0 +1,273 @@
+{
+	"meta": {
+		"description": "Desarrollador full-stack en Madrid. Backends que aguantan la carga, con las decisiones por escrito.",
+		"otherLang": "English",
+		"otherLangLabel": "Read in English"
+	},
+	"nav": {
+		"main": "Principal",
+		"menu": "Menú",
+		"work": "Trabajo",
+		"writing": "Artículos",
+		"about": "Sobre mí",
+		"play": "Juega con mi API"
+	},
+	"footer": {
+		"lead": "¿Buscas a alguien para backend o full-stack, o quieres discutir sobre bloqueos? Contesto todos los correos.",
+		"leadAbout": "¿Buscas un desarrollador backend o full-stack? Puedo incorporarme con 15 días de preaviso.",
+		"place": "Madrid, España. Ciudadano de la UE."
+	},
+	"common": {
+		"readStory": "Leer la historia",
+		"hideStory": "Ocultar la historia",
+		"readMore": "Leer más",
+		"hide": "Ocultar",
+		"why": "Por qué",
+		"close": "Cerrar",
+		"rejected": "Descartado:",
+		"draft": "Borrador, solo visible en desarrollo",
+		"allWork": "Todo el trabajo",
+		"liveDemo": "Demo en vivo",
+		"repository": "Repositorio",
+		"code": "Código",
+		"caseStudy": "Caso de estudio",
+		"openDemo": "Abrir la demo",
+		"openLive": "Abrir en vivo",
+		"openNewTab": "Abrir en otra pestaña",
+		"loadLive": "Cargar la app en vivo aquí",
+		"liveIdle": "Carga la app desplegada solo cuando la pides, para que esta página siga siendo rápida.",
+		"liveOn": "Es la app desplegada. Aquí puedes navegar; para iniciar sesión y reservar, ábrela en otra pestaña.",
+		"liveTitle": "{host}, la app en vivo",
+		"rss": "Seguir por RSS"
+	},
+	"home": {
+		"title": "Backend que aguanta. Frontend que lo demuestra.",
+		"lede": "Soy Brad, desarrollador full-stack en Madrid. Todo lo que ves aquí es real: mis pantallas, mi código, mi API.",
+		"ctaPlay": "Intenta ganarle a mi API",
+		"ctaWork": "Ver los proyectos",
+		"photoAlt": "Brad López",
+		"liveTitle": "En vivo, no capturas de Figma.",
+		"liveLede": "Las dos están desplegadas. Cambia de pantalla o abre la de verdad.",
+		"screensLabel": "Pantallas de reservas",
+		"screens": {
+			"courts": { "label": "Pistas", "alt": "Portada de reservas con la lista de pistas" },
+			"day": { "label": "Reservar franja", "alt": "Página de una pista en reservas con la tira de días y las franjas" },
+			"grid": { "label": "Cuadrícula", "alt": "Cuadrícula de pistas de reservas con la próxima hora libre" }
+		},
+		"phoneAlt": "reservas en un móvil",
+		"reservasDesc": "Reservas de pistas en Madrid que nunca venden la misma franja dos veces, aunque cincuenta personas lo intenten a la vez.",
+		"casinoDesc": "El proyecto final de mi ciclo: un casino con dinero ficticio donde las reglas de seguridad de Firestore hacen de servidor.",
+		"casinoAlt": "Pantalla de inicio de sesión de casino_online",
+		"backendTitle": "Sigue una reserva por el backend.",
+		"backendLede": "Elige una parada. Código real, fichero real.",
+		"workTitle": "En el trabajo no puedo enseñar el código. Puedo explicar los problemas.",
+		"workLede": "Sin clientes, sin cifras, sin pantallas. Elige uno.",
+		"everyDay": "En el día a día",
+		"everything": "Todo lo que sé, y a qué nivel",
+		"playTitle": "Gana la carrera.",
+		"playLede": "Tú y 49 bots. Una pista. Dale a enviar.",
+		"howOpen": "Cómo funciona",
+		"howClose": "Ocultar las reglas",
+		"howRules": "Todo el mundo quiere {court} a las {time} y solo gana la primera inserción. Después reenvía con la misma Idempotency-Key: mi API devuelve la respuesta guardada en lugar de volver a intentarlo, así que un reintento nunca reserva dos veces.",
+		"howSim": "Es una simulación en tu navegador con la forma real de la petición y la respuesta. Nunca toca la base de datos de la demo.",
+		"writingTitle": "Artículos",
+		"writingLede": "Una serie de cuatro partes sobre lo que hizo falta para que reservas aguante, cada una con una demo en vivo y el commit que la respalda."
+	},
+	"backend": {
+		"label": "Paradas",
+		"steps": {
+			"http": { "label": "HTTP", "title": "Llega la petición", "text": "Solo reservan los usuarios con sesión. La sesión es una cookie opaca que se comprueba antes de ejecutar el handler." },
+			"contract": { "label": "Contrato", "title": "Un esquema, los dos lados", "text": "El mismo esquema de Zod valida este cuerpo en el servidor y tipa el formulario en el cliente." },
+			"idempotency": { "label": "Idempotencia", "title": "Un reintento no reserva dos veces", "text": "Una petición repetida con la misma clave y el mismo cuerpo recibe la respuesta guardada en lugar de ejecutarse otra vez." },
+			"repository": { "label": "Repositorio", "title": "Traducir la base de datos", "text": "La inserción funciona o PostgreSQL la rechaza con 23P01, que se convierte en un error de dominio: la pista está ocupada." },
+			"postgres": { "label": "PostgreSQL", "title": "Decide la base de datos", "text": "Dos reservas confirmadas de la misma pista no pueden solaparse en el tiempo. Inserte desde la ruta que inserte mañana, se sigue cumpliendo." }
+		}
+	},
+	"job": {
+		"label": "Temas de trabajo",
+		"readCase": "Leer el caso",
+		"readFullCase": "Leer el caso completo",
+		"seeAll": "Ver todo el trabajo",
+		"themes": {
+			"integration": { "tag": "Integración", "title": "Entran reservas, salen facturas", "headline": "Entran reservas de eventos, salen facturas que acepta un contable", "text": "La capa de mapeo y normalización entre una plataforma de eventos y un ERP de facturación: facturas simplificadas, gastos de gestión e IVA. Aprendí contabilidad desde cero para modelarlo bien." },
+			"standards": { "tag": "Ingeniería", "title": "Un estándar que impone el linter", "headline": "Un estándar de código que nadie tiene que recordar", "text": "No había convenciones. Escribí una arquitectura por capas como reglas de lint, con límites de tamaño por capa, límites de complejidad y sin any, además de la estrategia de ramas, la CI, Husky, Commitlint y las comprobaciones antes de fusionar. Lo escribí para dos desarrolladores; hoy trabajan seis sobre él." },
+			"product": { "tag": "Producto", "title": "Una plataforma de eventos multiempresa", "headline": "Una plataforma, cada empresa con la suya", "text": "Permisos por rol, temas por empresa y departamento, itinerarios, presupuestos y módulos de costes basados en fórmulas. En producción y creciendo." },
+			"cloud": { "tag": "Nube", "title": "Gestión de viajes en Azure", "headline": "Una app de viajes, modelada desde cero en Azure", "text": "Una aplicación para un cliente externo. Diseñé su modelo de datos NoSQL desde cero en Cosmos DB, con los ficheros en Azure Storage." },
+			"people": { "tag": "Personas", "title": "Dos becarios, hoy juniors", "headline": "De becario a desarrollador junior", "text": "Incorporación, reparto de tareas, revisiones de código y resolución de incidencias, día a día, hasta que los dos pudieron trabajar solos sobre el estándar del equipo." }
+		},
+		"diagram": {
+			"integration": [
+				["Plataforma de eventos", "reservas, asistentes, tarifas"],
+				["Mi capa de normalización", "términos contables, desglose de IVA"],
+				["ERP de facturación", "facturas simplificadas, gastos"]
+			],
+			"cloud": [
+				["App del cliente", "web y móvil"],
+				["Cosmos DB", "modelo NoSQL, diseñado desde cero"],
+				["Azure Storage", "documentos y ficheros"]
+			],
+			"layers": ["Hooks y componentes", "Servicios y mappers", "Repositorios y modelos", "En todas partes"],
+			"layersNote": "Nombres de reglas ilustrativos. Cada capa tiene sus límites y la CI falla cuando se rompe uno.",
+			"tenants": [
+				["Empresa A", "Ventas, Marketing"],
+				["Empresa B", "Operaciones"],
+				["Empresa C", "Finanzas, RR. HH."]
+			],
+			"modules": ["Itinerario", "Presupuesto", "Costes"],
+			"tenantsNote": "La misma app, cada empresa y departamento con su tema, sus roles y sus módulos. Los nombres son inventados.",
+			"people": [
+				["Incorporación", "El estándar, el repo, el flujo"],
+				["Reparto de tareas", "Piezas pequeñas y revisables"],
+				["Revisión de código", "Cada pull request"],
+				["Desarrolladores junior", "Trabajando por su cuenta"]
+			]
+		}
+	},
+	"work": {
+		"title": "Trabajo",
+		"lede": "Proyectos abiertos que puedes probar, y problemas de mi trabajo, contados sin el código.",
+		"atJob": "En mi trabajo",
+		"atJobLede": "Trabajo privado. Sin clientes, sin cifras, sin pantallas.",
+		"casesLabel": "Casos"
+	},
+	"game": {
+		"attempts": "Intentos",
+		"won": "Pistas ganadas",
+		"sendNew": "Enviar con clave nueva",
+		"sendSame": "Reenviar con la misma clave",
+		"empty": "Aún no hay respuesta. Envía la reserva para entrar en la carrera por {court} a las {time}.",
+		"replay": "Misma clave, misma respuesta. No se ha vuelto a intentar nada.",
+		"win": "Primer puesto de 50. La pista es tuya.",
+		"lose": "Puesto {rank} de 50. Alguien llegó antes."
+	},
+	"race": {
+		"label": "Estrategia",
+		"lock": { "label": "Esperar en fila", "explain": "SELECT … FOR UPDATE bloquea la pista: las demás esperan su turno y luego ven que la franja está ocupada." },
+		"retry": { "label": "Reintentar", "explain": "Nadie espera: las que pierden ven que la versión ha cambiado y lo intentan otra vez, hasta tres veces." },
+		"refuse": { "label": "Que decida PostgreSQL", "explain": "La restricción EXCLUDE rechaza cada inserción solapada con 23P01: decide la base de datos." },
+		"created": "201 Created",
+		"occupied": "409 PISTA_OCUPADA",
+		"caption": "Una simulación del test de la carrera de reservas; los tiempos son ilustrativos."
+	},
+	"problem": {
+		"free": "libre",
+		"on": "EXCLUDE activado",
+		"off": "Activar EXCLUDE",
+		"a": "Petición A",
+		"b": "Petición B",
+		"time": "El tiempo avanza de izquierda a derecha",
+		"sold": "Vendida dos veces.",
+		"saved": "Una sola reserva. La base de datos le dijo que no a B."
+	},
+	"erp": {
+		"label": "Ejemplo",
+		"ticket": "Venta de una entrada",
+		"fee": "Un gasto de gestión",
+		"from": "Desde la plataforma de eventos",
+		"normalised": "Normalizado, en términos contables",
+		"to": "Hacia el ERP de facturación",
+		"rows": ["Documento", "Base imponible", "IVA 21 %", "Total"],
+		"simplified": "Factura simplificada",
+		"expense": "Gasto de gestión"
+	},
+	"series": {
+		"parts": ["50 peticiones, una ganadora: tres formas de evitar reservas dobles en PostgreSQL", "Mi limitador de intentos limitaba a mi propio proxy", "Sesiones sin JWT", "Claves de idempotencia, y el 503 que no debes guardar"],
+		"draft": "Borrador",
+		"next": "El próximo",
+		"planned": "Previsto"
+	},
+	"case": {
+		"atJob": "En mi trabajo, contado sin el código",
+		"notCleared": "Sin autorizar: no se publica hasta revisar el contrato",
+		"where": "Dónde",
+		"role": "Papel",
+		"when": "Cuándo",
+		"stack": "Stack",
+		"links": "Enlaces",
+		"longVersion": "La versión larga, parte 1 de 4"
+	},
+	"article": {
+		"part": "Parte {n} de {total} sobre reservas",
+		"updated": "actualizado",
+		"tryIt": "Ahora pruébalo tú",
+		"tryItTitle": "Compite con 49 bots por la última pista contra mi API",
+		"next": "Lo siguiente en la serie, muy pronto",
+		"inBrief": "En 30 segundos",
+		"noTime": "¿Sin tiempo?",
+		"jump": "Ir a la carrera"
+	},
+	"about": {
+		"title": "Hola, soy Brad.",
+		"description": "Quién soy, qué sé y a qué nivel, y el camino hasta aquí.",
+		"lede": "Desarrollador full-stack en Madrid. Me gustan las partes que nadie ve hasta que se rompen.",
+		"stats": [
+			["2 años", "en producción"],
+			["3 meses", "de junior a full-stack"],
+			["De 2 a 6", "devs sobre mi estándar"]
+		],
+		"readStory": "Leer mi historia",
+		"hideStory": "Ocultar mi historia",
+		"langs": ["Español, nativo", "Inglés B2, certificado TOEIC", "Ciudadano de la UE"],
+		"knowTitle": "Lo que sé, y a qué nivel",
+		"knowLabel": "Cómo lo uso",
+		"levels": {
+			"daily": { "label": "En el trabajo, a diario", "text": "Lo que llevo a producción en mi trabajo, semana tras semana." },
+			"own": { "label": "En mis proyectos", "text": "Lo que elegí a propósito para reservas y casino_online, para aprenderlo bien." },
+			"before": { "label": "Usado antes o enseñado", "text": "Experiencia real, pero no es lo que uso hoy en producción. Lo digo desde el principio." }
+		},
+		"notes": {
+			"TypeScript": "Estricto, sin any",
+			"React": "Con Vite",
+			"Node.js": "APIs con Express",
+			"REST APIs": "Diseño e integración",
+			"MongoDB": "Esquemas desde cero",
+			"Cosmos DB": "Modelado NoSQL, API SQL",
+			"Azure Storage": "Ficheros y blobs",
+			"GitHub Actions": "La CI que monté",
+			"Docker": "En local y en CI",
+			"Jest": "Tests unitarios",
+			"ESLint": "Arquitectura como reglas",
+			"Husky, Commitlint": "Comprobaciones antes de fusionar",
+			"Fastify": "La API de reservas",
+			"PostgreSQL": "Bloqueos y restricciones",
+			"Drizzle": "Migraciones",
+			"Zod": "Contratos compartidos",
+			"Vitest": "Unitarios y de integración",
+			"Testcontainers": "Base de datos real en los tests",
+			"Playwright": "De extremo a extremo",
+			"Angular 19": "casino_online",
+			"Firebase": "Las reglas como servidor",
+			"Vercel": "Despliegues",
+			"Java": "Enseñado a nivel universitario",
+			"Python": "Automatización de tests, ADB",
+			"PHP": "Herramientas internas",
+			"MySQL": "Esquemas pequeños, diseño ER",
+			"Power BI": "SQL analítico",
+			"Android Studio": "Móvil"
+		},
+		"pathTitle": "El camino hasta aquí",
+		"pathLabel": "Trayectoria",
+		"path": {
+			"dam": { "when": "2021 a 2023", "short": "Ciclo de DAM", "title": "Desarrollo de Aplicaciones Multiplataforma (DAM)", "text": "Donde empecé: Java, bases de datos, aplicaciones de escritorio y móviles." },
+			"daw": { "when": "2023 a 2025", "short": "Ciclo de DAW y clases", "title": "Desarrollo de Aplicaciones Web (DAW)", "text": "Proyecto final: casino_online. A la vez, profesor particular de Java y Python para universitarios." },
+			"delogica": { "when": "2024", "short": "Junior en DELOGICA", "title": "Desarrollador junior, DELOGICA", "text": "Equipo Scrum. Automatización de tests para Android TV con Python y ADB, scripts de automatización web y automatización de procesos." },
+			"mrgates": { "when": "2025", "short": "Prácticas en MrGates", "title": "Desarrollador en prácticas, MrGates", "text": "Herramientas internas full-stack en PHP y JavaScript, con esquemas relacionales pequeños llevados del diagrama ER a MySQL." },
+			"now": { "when": "2025 a hoy", "short": "Desarrollador full-stack", "title": "Full Stack Developer and Engineering Support", "text": "Empresa actual, Madrid. Integraciones, una plataforma de eventos multiempresa, el estándar de ingeniería y la CI del equipo, y la mentoría de dos becarios hasta convertirse en juniors." }
+		},
+		"howTitle": "Cómo trabajo",
+		"principles": [
+			["Decisiones antes que código", "Registros de decisión cortos: el problema, las opciones, por qué esta."],
+			["Reglas que imponen las herramientas", "Si una convención importa, la sostiene un linter o una comprobación de la CI, no una página de la wiki."],
+			["Probar contra lo real", "Concurrencia contra una base de datos real, flujos en un navegador real."],
+			["Asistido por IA, decidido por mí", "Yo diseño y decido; la IA ayuda a implementar. Nada se fusiona sin revisión y tests en verde."]
+		],
+		"trainingTitle": "Formación",
+		"training": [
+			["2024 a 2026", "Posgrado en Dirección de Ciberseguridad y Seguridad Ofensiva", "EIP International Business School"],
+			["2026", "Certified Cyber Security Professional", "ISMS Forum"],
+			["2025", "IT Specialist, Network Security", "Certiport"],
+			["2026", "Introducción a la Contabilidad Financiera", "IESE Business School"],
+			["2025", "Liderazgo", "Harvard Business Impact"]
+		]
+	}
+}

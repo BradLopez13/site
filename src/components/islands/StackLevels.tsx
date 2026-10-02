@@ -1,74 +1,29 @@
 import { useState } from 'react';
+import { skills } from '../../data/job';
+import { dict, type Lang } from '../../i18n';
 
 // Honest levels: what I use every day, what I chose for my own projects, and what I used before or taught.
-const levels = {
-	daily: {
-		label: 'Every day at work',
-		text: 'What I ship to production at my job, week after week.',
-		items: [
-			['TypeScript', 'Strict, no any'],
-			['React', 'With Vite'],
-			['Node.js', 'Express APIs'],
-			['REST APIs', 'Design and integration'],
-			['MongoDB', 'Schemas from scratch'],
-			['Cosmos DB', 'NoSQL modelling, SQL API'],
-			['Azure Storage', 'Files and blobs'],
-			['GitHub Actions', 'CI I set up'],
-			['Docker', 'Local and CI'],
-			['Jest', 'Unit tests'],
-			['ESLint', 'Architecture as rules'],
-			['Husky, Commitlint', 'Pre-merge checks'],
-		],
-	},
-	own: {
-		label: 'In my own projects',
-		text: 'What I chose on purpose for reservas and casino_online, to learn it properly.',
-		items: [
-			['Fastify', 'reservas API'],
-			['PostgreSQL', 'Locks and constraints'],
-			['Drizzle', 'Migrations'],
-			['Zod', 'Shared contracts'],
-			['Vitest', 'Unit and integration'],
-			['Testcontainers', 'Real database in tests'],
-			['Playwright', 'End to end'],
-			['Angular 19', 'casino_online'],
-			['Firebase', 'Rules as the server'],
-			['Vercel', 'Deploys'],
-		],
-	},
-	before: {
-		label: 'Used before or taught',
-		text: 'Real experience, but not what I use in production today. I say so up front.',
-		items: [
-			['Java', 'Taught at university level'],
-			['Python', 'Test automation, ADB'],
-			['PHP', 'Internal tools'],
-			['MySQL', 'Small schemas, ER design'],
-			['Power BI', 'Analytical SQL'],
-			['Android Studio', 'Mobile'],
-		],
-	},
-};
-type Id = keyof typeof levels;
+type Id = keyof typeof skills;
 
-export default function StackLevels() {
+export default function StackLevels({ lang }: { lang: Lang }) {
+	const t = dict(lang).about;
 	const [id, setId] = useState<Id>('daily');
-	const cur = levels[id];
+	const notes = t.notes as Record<string, string>;
 	return (
 		<div className="stack" style={{ ['--gap' as string]: '1.5rem' }}>
-			<div className="seg" role="tablist" aria-label="How I use it" style={{ alignSelf: 'flex-start', maxWidth: '100%' }}>
-				{(Object.keys(levels) as Id[]).map((k) => (
+			<div className="seg" role="tablist" aria-label={t.knowLabel} style={{ alignSelf: 'flex-start' }}>
+				{(Object.keys(skills) as Id[]).map((k) => (
 					<button key={k} type="button" role="tab" aria-selected={k === id} onClick={() => setId(k)}>
-						{levels[k].label}
+						{t.levels[k].label}
 					</button>
 				))}
 			</div>
-			<p className="muted">{cur.text}</p>
+			<p className="muted">{t.levels[id].text}</p>
 			<ul className="skills" key={id} role="tabpanel">
-				{cur.items.map(([name, note]) => (
+				{skills[id].map((name) => (
 					<li key={name}>
 						<strong>{name}</strong>
-						<span>{note}</span>
+						<span>{notes[name]}</span>
 					</li>
 				))}
 			</ul>

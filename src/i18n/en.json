@@ -1,0 +1,273 @@
+{
+	"meta": {
+		"description": "Full-stack developer in Madrid. Backends that hold under load, with the decisions written down.",
+		"otherLang": "Español",
+		"otherLangLabel": "Leer en español"
+	},
+	"nav": {
+		"main": "Main",
+		"menu": "Menu",
+		"work": "Work",
+		"writing": "Writing",
+		"about": "About",
+		"play": "Play with my API"
+	},
+	"footer": {
+		"lead": "Hiring for backend or full-stack work, or want to argue about locks? I answer every email.",
+		"leadAbout": "Looking for a backend or full-stack developer? I can start with 15 days’ notice.",
+		"place": "Madrid, Spain. EU citizen."
+	},
+	"common": {
+		"readStory": "Read the story",
+		"hideStory": "Hide the story",
+		"readMore": "Read more",
+		"hide": "Hide",
+		"why": "Why",
+		"close": "Close",
+		"rejected": "Rejected:",
+		"draft": "Draft, only visible in dev",
+		"allWork": "All work",
+		"liveDemo": "Live demo",
+		"repository": "Repository",
+		"code": "Code",
+		"caseStudy": "Case study",
+		"openDemo": "Open the demo",
+		"openLive": "Open live",
+		"openNewTab": "Open in a new tab",
+		"loadLive": "Load the live app here",
+		"liveIdle": "Loads the deployed app only when you ask for it, so this page stays fast.",
+		"liveOn": "This is the deployed app. Browsing works here; to sign in and book, open it in a new tab.",
+		"liveTitle": "{host}, the live app",
+		"rss": "Follow by RSS"
+	},
+	"home": {
+		"title": "Backend that holds. Frontend that shows it.",
+		"lede": "I’m Brad, full-stack developer in Madrid. Everything here is real: my screens, my code, my API.",
+		"ctaPlay": "Try to beat my API",
+		"ctaWork": "See the projects",
+		"photoAlt": "Brad López",
+		"liveTitle": "Live, not screenshots of Figma.",
+		"liveLede": "Both deployed. Switch screens, or open the real thing.",
+		"screensLabel": "reservas screens",
+		"screens": {
+			"courts": { "label": "Courts", "alt": "reservas home page with the court list" },
+			"day": { "label": "Book a slot", "alt": "reservas court page with the day strip and time slots" },
+			"grid": { "label": "Court grid", "alt": "reservas grid of courts with the next free hour" }
+		},
+		"phoneAlt": "reservas on a phone",
+		"reservasDesc": "Court bookings in Madrid that never sell the same slot twice, even when fifty people try at the same moment.",
+		"casinoDesc": "My degree’s final project: a play-money casino where Firestore security rules do the server’s job.",
+		"casinoAlt": "casino_online sign-in screen",
+		"backendTitle": "Follow one booking through the backend.",
+		"backendLede": "Pick a stop. Real code, real file.",
+		"workTitle": "At work I can’t show the code. I can explain the problems.",
+		"workLede": "No clients, no numbers, no screens. Pick one.",
+		"everyDay": "Every day at work",
+		"everything": "Everything I know, and how well",
+		"playTitle": "Beat the race.",
+		"playLede": "You and 49 bots. One court. Hit send.",
+		"howOpen": "How it works",
+		"howClose": "Hide the rules",
+		"howRules": "Everyone wants {court} at {time} and only the first insert wins. Then resend with the same Idempotency-Key: my API returns the stored response instead of trying again, so a retry never books twice.",
+		"howSim": "A simulation in your browser with the real request and response shapes. It never touches the live database.",
+		"writingTitle": "Writing",
+		"writingLede": "A four-part series on what it took to make reservas hold up, each with a live demo and the commit behind it."
+	},
+	"backend": {
+		"label": "Stops",
+		"steps": {
+			"http": { "label": "HTTP", "title": "The request arrives", "text": "Only signed-in users can book. The session is an opaque cookie, checked before the handler runs." },
+			"contract": { "label": "Contract", "title": "One schema, both ends", "text": "The same Zod schema validates this body on the server and types the form on the client." },
+			"idempotency": { "label": "Idempotency", "title": "Retries do not book twice", "text": "A repeated request with the same key and body gets the stored response instead of running again." },
+			"repository": { "label": "Repository", "title": "Translate the database", "text": "The insert either works or PostgreSQL refuses it with 23P01, which becomes a domain error: the court is taken." },
+			"postgres": { "label": "PostgreSQL", "title": "The database decides", "text": "No two confirmed bookings for the same court may overlap in time. Whatever route inserts tomorrow, this still holds." }
+		}
+	},
+	"job": {
+		"label": "Work themes",
+		"readCase": "Read the case",
+		"readFullCase": "Read the full case",
+		"seeAll": "See all work",
+		"themes": {
+			"integration": { "tag": "Integration", "title": "Bookings in, invoices out", "headline": "Event bookings in, invoices an accountant accepts out", "text": "A mapping and normalisation layer between an events platform and an invoicing ERP: simplified invoices, management expenses and VAT. I learned the accounting domain from scratch to model it correctly." },
+			"standards": { "tag": "Engineering", "title": "A standard the linter enforces", "headline": "A code standard nobody has to remember", "text": "There were no conventions. I wrote a layered architecture as lint rules, with size limits per layer, complexity limits and no any, plus the branching strategy, CI, Husky, Commitlint and pre-merge checks. Written for two developers; six work on it today." },
+			"product": { "tag": "Product", "title": "A multi-tenant events platform", "headline": "One platform, every company its own", "text": "Role-based permissions, theming per company and department, itineraries, budgets and cost modules driven by formulas. In production and growing." },
+			"cloud": { "tag": "Cloud", "title": "Travel management on Azure", "headline": "A travel app, modelled from zero on Azure", "text": "An application for an external client. I designed its NoSQL data model from scratch on Cosmos DB, with files in Azure Storage." },
+			"people": { "tag": "People", "title": "Two interns, now juniors", "headline": "From intern to junior developer", "text": "Onboarding, task breakdown, code reviews and incident resolution, day to day, until both could work on their own on top of the team’s standard." }
+		},
+		"diagram": {
+			"integration": [
+				["Events platform", "bookings, attendees, fees"],
+				["My normalisation layer", "accounting terms, VAT split"],
+				["Invoicing ERP", "simplified invoices, expenses"]
+			],
+			"cloud": [
+				["Client app", "web and mobile"],
+				["Cosmos DB", "NoSQL model, designed from scratch"],
+				["Azure Storage", "documents and files"]
+			],
+			"layers": ["Hooks and components", "Services and mappers", "Repositories and models", "Everywhere"],
+			"layersNote": "Illustrative rule names. Every layer has its own limits, and CI fails when one is broken.",
+			"tenants": [
+				["Company A", "Sales, Marketing"],
+				["Company B", "Operations"],
+				["Company C", "Finance, HR"]
+			],
+			"modules": ["Itinerary", "Budget", "Costs"],
+			"tenantsNote": "Same app, each company and department with its own theme, roles and modules. Names are made up.",
+			"people": [
+				["Onboarding", "The standard, the repo, the flow"],
+				["Task breakdown", "Small, reviewable pieces"],
+				["Code review", "Every pull request"],
+				["Junior developers", "Working on their own"]
+			]
+		}
+	},
+	"work": {
+		"title": "Work",
+		"lede": "Open projects you can click through, and problems from my job, told without the code.",
+		"atJob": "At my job",
+		"atJobLede": "Private work. No clients, no figures, no screens.",
+		"casesLabel": "Cases"
+	},
+	"game": {
+		"attempts": "Attempts",
+		"won": "Courts won",
+		"sendNew": "Send with a new key",
+		"sendSame": "Resend with the same key",
+		"empty": "No response yet. Send the booking to join the race for {court} at {time}.",
+		"replay": "Same key, same answer. Nothing new was tried.",
+		"win": "You were first of 50. The court is yours.",
+		"lose": "You arrived {rank} of 50. Someone got there first."
+	},
+	"race": {
+		"label": "Strategy",
+		"lock": { "label": "Wait in line", "explain": "SELECT … FOR UPDATE locks the court: the others wait their turn, then find the slot taken." },
+		"retry": { "label": "Retry on conflict", "explain": "Nobody waits: the losers see the version changed and try again, up to three times." },
+		"refuse": { "label": "Let PostgreSQL refuse", "explain": "The EXCLUDE constraint rejects every overlapping insert with 23P01: the database decides." },
+		"created": "201 Created",
+		"occupied": "409 PISTA_OCUPADA",
+		"caption": "A simulation of the race test in reservas; timings are illustrative."
+	},
+	"problem": {
+		"free": "free",
+		"on": "EXCLUDE is on",
+		"off": "Turn on EXCLUDE",
+		"a": "Request A",
+		"b": "Request B",
+		"time": "Time runs left to right",
+		"sold": "Sold twice.",
+		"saved": "One booking. The database said no to B."
+	},
+	"erp": {
+		"label": "Example",
+		"ticket": "A ticket sale",
+		"fee": "A management fee",
+		"from": "From the events platform",
+		"normalised": "Normalised, in accounting terms",
+		"to": "To the invoicing ERP",
+		"rows": ["Document", "Taxable base", "VAT 21%", "Total"],
+		"simplified": "Simplified invoice",
+		"expense": "Management expense"
+	},
+	"series": {
+		"parts": ["50 requests, one winner: three ways to stop double bookings in PostgreSQL", "My rate limiter was rate-limiting my proxy", "Sessions without JWT", "Idempotency keys, and the 503 you must not cache"],
+		"draft": "Draft",
+		"next": "Coming next",
+		"planned": "Planned"
+	},
+	"case": {
+		"atJob": "At my job, told without the code",
+		"notCleared": "Not cleared: never built until the contract is checked",
+		"where": "Where",
+		"role": "Role",
+		"when": "When",
+		"stack": "Stack",
+		"links": "Links",
+		"longVersion": "The long version, part 1 of 4"
+	},
+	"article": {
+		"part": "Part {n} of {total} on reservas",
+		"updated": "updated",
+		"tryIt": "Now try it yourself",
+		"tryItTitle": "Race 49 bots for the last court against my API",
+		"next": "Next in the series, coming soon",
+		"inBrief": "In 30 seconds",
+		"noTime": "No time?",
+		"jump": "Jump to the race"
+	},
+	"about": {
+		"title": "Hi, I’m Brad.",
+		"description": "Who I am, what I know and how well, and the path so far.",
+		"lede": "Full-stack developer in Madrid. I like the parts nobody sees until they break.",
+		"stats": [
+			["2 yrs", "in production"],
+			["3 mo", "junior to full-stack"],
+			["2 to 6", "devs on my standard"]
+		],
+		"readStory": "Read my story",
+		"hideStory": "Hide my story",
+		"langs": ["Spanish, native", "English B2, TOEIC certified", "EU citizen"],
+		"knowTitle": "What I know, and how well",
+		"knowLabel": "How I use it",
+		"levels": {
+			"daily": { "label": "Every day at work", "text": "What I ship to production at my job, week after week." },
+			"own": { "label": "In my own projects", "text": "What I chose on purpose for reservas and casino_online, to learn it properly." },
+			"before": { "label": "Used before or taught", "text": "Real experience, but not what I use in production today. I say so up front." }
+		},
+		"notes": {
+			"TypeScript": "Strict, no any",
+			"React": "With Vite",
+			"Node.js": "Express APIs",
+			"REST APIs": "Design and integration",
+			"MongoDB": "Schemas from scratch",
+			"Cosmos DB": "NoSQL modelling, SQL API",
+			"Azure Storage": "Files and blobs",
+			"GitHub Actions": "CI I set up",
+			"Docker": "Local and CI",
+			"Jest": "Unit tests",
+			"ESLint": "Architecture as rules",
+			"Husky, Commitlint": "Pre-merge checks",
+			"Fastify": "reservas API",
+			"PostgreSQL": "Locks and constraints",
+			"Drizzle": "Migrations",
+			"Zod": "Shared contracts",
+			"Vitest": "Unit and integration",
+			"Testcontainers": "Real database in tests",
+			"Playwright": "End to end",
+			"Angular 19": "casino_online",
+			"Firebase": "Rules as the server",
+			"Vercel": "Deploys",
+			"Java": "Taught at university level",
+			"Python": "Test automation, ADB",
+			"PHP": "Internal tools",
+			"MySQL": "Small schemas, ER design",
+			"Power BI": "Analytical SQL",
+			"Android Studio": "Mobile"
+		},
+		"pathTitle": "The path so far",
+		"pathLabel": "Path",
+		"path": {
+			"dam": { "when": "2021 to 2023", "short": "DAM degree", "title": "Multiplatform application development (DAM)", "text": "Where I started: Java, databases, desktop and mobile apps." },
+			"daw": { "when": "2023 to 2025", "short": "DAW degree and tutoring", "title": "Web application development (DAW)", "text": "Final project: casino_online. At the same time, private tutor in Java and Python for university students." },
+			"delogica": { "when": "2024", "short": "Junior at DELOGICA", "title": "Junior Developer, DELOGICA", "text": "Scrum team. Test automation for Android TV with Python and ADB, web automation scripts and process automation." },
+			"mrgates": { "when": "2025", "short": "Intern at MrGates", "title": "Intern Developer, MrGates", "text": "Internal full-stack tools in PHP and JavaScript, with small relational schemas taken from ER diagram to MySQL." },
+			"now": { "when": "2025 to today", "short": "Full-stack developer", "title": "Full Stack Developer and Engineering Support", "text": "Current company, Madrid. Integrations, a multi-tenant events platform, the team’s engineering standard and CI, and mentoring two interns into junior developers." }
+		},
+		"howTitle": "How I work",
+		"principles": [
+			["Decisions before code", "Short decision records: the problem, the options, why this one."],
+			["Rules the tools enforce", "If a convention matters, a linter or a CI check holds it, not a wiki page."],
+			["Test against the real thing", "Concurrency against a real database, flows in a real browser."],
+			["AI-assisted, human-owned", "I design and decide; AI helps implement. Nothing merges without review and green tests."]
+		],
+		"trainingTitle": "Training",
+		"training": [
+			["2024 to 2026", "Postgraduate in Cybersecurity and Offensive Security", "EIP International Business School"],
+			["2026", "Certified Cyber Security Professional", "ISMS Forum"],
+			["2025", "IT Specialist, Network Security", "Certiport"],
+			["2026", "Introduction to Financial Accounting", "IESE Business School"],
+			["2025", "Leadership", "Harvard Business Impact"]
+		]
+	}
+}

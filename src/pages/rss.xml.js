@@ -1,18 +1,3 @@
-import rss from '@astrojs/rss';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import { getArticles } from '../lib/content';
+import { feed } from '../lib/feed';
 
-export async function GET(context) {
-	const posts = await getArticles();
-	return rss({
-		title: SITE_TITLE,
-		description: SITE_DESCRIPTION,
-		site: context.site,
-		items: posts.map((post) => ({
-			title: post.data.title,
-			description: post.data.description,
-			pubDate: post.data.pubDate,
-			link: `/writing/${post.id}/`,
-		})),
-	});
-}
+export const GET = (context) => feed(context, 'en');

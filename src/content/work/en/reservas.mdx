@@ -5,7 +5,7 @@ tagline: 'Fifty people, one court, the same second. Built to find out what happe
 summary: 'Court bookings that never sell the same slot twice, even with 50 requests racing for it.'
 demo: 'https://reservas-web-two.vercel.app'
 repo: 'https://github.com/BradLopez13/reservas'
-cover: '../../assets/shots/reservas-home.jpg'
+cover: '../../../assets/shots/reservas-home.jpg'
 role: 'Everything: design, API, web, tests, deploy'
 period: 'September 2026'
 stack: ['Fastify', 'PostgreSQL', 'Drizzle', 'Zod', 'React', 'Playwright']
@@ -13,20 +13,20 @@ order: 1
 draft: true
 ---
 
-import Block from '../../components/Block.astro';
-import Decisions from '../../components/Decisions.astro';
-import LiveDemo from '../../components/LiveDemo.astro';
-import Stats from '../../components/Stats.astro';
-import Terminal from '../../components/Terminal.astro';
-import ProblemRace from '../../components/islands/ProblemRace';
-import shot from '../../assets/shots/reservas-franjas.jpg';
+import Block from '../../../components/Block.astro';
+import Decisions from '../../../components/Decisions.astro';
+import LiveDemo from '../../../components/LiveDemo.astro';
+import Stats from '../../../components/Stats.astro';
+import Terminal from '../../../components/Terminal.astro';
+import ProblemRace from '../../../components/islands/ProblemRace';
+import shot from '../../../assets/shots/reservas-franjas.jpg';
 
 {/* Glance first: every block leads with a visual. The text inside "story" is Brad's to write. */}
 
 <LiveDemo url="https://reservas-web-two.vercel.app" shot={shot} alt="reservas court page with the day strip and time slots" />
 
 <Block title="The problem" lead="Two requests, one slot, a few milliseconds apart." mode="up" reveal="up">
-  <ProblemRace client:visible />
+  <ProblemRace client:visible lang="en" />
   <Fragment slot="story">
     <p>Both requests read that the slot is free, both insert, and the court is sold twice. Reading, checking and inserting is exactly the code that fails.</p>
     <p class="placeholder">[In your words: why you picked this problem for a portfolio project, and what you wanted to prove with it.]</p>

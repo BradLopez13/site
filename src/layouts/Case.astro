@@ -1,39 +1,42 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Split from '../components/Split.astro';
+import { base, dict, langFromUrl } from '../i18n';
 import Base from './Base.astro';
 
 type Props = CollectionEntry<'work'>['data'];
 
 const data = Astro.props;
 const company = data.kind === 'company';
+const lang = langFromUrl(Astro.url);
+const t = dict(lang);
 ---
 
 <Base title={data.title} description={data.summary}>
 	<section class="wrap case-hero">
 		<div class="stack" style="--gap: 1.375rem">
-			<a href="/work/" class="back">All work</a>
-			{company && <span class="badge">At my job, told without the code</span>}
-			{data.draft && <span class="badge draft">Draft, only visible in dev</span>}
-			{company && !data.cleared && <span class="badge draft">Not cleared: never built until the contract is checked</span>}
+			<a href={`${base(lang)}/work/`} class="back">{t.common.allWork}</a>
+			{company && <span class="badge">{t.case.atJob}</span>}
+			{data.draft && <span class="badge draft">{t.common.draft}</span>}
+			{company && !data.cleared && <span class="badge draft">{t.case.notCleared}</span>}
 			<Split text={data.title} as="h1" mode={company ? 'blur' : 'rot'} class:list={['display-xl', { long: company }]} delay={150} />
 			<p class="lede" data-a="up" style="--d: 300ms">{data.tagline}</p>
 		</div>
 		<dl class="card facts" data-a="right" style="--d: 400ms">
-			{company && (<><dt>Where</dt><dd>{data.where}</dd></>)}
-			<dt>Role</dt>
+			{company && (<><dt>{t.case.where}</dt><dd>{data.where}</dd></>)}
+			<dt>{t.case.role}</dt>
 			<dd>{data.role}</dd>
-			<dt>When</dt>
+			<dt>{t.case.when}</dt>
 			<dd>{data.period}</dd>
-			<dt>Stack</dt>
+			<dt>{t.case.stack}</dt>
 			<dd>{data.stack.join(', ')}</dd>
 			{
 				data.kind === 'project' && (
 					<>
-						<dt>Links</dt>
+						<dt>{t.case.links}</dt>
 						<dd class="row" style="--gap: 1rem">
-							<a href={data.demo}>Live demo</a>
-							<a href={data.repo}>Repository</a>
+							<a href={data.demo}>{t.common.liveDemo}</a>
+							<a href={data.repo}>{t.common.repository}</a>
 						</dd>
 					</>
 				)

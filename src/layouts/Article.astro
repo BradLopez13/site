@@ -4,25 +4,28 @@ import { Image } from 'astro:assets';
 import FormattedDate from '../components/FormattedDate.astro';
 import Split from '../components/Split.astro';
 import { series } from '../data/series';
+import { base, dict, fmt, langFromUrl } from '../i18n';
 import Base from './Base.astro';
 import brad from '../assets/brad.jpg';
 
 type Props = CollectionEntry<'writing'>['data'];
 
 const { title, description, pubDate, updatedDate, part, draft } = Astro.props;
+const lang = langFromUrl(Astro.url);
+const t = dict(lang);
 const next = part ? series.find((s) => s.part === part + 1) : undefined;
 ---
 
 <Base title={title} description={description}>
 	<header class="wrap art-head">
-		{part && <span class="pill">Part {part} of {series.length} on reservas</span>}
-		{draft && <span class="pill draft">Draft, only visible in dev</span>}
+		{part && <span class="pill">{fmt(t.article.part, { n: part, total: series.length })}</span>}
+		{draft && <span class="pill draft">{t.common.draft}</span>}
 		<Split as="h1" text={title} class="art-title" delay={150} />
 		<div class="row byline" data-a="up" style="--d: 400ms">
 			<Image src={brad} alt="" width={44} height={44} class="avatar" />
 			<span>
 				<strong>Brad López</strong>, <FormattedDate date={pubDate} />
-				{updatedDate && <>, updated <FormattedDate date={updatedDate} /></>}
+				{updatedDate && <>, {t.article.updated} <FormattedDate date={updatedDate} /></>}
 			</span>
 		</div>
 	</header>
@@ -34,15 +37,15 @@ const next = part ? series.find((s) => s.part === part + 1) : undefined;
 	</div>
 
 	<section class="wrap section next" data-stagger="up">
-		<a href="/#play" class="cta-article">
-			<span>Now try it yourself</span>
-			<strong>Race 49 bots for the last court against my API</strong>
+		<a href={`${base(lang)}/#play`} class="cta-article">
+			<span>{t.article.tryIt}</span>
+			<strong>{t.article.tryItTitle}</strong>
 		</a>
 		{
 			next && (
 				<div class="card stack" style="--gap: 0.5rem">
-					<span class="muted">Next in the series, coming soon</span>
-					<strong class="next-title">{next.title}</strong>
+					<span class="muted">{t.article.next}</span>
+					<strong class="next-title">{t.series.parts[next.part - 1]}</strong>
 				</div>
 			)
 		}

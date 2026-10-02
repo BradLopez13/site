@@ -1,6 +1,7 @@
 ---
 // A case-study block: title and one line to glance at, the visual next to them,
 // and the long text behind "Read the story" for whoever wants it.
+import { dict, langFromUrl } from '../i18n';
 import Split from './Split.astro';
 
 interface Props {
@@ -12,7 +13,8 @@ interface Props {
 	close?: string;
 }
 
-const { title, lead, mode = 'up', reveal = 'up', open = 'Read the story', close = 'Hide the story' } = Astro.props;
+const c = dict(langFromUrl(Astro.url)).common;
+const { title, lead, mode = 'up', reveal = 'up', open = c.readStory, close = c.hideStory } = Astro.props;
 const hasStory = Astro.slots.has('story');
 ---
 

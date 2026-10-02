@@ -6,8 +6,8 @@ part: 1
 draft: true
 ---
 
-import Tldr from '../../components/Tldr.astro';
-import RaceDemo from '../../components/islands/RaceDemo';
+import Tldr from '../../../components/Tldr.astro';
+import RaceDemo from '../../../components/islands/RaceDemo';
 
 {/* Material and questions: _notas/site/2026-09-28-articulo-1-material.md. Brad writes the text; set draft: false to publish. */}
 
@@ -29,7 +29,7 @@ import RaceDemo from '../../components/islands/RaceDemo';
 <p class="placeholder">[What fits between the SELECT of one request and the INSERT of the other.]</p>
 
 <div class="wide" id="demo">
-  <RaceDemo client:visible />
+  <RaceDemo client:visible lang="en" />
 </div>
 
 ## Let PostgreSQL refuse

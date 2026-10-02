@@ -1,25 +1,29 @@
 ---
 import { Image } from 'astro:assets';
-import Split from '../../components/Split.astro';
-import WorkBoard from '../../components/islands/WorkBoard';
-import Base from '../../layouts/Base.astro';
-import { getWork } from '../../lib/content';
+import Split from '../../../components/Split.astro';
+import WorkBoard from '../../../components/islands/WorkBoard';
+import Base from '../../../layouts/Base.astro';
+import { getWork } from '../../../lib/content';
+import { base, dict, langPaths, type Lang } from '../../../i18n';
 
-const work = await getWork();
-const projects = work.flatMap((w) => (w.data.kind === 'project' ? [{ id: w.id, data: w.data }] : []));
+export const getStaticPaths = langPaths;
+const lang: Lang = Astro.params.lang === 'es' ? 'es' : 'en';
+const t = dict(lang).work;
+const work = await getWork(lang);
+const projects = work.flatMap((w) => (w.data.kind === 'project' ? [{ slug: w.slug, data: w.data }] : []));
 ---
 
-<Base title="Work" description="Open projects you can click through, and problems from my job told without the code.">
+<Base title={t.title} description={t.lede}>
 	<section class="wrap work-head">
-		<Split as="h1" text="Work" mode="chars" class="display-xl" delay={150} />
-		<p class="lede" data-a="up" style="--d: 300ms">Open projects you can click through, and problems from my job, told without the code.</p>
+		<Split as="h1" text={t.title} mode="chars" class="display-xl" delay={150} />
+		<p class="lede" data-a="up" style="--d: 300ms">{t.lede}</p>
 	</section>
 
 	{
 		projects.length > 0 && (
 			<section class="panel-dark dark projects" data-stagger="up">
-				{projects.map(({ id, data }) => (
-					<a href={`/work/${id}/`} class="project">
+				{projects.map(({ slug, data }) => (
+					<a href={`${base(lang)}/work/${slug}/`} class="project">
 						<div class="frame">
 							<div class="frame-bar">
 								<span class="frame-dots" aria-hidden="true">
@@ -45,10 +49,10 @@ const projects = work.flatMap((w) => (w.data.kind === 'project' ? [{ id: w.id, d
 
 	<section class="wrap section stack" style="--gap: 1.75rem" data-a="blur">
 		<div class="stack" style="--gap: 0.625rem">
-			<Split text="At my job" class="display-m" mode="rot" />
-			<p class="muted">Private work. No clients, no figures, no screens.</p>
+			<Split text={t.atJob} class="display-m" mode="rot" />
+			<p class="muted">{t.atJobLede}</p>
 		</div>
-		<WorkBoard client:visible />
+		<WorkBoard client:visible lang={lang} />
 	</section>
 </Base>
 

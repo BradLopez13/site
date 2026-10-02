@@ -1,11 +1,14 @@
 ---
+import { dict, langFromUrl } from '../i18n';
+
 interface Props {
 	items: { title: string; why: string; rejected?: string }[];
 }
 const { items } = Astro.props;
+const c = dict(langFromUrl(Astro.url)).common;
 ---
 
-<div class="accordion" data-stagger="up">
+<div class="accordion" data-stagger="up" style={`--why: "${c.why}"; --close: "${c.close}"`}>
 	{
 		items.map((d) => (
 			<details>
@@ -14,7 +17,7 @@ const { items } = Astro.props;
 				</summary>
 				<div class:list={['body', { two: d.rejected }]}>
 					<p>{d.why}</p>
-					{d.rejected && <p class="muted">Rejected: {d.rejected}</p>}
+					{d.rejected && <p class="muted">{c.rejected} {d.rejected}</p>}
 				</div>
 			</details>
 		))

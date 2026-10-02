@@ -1,39 +1,30 @@
 // Copied from the reservas repository. If the code there changes, update it here too.
+// The words around each step live in src/i18n/*.json under backend.steps.<id>.
 
 export const backendSteps = [
 	{
-		label: 'HTTP',
-		title: 'The request arrives',
+		id: 'http' as const,
 		file: 'apps/api/src/modules/reservas/infra/http/rutas.ts',
-		text: 'Only signed-in users can book. The session is an opaque cookie, checked before the handler runs.',
 		code: "app.post('/api/reservas', privada, crearReserva(ctx));\napp.get('/api/reservas/mias', privada, misReservas(ctx));\napp.delete('/api/reservas/:id', privada, cancelarReserva(ctx));",
 	},
 	{
-		label: 'Contract',
-		title: 'One schema, both ends',
+		id: 'contract' as const,
 		file: 'packages/contracts/src/reservas.ts',
-		text: 'The same Zod schema validates this body on the server and types the form on the client.',
 		code: 'export const CrearReservaBodySchema = z.object({\n  pistaId: z.uuid(),\n  inicio: z.iso.datetime(),\n});',
 	},
 	{
-		label: 'Idempotency',
-		title: 'Retries do not book twice',
+		id: 'idempotency' as const,
 		file: 'apps/api/src/modules/reservas/infra/http/idempotencia.ts',
-		text: 'A repeated request with the same key and body gets the stored response instead of running again.',
 		code: "const clave = z.uuid().parse(req.headers['idempotency-key']);",
 	},
 	{
-		label: 'Repository',
-		title: 'Translate the database',
+		id: 'repository' as const,
 		file: 'apps/api/src/modules/reservas/infra/persistence/reservas/exclude.ts',
-		text: 'The insert either works or PostgreSQL refuses it with 23P01, which becomes a domain error: the court is taken.',
 		code: "async crear(tx, d) {\n  try {\n    return await insertar(tx, d);\n  } catch (e) {\n    if (codigoPg(e) === '23P01') throw new PistaOcupadaError();\n    throw e;\n  }\n},",
 	},
 	{
-		label: 'PostgreSQL',
-		title: 'The database decides',
+		id: 'postgres' as const,
 		file: 'apps/api/drizzle/0001_exclude_solape.sql',
-		text: 'No two confirmed bookings for the same court may overlap in time. Whatever route inserts tomorrow, this still holds.',
 		code: 'EXCLUDE USING gist ("pista_id" WITH =, "periodo" WITH &&)\n  WHERE ("estado" = \'confirmada\');',
 	},
 ];
