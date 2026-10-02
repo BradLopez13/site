@@ -1,0 +1,18 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import LiveFrame from './islands/LiveFrame';
+
+interface Props {
+	url: string;
+	shot: ImageMetadata;
+	alt: string;
+}
+
+const { url, shot, alt } = Astro.props;
+const img = await getImage({ src: shot, width: 1280, format: 'webp' });
+---
+
+<section class="panel-dark dark" data-a="blur">
+	<LiveFrame client:visible url={url} shot={img.src} alt={alt} width={shot.width} height={shot.height} />
+</section>

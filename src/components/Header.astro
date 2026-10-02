@@ -1,42 +1,124 @@
 ---
 import { SITE_TITLE } from '../consts';
-import HeaderLink from './HeaderLink.astro';
+
+const links = [
+	{ href: '/work/', label: 'Work' },
+	{ href: '/writing/', label: 'Writing' },
+	{ href: '/about/', label: 'About' },
+];
+const path = Astro.url.pathname;
+const current = (href: string) => path.startsWith(href);
 ---
 
-<header>
-	<nav aria-label="Main">
-		<a class="name" href="/">{SITE_TITLE}</a>
-		<div class="internal-links">
-			<HeaderLink href="/work">Work</HeaderLink>
-			<HeaderLink href="/writing">Writing</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-		</div>
+<header class="wrap site-header">
+	<a class="brand" href="/">{SITE_TITLE}</a>
+	<nav aria-label="Main" class="nav-wide">
+		{
+			links.map((l) => (
+				<a href={l.href} aria-current={current(l.href) ? 'page' : undefined}>
+					{l.label}
+				</a>
+			))
+		}
+		<a class="play" href="/#play">Play with my API</a>
 	</nav>
+	<details class="nav-menu">
+		<summary aria-label="Menu">
+			<svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
+				><path d="M0 1h18M0 11h18"></path></svg
+			>
+		</summary>
+		<nav aria-label="Main">
+			{
+				links.map((l) => (
+					<a href={l.href} aria-current={current(l.href) ? 'page' : undefined}>
+						{l.label}
+					</a>
+				))
+			}
+			<a href="/#play">Play with my API</a>
+		</nav>
+	</details>
 </header>
+
 <style>
-	header {
-		padding: 0 1em;
-		border-bottom: 1px solid rgb(var(--gray-light));
+	.site-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-block: 1.25rem;
+		position: relative;
+		z-index: 10;
 	}
-	nav {
+	.brand {
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+		text-decoration: none;
+	}
+	.nav-wide {
+		display: none;
+		gap: 0.5rem;
+		font-weight: 600;
+	}
+	.nav-wide a {
+		padding: 0.625rem 1rem;
+		border-radius: 99em;
+		text-decoration: none;
+	}
+	.nav-wide a[aria-current='page'] {
+		background: var(--white);
+	}
+	.nav-wide .play {
+		background: var(--ink);
+		color: var(--paper);
+	}
+	.nav-wide .play:hover {
+		color: var(--violet-soft);
+	}
+	.nav-menu summary {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		max-width: 720px;
-		margin: 0 auto;
+		justify-content: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		border-radius: 99em;
+		background: var(--ink);
+		color: var(--paper);
+		cursor: pointer;
+		list-style: none;
 	}
-	.name {
+	.nav-menu summary::-webkit-details-marker {
+		display: none;
+	}
+	.nav-menu nav {
+		position: absolute;
+		right: var(--gutter);
+		top: 4.5rem;
+		display: flex;
+		flex-direction: column;
+		min-width: 13.75rem;
+		padding: 0.5rem;
+		border-radius: 1.25rem;
+		background: var(--ink);
+		color: var(--paper);
+		box-shadow: 0 1.25rem 2.5rem rgb(0 0 0 / 0.25);
+	}
+	.nav-menu nav a {
+		padding: 0.875rem 1rem;
+		border-radius: 0.75rem;
 		font-weight: 700;
-		color: rgb(var(--black));
 		text-decoration: none;
 	}
-	.internal-links a {
-		display: inline-block;
-		padding: 1em 0.5em;
-		color: rgb(var(--black));
-		text-decoration: none;
+	.nav-menu nav a[aria-current='page'] {
+		background: var(--ink-2);
 	}
-	.internal-links a.active {
-		text-decoration: underline;
+	@media (min-width: 51.25em) {
+		.nav-wide {
+			display: flex;
+		}
+		.nav-menu {
+			display: none;
+		}
 	}
 </style>

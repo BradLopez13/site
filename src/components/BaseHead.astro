@@ -1,7 +1,7 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
+// Global styles for every page.
 import '../styles/global.css';
+import '../styles/islands.css';
 import { SITE_TITLE } from '../consts';
 import { Font } from 'astro:assets';
 
@@ -28,7 +28,12 @@ const { title, description } = Astro.props;
 />
 <meta name="generator" content={Astro.generator} />
 
-<Font cssVariable="--font-atkinson" preload />
+<Font cssVariable="--font-display" preload />
+<Font cssVariable="--font-body" preload />
+<Font cssVariable="--font-mono" />
+<meta name="theme-color" content="#e4e6ea" />
+<!-- Motion starts hidden only when JS runs and the visitor allows motion (animacion-ui rule 6). -->
+<script is:inline>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('js')</script>
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

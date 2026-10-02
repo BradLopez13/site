@@ -1,0 +1,49 @@
+---
+// A case-study block: title and one line to glance at, the visual next to them,
+// and the long text behind "Read the story" for whoever wants it.
+import Split from './Split.astro';
+
+interface Props {
+	title: string;
+	lead?: string;
+	mode?: 'up' | 'rot' | 'blur' | 'chars';
+	reveal?: 'up' | 'blur' | 'left' | 'right';
+	open?: string;
+	close?: string;
+}
+
+const { title, lead, mode = 'up', reveal = 'up', open = 'Read the story', close = 'Hide the story' } = Astro.props;
+const hasStory = Astro.slots.has('story');
+---
+
+<section class="wrap section side block" data-a={reveal}>
+	<div class="stack block-head" style="--gap: 0.875rem">
+		<Split text={title} mode={mode} class="display-m" />
+		{lead && <p class="block-lead">{lead}</p>}
+		<slot name="aside" />
+	</div>
+	<div class="stack" style="--gap: 1.25rem">
+		<slot />
+		{
+			hasStory && (
+				<details class="more">
+					<summary>
+						<span class="when-closed">{open}</span>
+						<span class="when-open">{close}</span>
+					</summary>
+					<slot name="story" />
+				</details>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.block {
+		padding-block: clamp(2.5rem, 6vw, 6rem) 0;
+	}
+	.block-lead {
+		font-size: 1.125rem;
+		line-height: 1.5;
+	}
+</style>

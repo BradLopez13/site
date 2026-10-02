@@ -2,7 +2,60 @@
 title: '50 requests, one winner: three ways to stop double bookings in PostgreSQL'
 description: 'Pessimistic locks, optimistic versions and an EXCLUDE constraint, raced against each other in reservas.'
 pubDate: '2026-10-05'
+part: 1
 draft: true
 ---
 
-{/* Material and questions: _notas/site/2026-09-28-articulo-1-material.md. Write it yourself; set draft: false to publish. */}
+import Tldr from '../../components/Tldr.astro';
+import RaceDemo from '../../components/islands/RaceDemo';
+
+{/* Material and questions: _notas/site/2026-09-28-articulo-1-material.md. Brad writes the text; set draft: false to publish. */}
+
+<div class="wide">
+  <Tldr
+    jump="#demo"
+    items={[
+      { label: 'The problem', text: 'Read, check, insert breaks when two requests overlap.', tone: 'bad' },
+      { label: 'Three fixes', text: 'Lock the court, retry on conflict, or let PostgreSQL refuse.', tone: 'violet' },
+      { label: 'The verdict', text: 'EXCLUDE in production: it holds whatever code inserts next.', tone: 'ok' },
+    ]}
+  />
+</div>
+
+<p class="placeholder">[Your opening: the moment two people press Book on the last slot, in your own words.]</p>
+
+## Read, check, insert
+
+<p class="placeholder">[What fits between the SELECT of one request and the INSERT of the other.]</p>
+
+<div class="wide" id="demo">
+  <RaceDemo client:visible />
+</div>
+
+## Let PostgreSQL refuse
+
+<p class="placeholder">[What the constraint says, what 23P01 is and why btree_gist is needed.]</p>
+
+```sql
+-- apps/api/drizzle/0001_exclude_solape.sql (commit 4385119)
+EXCLUDE USING gist ("pista_id" WITH =, "periodo" WITH &&)
+  WHERE ("estado" = 'confirmada');
+```
+
+```ts
+// apps/api/src/modules/reservas/infra/persistence/reservas/exclude.ts (commit da5a7f9)
+async crear(tx, d) {
+  try {
+    return await insertar(tx, d);
+  } catch (e) {
+    if (codigoPg(e) === '23P01') throw new PistaOcupadaError();
+    throw e;
+  }
+},
+```
+
+<p class="placeholder">[Why the pessimistic and optimistic tests drop the constraint before running.]</p>
+
+## Why EXCLUDE in production
+
+<p class="placeholder">[The argument about the route someone adds tomorrow, and what you ruled out: SERIALIZABLE everywhere, an in-memory mutex on Vercel.]</p>

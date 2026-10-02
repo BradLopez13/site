@@ -1,0 +1,63 @@
+---
+interface Props {
+	items: { label: string; text: string; tone: 'bad' | 'violet' | 'ok' }[];
+	jump?: string;
+}
+const { items, jump } = Astro.props;
+---
+
+<section aria-label="In 30 seconds" class="tldr" data-stagger="drop">
+	{
+		items.map((t) => (
+			<div class="card stack" style="--gap: 0.625rem">
+				<span class:list={['tldr-label', t.tone]}>{t.label}</span>
+				<strong>{t.text}</strong>
+			</div>
+		))
+	}
+	{
+		jump && (
+			<a href={jump} class="tldr-jump dark">
+				<span class="tag">No time?</span>
+				<strong>Jump to the race</strong>
+			</a>
+		)
+	}
+</section>
+
+<style>
+	.tldr {
+		display: grid;
+		gap: 0.75rem;
+		grid-template-columns: repeat(auto-fit, minmax(13.75rem, 1fr));
+	}
+	.tldr strong {
+		font-family: var(--font-display);
+		font-size: clamp(1rem, 1.5vw, 1.25rem);
+		line-height: 1.3;
+	}
+	.tldr-label {
+		font-size: 0.875rem;
+		font-weight: 700;
+	}
+	.bad {
+		color: var(--err-text);
+	}
+	.violet {
+		color: var(--violet);
+	}
+	.ok {
+		color: var(--ok-text);
+	}
+	.tldr-jump {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 1.5rem;
+		border-radius: 1.5rem;
+		background: var(--ink);
+		color: var(--paper);
+		text-decoration: none;
+	}
+</style>

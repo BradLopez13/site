@@ -1,30 +1,297 @@
 ---
-import ArticleList from '../components/ArticleList.astro';
-import WorkList from '../components/WorkList.astro';
+import type { ImageMetadata } from 'astro';
+import { getImage, Image } from 'astro:assets';
+import SeriesList from '../components/SeriesList.astro';
+import Split from '../components/Split.astro';
+import ApiGame from '../components/islands/ApiGame';
+import BackendTour from '../components/islands/BackendTour';
+import JobTiles from '../components/islands/JobTiles';
+import ScreenTabs from '../components/islands/ScreenTabs';
 import { LINKS } from '../consts';
+import { stackDaily } from '../data/job';
 import Base from '../layouts/Base.astro';
-import { getArticles, getWork } from '../lib/content';
+import brad from '../assets/brad.jpg';
+import casinoShot from '../assets/shots/casino-home.jpg';
+import bentoShot from '../assets/shots/reservas-bento.jpg';
+import dayShot from '../assets/shots/reservas-franjas.jpg';
+import homeShot from '../assets/shots/reservas-home.jpg';
+import phoneShot from '../assets/shots/reservas-phone.jpg';
 
-const work = (await getWork()).slice(0, 3);
-const articles = (await getArticles()).slice(0, 3);
+const shot = async (src: ImageMetadata, label: string, url: string, alt: string) => {
+	const img = await getImage({ src, width: 1280, format: 'webp' });
+	return { label, url, alt, src: img.src, width: src.width, height: src.height };
+};
+const screens = await Promise.all([
+	shot(homeShot, 'Courts', 'reservas-web-two.vercel.app', 'reservas home page with the court list'),
+	shot(dayShot, 'Book a slot', 'reservas-web-two.vercel.app/pistas/7e51…', 'reservas court page with the day strip and time slots'),
+	shot(bentoShot, 'Court grid', 'reservas-web-two.vercel.app', 'reservas grid of courts with the next free hour'),
+]);
+
+// Every one of these is a real route and status of the reservas API.
+const chips = [
+	{ code: 201, text: 'POST /api/reservas', tone: 'ok', pos: 'left: -6%; top: 18%' },
+	{ code: 409, text: 'PISTA_OCUPADA', tone: 'warn', pos: 'right: -4%; top: 44%' },
+	{ code: 200, text: 'GET /api/pistas/:id/franjas', tone: 'ok', pos: 'left: -2%; top: 68%' },
+	{ code: 204, text: 'DELETE /api/reservas/:id', tone: 'ok', pos: 'right: 0; top: 8%' },
+	{ code: 503, text: 'CONTENCION', tone: 'err', pos: 'left: 6%; top: 86%' },
+	{ code: 201, text: 'POST /api/auth/registro', tone: 'ok', pos: 'right: -2%; top: 30%' },
+];
 ---
 
 <Base>
-	{/* TODO(step 3): the one strong sentence comes out of the design direction. */}
-	<h1>Brad López</h1>
-	<p>Full-stack developer in Madrid. Node.js and TypeScript on the server, React on the client.</p>
+	<section class="wrap hero">
+		<div class="stack" style="--gap: clamp(1.25rem, 3vw, 2.25rem)">
+			<Split as="h1" text="Backend that holds. Frontend that shows it." class="display-xl" delay={150} />
+			<p class="lede" data-a="up" style="--d: 500ms">I’m Brad, full-stack developer in Madrid. Everything here is real: my screens, my code, my API.</p>
+			<div class="row" data-a="up" style="--d: 650ms">
+				<a class="btn btn-primary" href="#play">Try to beat my API</a>
+				<a class="btn btn-ghost" href="/work/">See the projects</a>
+			</div>
+		</div>
+		<div class="portrait">
+			<Image src={brad} alt="Brad López" widths={[360, 520, 760]} sizes="(min-width: 62.5em) 30rem, 80vw" loading="eager" fetchpriority="high" data-a="clip" style="--d: 200ms" />
+			{
+				chips.map((c, i) => (
+					<span class={`chip ${c.tone}`} style={`${c.pos}; animation-delay: ${i * 1.5}s`} aria-hidden="true">
+						<b>{c.code}</b>
+						{c.text}
+					</span>
+				))
+			}
+		</div>
+	</section>
 
-	<h2>Selected work</h2>
-	<WorkList work={work} />
-	<p><a href="/work">All work</a></p>
+	<section id="work" class="band-dark dark wrap section live-band" data-a="up">
+		<div class="split-head">
+			<Split text="Live, not screenshots of Figma." class="display-l" mode="rot" />
+			<p class="muted">Both deployed. Switch screens, or open the real thing.</p>
+		</div>
+		<div class="live-grid">
+			<div class="live-shots">
+				<ScreenTabs client:visible screens={screens} live={LINKS.reservasDemo} />
+				<Image src={phoneShot} alt="reservas on a phone" class="phone" width={180} />
+			</div>
+			<div class="stack" style="--gap: 1.125rem">
+				<h3 class="display-m">reservas</h3>
+				<p>Court bookings in Madrid that never sell the same slot twice, even when fifty people try at the same moment.</p>
+				<div class="row">
+					<a class="btn btn-primary" href={LINKS.reservasDemo}>Open the demo</a>
+					<a class="btn btn-ghost" href={LINKS.reservasRepo}>Code</a>
+					<a class="btn btn-ghost" href="/work/reservas/">Case study</a>
+				</div>
+			</div>
+		</div>
+		<div class="live-grid casino">
+			<div class="stack" style="--gap: 1.125rem">
+				<h3 class="display-m">casino_online</h3>
+				<p>My degree’s final project: a play-money casino where Firestore security rules do the server’s job.</p>
+				<div class="row">
+					<a class="btn btn-primary" href={LINKS.casinoDemo}>Open the demo</a>
+					<a class="btn btn-ghost" href={LINKS.casinoRepo}>Code</a>
+				</div>
+			</div>
+			<div class="frame tilt" data-a="right">
+				<div class="frame-bar">
+					<span class="frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+					<span class="frame-url">casino-online-nu.vercel.app/login</span>
+				</div>
+				<Image src={casinoShot} alt="casino_online sign-in screen" width={1280} class="frame-img" />
+			</div>
+		</div>
+	</section>
 
-	<h2>Writing</h2>
-	<ArticleList articles={articles} />
-	<p><a href="/writing">All articles</a></p>
+	<section class="wrap section stack" style="--gap: 2.5rem">
+		<div class="split-head">
+			<Split text="Follow one booking through the backend." class="display-l" mode="blur" />
+			<p>Pick a stop. Real code, real file.</p>
+		</div>
+		<BackendTour client:visible />
+	</section>
 
-	<h2>Contact</h2>
-	<p>
-		<a href={LINKS.linkedin}>LinkedIn</a> · <a href={LINKS.github}>GitHub</a> ·
-		<a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
-	</p>
+	<section class="wrap stack" style="--gap: 1.75rem; padding-bottom: clamp(3.5rem, 8vw, 8rem)">
+		<div class="split-head">
+			<Split text="At work I can’t show the code. I can explain the problems." class="display-l" mode="up" />
+			<p>No clients, no numbers, no screens. Pick one.</p>
+		</div>
+		<JobTiles client:visible />
+		<div class="row" style="--gap: 0.625rem" data-stagger>
+			<strong>Every day at work</strong>
+			{stackDaily.map((t) => <span class="pill">{t}</span>)}
+		</div>
+		<a href="/about/" class="more-link">Everything I know, and how well</a>
+	</section>
+
+	<section id="play" class="wrap section play">
+		<div class="stack" style="--gap: 1.25rem">
+			<Split text="Beat the race." class="display-l" mode="chars" />
+			<p class="lede">You and 49 bots. One court. Hit send.</p>
+			<details class="more">
+				<summary><span class="when-closed">How it works</span><span class="when-open">Hide the rules</span></summary>
+				<p>Everyone wants Pádel 1 at 19:30 and only the first insert wins. Then resend with the same Idempotency-Key: my API returns the stored response instead of trying again, so a retry never books twice.</p>
+				<p>A simulation in your browser with the real request and response shapes. It never touches the live database.</p>
+			</details>
+		</div>
+		<ApiGame client:visible />
+	</section>
+
+	<section id="writing" class="wrap section side">
+		<div class="stack" style="--gap: 1rem">
+			<Split text="Writing" class="display-l" mode="rot" />
+			<p>A four-part series on what it took to make reservas hold up, each with a live demo and the commit behind it.</p>
+			<a href="/rss.xml" class="more-link">Follow by RSS</a>
+		</div>
+		<SeriesList />
+	</section>
 </Base>
+
+<style>
+	.hero {
+		display: grid;
+		gap: 2.5rem 4rem;
+		align-items: center;
+		padding-block: clamp(1rem, 4vw, 3.5rem) clamp(3.5rem, 8vw, 7.5rem);
+	}
+	@media (min-width: 62.5em) {
+		.hero {
+			grid-template-columns: minmax(0, 1fr) 30rem;
+		}
+	}
+	.portrait {
+		position: relative;
+		max-width: 30rem;
+		width: 80%;
+		justify-self: center;
+	}
+	.portrait :global(img) {
+		width: 100%;
+		aspect-ratio: 3 / 4;
+		object-fit: cover;
+		border-radius: 99em 99em 1.75rem 1.75rem;
+	}
+	.chip {
+		position: absolute;
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.625rem;
+		background: var(--ink);
+		color: var(--paper);
+		font-family: var(--font-mono);
+		font-size: clamp(0.6875rem, 1vw, 0.875rem);
+		white-space: nowrap;
+		box-shadow: 0 0.75rem 1.875rem rgb(46 33 28 / 0.25);
+	}
+	.chip.ok b {
+		color: var(--ok);
+	}
+	.chip.warn b {
+		color: var(--warn);
+	}
+	.chip.err b {
+		color: var(--err);
+	}
+	:global(html.js) .chip {
+		opacity: 0;
+		animation: k-chip 9s var(--ease-out) infinite;
+	}
+	@keyframes k-chip {
+		0% {
+			opacity: 0;
+			transform: translateY(0.875rem) scale(0.96);
+		}
+		4%,
+		26% {
+			opacity: 1;
+			transform: none;
+		}
+		32%,
+		100% {
+			opacity: 0;
+			transform: translateY(-0.625rem);
+		}
+	}
+	@media (max-width: 40em) {
+		.chip:nth-of-type(n + 4) {
+			display: none;
+		}
+	}
+	.split-head {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: flex-end;
+		gap: 1rem 3rem;
+	}
+	.split-head > :first-child {
+		max-width: 18ch;
+	}
+	.split-head p {
+		max-width: 34ch;
+		font-size: 1.125rem;
+	}
+	.live-band {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(2rem, 5vw, 4rem);
+	}
+	.live-grid {
+		display: grid;
+		gap: 2rem 3rem;
+		align-items: center;
+	}
+	@media (min-width: 62.5em) {
+		.live-grid {
+			grid-template-columns: minmax(0, 1fr) 22.5rem;
+		}
+		.live-grid.casino {
+			grid-template-columns: 22.5rem minmax(0, 1fr);
+		}
+	}
+	.live-shots {
+		position: relative;
+	}
+	.live-shots :global(.phone) {
+		position: absolute;
+		right: -0.75rem;
+		bottom: 1.875rem;
+		width: clamp(5.625rem, 13vw, 11.25rem);
+		aspect-ratio: 9 / 19.5;
+		object-fit: cover;
+		object-position: top;
+		border-radius: 1.5rem;
+		border: 0.3125rem solid #120c0a;
+		box-shadow: 0 1.875rem 3.75rem rgb(0 0 0 / 0.45);
+	}
+	.tilt {
+		transform: rotate(-1.5deg);
+	}
+	.tilt :global(.frame-img) {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		object-position: top;
+	}
+	.more-link {
+		font-weight: 700;
+		align-self: flex-start;
+	}
+	.play {
+		background: var(--violet);
+		color: var(--white);
+		display: grid;
+		gap: 2.5rem 4rem;
+		align-items: start;
+	}
+	.play a:hover {
+		color: var(--violet-mist);
+	}
+	.play :global(.more summary) {
+		align-self: flex-start;
+	}
+	@media (min-width: 62.5em) {
+		.play {
+			grid-template-columns: 25rem minmax(0, 1fr);
+		}
+	}
+</style>

@@ -1,0 +1,22 @@
+---
+interface Props {
+	items: { title: string; why: string; rejected?: string }[];
+}
+const { items } = Astro.props;
+---
+
+<div class="accordion" data-stagger="up">
+	{
+		items.map((d) => (
+			<details>
+				<summary>
+					<h3>{d.title}</h3>
+				</summary>
+				<div class:list={['body', { two: d.rejected }]}>
+					<p>{d.why}</p>
+					{d.rejected && <p class="muted">Rejected: {d.rejected}</p>}
+				</div>
+			</details>
+		))
+	}
+</div>

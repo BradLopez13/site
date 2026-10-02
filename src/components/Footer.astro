@@ -1,34 +1,58 @@
 ---
-import { LINKS, SITE_TITLE } from '../consts';
+import { LINKS } from '../consts';
+
+interface Props {
+	lead?: string;
+}
+
+const { lead = 'Hiring for backend or full-stack work, or want to argue about locks? I answer every email.' } = Astro.props;
 ---
 
-<footer>
-	<p>{SITE_TITLE}</p>
-	<p class="links">
-		<a href={LINKS.github}>GitHub</a>
-		<a href={LINKS.linkedin}>LinkedIn</a>
-		<a href="/rss.xml">RSS</a>
-	</p>
+<footer class="band-dark dark wrap site-footer" id="contact">
+	<p class="lead">{lead}</p>
+	<a class="mail" href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
+	<div class="bottom">
+		<div class="row" style="--gap: 1.75rem">
+			<a href={LINKS.linkedin}>LinkedIn</a>
+			<a href={LINKS.github}>GitHub</a>
+			<a href="/rss.xml">RSS</a>
+		</div>
+		<span class="muted">Madrid, Spain. EU citizen.</span>
+	</div>
 </footer>
+
 <style>
-	footer {
-		padding: 2em 1em 4em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
-		text-align: center;
-	}
-	footer p {
-		margin: 0;
-	}
-	.links {
+	.site-footer {
+		margin-top: auto;
 		display: flex;
-		justify-content: center;
-		gap: 1em;
+		flex-direction: column;
+		gap: clamp(1.25rem, 3vw, 2.5rem);
+		padding-block: clamp(2.5rem, 6vw, 5.5rem) 2rem;
 	}
-	.links a {
-		color: rgb(var(--gray));
+	.lead {
+		max-width: 40ch;
+		font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+		line-height: 1.45;
 	}
-	.links a:hover {
-		color: rgb(var(--gray-dark));
+	.mail {
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: clamp(1.0625rem, 4.4vw, 3.75rem);
+		letter-spacing: -0.02em;
+		color: var(--violet-soft);
+		text-decoration: none;
+		overflow-wrap: anywhere;
+	}
+	.bottom {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 1rem;
+		padding-top: 1.5rem;
+		border-top: 0.0625rem solid var(--ink-2);
+		font-weight: 600;
+	}
+	.bottom .muted {
+		font-weight: 400;
 	}
 </style>

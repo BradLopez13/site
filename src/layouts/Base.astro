@@ -7,9 +7,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 interface Props {
 	title?: string;
 	description?: string;
+	footerLead?: string;
 }
 
-const { title, description = SITE_DESCRIPTION } = Astro.props;
+const { title, description = SITE_DESCRIPTION, footerLead } = Astro.props;
 ---
 
 <!doctype html>
@@ -22,6 +23,32 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
 		<main>
 			<slot />
 		</main>
-		<Footer />
+		<Footer lead={footerLead} />
+		<script>
+			// Plays each entrance once, when its block scrolls into view.
+			const selector = '[data-a], [data-stagger], .split, .drawx, .typelines, .stack3d';
+			if (document.documentElement.classList.contains('js')) {
+				const io = new IntersectionObserver(
+					(entries) => {
+						for (const e of entries) {
+							if (e.isIntersecting) {
+								e.target.classList.add('in');
+								io.unobserve(e.target);
+							}
+						}
+					},
+					{ rootMargin: '0% 0% -10% 0%' },
+				);
+				document.querySelectorAll(selector).forEach((el) => io.observe(el));
+			}
+		</script>
 	</body>
 </html>
+
+<style>
+	body {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+</style>

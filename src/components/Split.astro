@@ -1,0 +1,62 @@
+---
+// Heading split into words (mask rise, rotate, blur) or letters (scatter), done at build time.
+// Screen readers get the plain text through aria-label; the pieces are aria-hidden.
+interface Props {
+	text: string;
+	as?: 'h1' | 'h2' | 'h3' | 'p';
+	mode?: 'up' | 'rot' | 'blur' | 'chars';
+	class?: string;
+	id?: string;
+	delay?: number;
+}
+
+const { text, as: Tag = 'h2', mode = 'up', class: className, id, delay = 60 } = Astro.props;
+
+// Same text, same scatter on every build.
+let seed = [...text].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 233280, 7);
+const rnd = () => {
+	seed = (seed * 9301 + 49297) % 233280;
+	return seed / 233280;
+};
+
+const words = text.trim().split(/\s+/);
+const pieces = words.map((w, i) =>
+	mode === 'chars'
+		? [...w].map((c) => ({
+				c,
+				style: `--y: ${(rnd() * 2 - 1).toFixed(2)}em; --r: ${Math.round(rnd() * 60 - 30)}deg; --d: ${delay + Math.round(rnd() * 420)}ms;`,
+			}))
+		: { w, style: `--d: ${delay + i * 60}ms;` },
+);
+const modeClass = mode === 'rot' ? 't-rot' : mode === 'blur' ? 't-blur' : '';
+---
+
+<Tag id={id} class:list={['split', modeClass, className]} aria-label={text}>
+	<span aria-hidden="true">
+		{
+			mode === 'chars'
+				? (pieces as { c: string; style: string }[][]).map((letters, i) => (
+						<>
+							{i > 0 && ' '}
+							<span class="wc">
+								{letters.map((l) => (
+									<span class="ch" style={l.style}>
+										{l.c}
+									</span>
+								))}
+							</span>
+						</>
+					))
+				: (pieces as { w: string; style: string }[]).map((p, i) => (
+						<>
+							{i > 0 && ' '}
+							<span class="w">
+								<span class="wi" style={p.style}>
+									{p.w}
+								</span>
+							</span>
+						</>
+					))
+		}
+	</span>
+</Tag>

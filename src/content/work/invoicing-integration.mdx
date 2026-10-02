@@ -1,0 +1,64 @@
+---
+kind: company
+title: 'Event bookings in, invoices an accountant accepts out.'
+tagline: 'The layer between an events platform and an invoicing ERP, built after learning the accounting from scratch.'
+summary: 'A mapping and normalisation layer between an events platform and an invoicing ERP: simplified invoices, expenses and VAT.'
+where: 'Current role, Madrid'
+role: 'Designed and built the integration layer'
+period: '2025 to today'
+stack: ['TypeScript', 'Node.js', 'Express']
+order: 10
+cleared: false
+draft: true
+---
+
+import Block from '../../components/Block.astro';
+import Decisions from '../../components/Decisions.astro';
+import Vocab from '../../components/Vocab.astro';
+import ErpFlow from '../../components/islands/ErpFlow';
+import Split from '../../components/Split.astro';
+
+{/*
+BEFORE PUBLISHING: check the contract. No code, no internal screenshots, no client or vendor names,
+no confidential figures, unless already public or approved in writing. Set cleared: true only after that.
+The diagram uses made-up data and field names on purpose.
+*/}
+
+<Block title="The problem" lead="Two systems, two vocabularies." mode="up" reveal="up">
+  <Vocab
+    left="The events platform says"
+    leftWords={['booking', 'attendee', 'fee', 'paid']}
+    right="The invoicing ERP says"
+    rightWords={['simplified invoice', 'expense line', 'taxable base', 'VAT']}
+  />
+  <p class="problem-verdict">An invoice that is almost right is still wrong.</p>
+  <Fragment slot="story">
+    <p>Neither system speaks the other’s language. I had never done accounting: before writing the mapping I had to learn what a simplified invoice is, when an amount is a management expense and how VAT is split, so the model matched how an accountant reads it.</p>
+  </Fragment>
+</Block>
+
+<section class="panel-dark dark section-gap" data-a="blur">
+  <div class="stack" style="--gap: 1.75rem">
+    <div class="stack" style="--gap: 0.625rem">
+      <Split text="How one booking becomes an invoice" mode="rot" class="display-m" />
+      <p class="muted">Illustrative data and field names. The real model is private; the shape of the problem is not.</p>
+    </div>
+    <ErpFlow client:visible />
+  </div>
+</section>
+
+<Block title="Decisions" mode="blur" reveal="right">
+  <Decisions
+    items={[
+      { title: 'Normalise first, map second', why: '[Why a layer in accounting terms sits between both systems instead of mapping field to field.]' },
+      { title: '[Second decision]', why: '[For example: how you handle amounts and rounding, or what happens when the ERP rejects an invoice.]' },
+      { title: '[Third decision]', why: '[How you checked the result with someone who knows accounting.]' },
+    ]}
+  />
+</Block>
+
+<Block title="What I took from it" lead="[One line: the lesson, in your words.]" mode="up" reveal="left" open="Read more" close="Hide">
+  <Fragment slot="story">
+    <p class="placeholder">[Without figures: what changed once the integration was live, and what learning a new domain from zero taught you.]</p>
+  </Fragment>
+</Block>

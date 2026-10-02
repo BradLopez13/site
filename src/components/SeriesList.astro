@@ -1,0 +1,37 @@
+---
+import { series } from '../data/series';
+import { getArticles } from '../lib/content';
+
+const articles = await getArticles();
+const bySlug = new Map(articles.map((a) => [a.id, a]));
+const fmt = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' });
+// The first part not written yet is "coming next"; the rest are "planned".
+const nextPart = series.find((s) => !(s.slug && bySlug.has(s.slug)))?.part;
+---
+
+<ol class="series" data-stagger="up">
+	{
+		series.map((s) => {
+			const a = s.slug ? bySlug.get(s.slug) : undefined;
+			return (
+				<li>
+					{a ? (
+						<a href={`/writing/${a.id}/`}>
+							<span class="n">{s.part}</span>
+							<span class="t">{s.title}</span>
+							<span class="when">
+								{a.data.draft ? 'Draft' : fmt.format(a.data.pubDate)}
+							</span>
+						</a>
+					) : (
+						<div>
+							<span class="n">{s.part}</span>
+							<span class="t">{s.title}</span>
+							<span class="when">{s.part === nextPart ? 'Coming next' : 'Planned'}</span>
+						</div>
+					)}
+				</li>
+			);
+		})
+	}
+</ol>

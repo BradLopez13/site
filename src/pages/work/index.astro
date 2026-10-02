@@ -1,25 +1,104 @@
 ---
-import WorkList from '../../components/WorkList.astro';
+import { Image } from 'astro:assets';
+import Split from '../../components/Split.astro';
+import WorkBoard from '../../components/islands/WorkBoard';
 import Base from '../../layouts/Base.astro';
 import { getWork } from '../../lib/content';
 
 const work = await getWork();
-const projects = work.filter(({ data }) => data.kind === 'project');
-const cases = work.filter(({ data }) => data.kind === 'company');
+const projects = work.flatMap((w) => (w.data.kind === 'project' ? [{ id: w.id, data: w.data }] : []));
 ---
 
-<Base title="Work" description="Public projects with live demos, and case studies from company work.">
-	<h1>Work</h1>
-
-	<h2>Projects</h2>
-	<WorkList work={projects} />
+<Base title="Work" description="Open projects you can click through, and problems from my job told without the code.">
+	<section class="wrap work-head">
+		<Split as="h1" text="Work" mode="chars" class="display-xl" delay={150} />
+		<p class="lede" data-a="up" style="--d: 300ms">Open projects you can click through, and problems from my job, told without the code.</p>
+	</section>
 
 	{
-		cases.length > 0 && (
-			<>
-				<h2>At work</h2>
-				<WorkList work={cases} />
-			</>
+		projects.length > 0 && (
+			<section class="panel-dark dark projects" data-stagger="up">
+				{projects.map(({ id, data }) => (
+					<a href={`/work/${id}/`} class="project">
+						<div class="frame">
+							<div class="frame-bar">
+								<span class="frame-dots" aria-hidden="true">
+									<i />
+									<i />
+									<i />
+								</span>
+							</div>
+							<div class="project-shot">
+								<Image src={data.cover} alt="" width={900} />
+							</div>
+						</div>
+						<div class="project-name">
+							<span>{data.title}</span>
+							<span class="muted">{data.period}</span>
+						</div>
+						<span class="muted">{data.tagline}</span>
+					</a>
+				))}
+			</section>
 		)
 	}
+
+	<section class="wrap section stack" style="--gap: 1.75rem" data-a="blur">
+		<div class="stack" style="--gap: 0.625rem">
+			<Split text="At my job" class="display-m" mode="rot" />
+			<p class="muted">Private work. No clients, no figures, no screens.</p>
+		</div>
+		<WorkBoard client:visible />
+	</section>
 </Base>
+
+<style>
+	.work-head {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: flex-end;
+		gap: 1rem 3rem;
+		padding-block: clamp(1.5rem, 4vw, 4rem) clamp(2rem, 4vw, 3.5rem);
+	}
+	.projects {
+		display: grid;
+		gap: 2rem;
+	}
+	@media (min-width: 56.25em) {
+		.projects {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+	.project {
+		display: flex;
+		flex-direction: column;
+		gap: 0.875rem;
+		text-decoration: none;
+	}
+	.project-shot {
+		overflow: hidden;
+		aspect-ratio: 16 / 10;
+	}
+	.project-shot :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: top;
+		transition: transform 0.5s var(--ease-out);
+	}
+	.project:hover .project-shot :global(img) {
+		transform: scale(1.04);
+	}
+	.project-name {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1rem;
+	}
+	.project-name span:first-child {
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: clamp(1.375rem, 2.4vw, 2.125rem);
+	}
+</style>
