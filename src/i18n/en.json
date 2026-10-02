@@ -13,8 +13,8 @@
 		"play": "Race my API"
 	},
 	"footer": {
-		"lead": "Hiring for backend or full-stack work, or want to argue about locks? I answer every email.",
-		"leadAbout": "Looking for a backend or full-stack developer? I can start with 15 days’ notice.",
+		"lead": "Want to talk backend or full-stack work, or argue about locks? I answer every email.",
+		"leadAbout": "Want to talk backend, full-stack or how something here works? Write to me.",
 		"place": "Madrid, Spain. EU citizen."
 	},
 	"common": {
@@ -83,7 +83,6 @@
 		"writingLede": "A four-part series on what it took to make reservas hold up, each with a live demo and the commit behind it.",
 		"facts": [
 			"Two years in production",
-			"Available with 15 days’ notice",
 			"EU citizen"
 		],
 		"factsLabel": "At a glance",

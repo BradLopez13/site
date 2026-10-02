@@ -469,11 +469,7 @@ html.js .pan {
 	.board-list button {
 		flex: 0 0 auto;
 	}
-	.board-list .tiles .tag,
-.board-list .tag {
-	order: 1;
-}
-.tile-title {
+	.board-list .tile-title {
 		display: none;
 	}
 }

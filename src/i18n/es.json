@@ -13,8 +13,8 @@
 		"play": "Compite con mi API"
 	},
 	"footer": {
-		"lead": "¿Buscas a alguien para backend o full-stack, o quieres discutir sobre bloqueos? Contesto todos los correos.",
-		"leadAbout": "¿Buscas un desarrollador backend o full-stack? Puedo incorporarme con 15 días de preaviso.",
+		"lead": "¿Quieres hablar de backend o full-stack, o discutir sobre bloqueos? Contesto todos los correos.",
+		"leadAbout": "¿Quieres hablar de backend, full-stack o de cómo funciona algo de aquí? Escríbeme.",
 		"place": "Madrid, España. Ciudadano de la UE."
 	},
 	"common": {
@@ -83,7 +83,6 @@
 		"writingLede": "Una serie de cuatro partes sobre lo que hizo falta para que reservas aguante, cada una con una demo en vivo y el commit que la respalda.",
 		"facts": [
 			"Dos años en producción",
-			"Disponible con 15 días de preaviso",
 			"Ciudadano de la UE"
 		],
 		"factsLabel": "En resumen",
