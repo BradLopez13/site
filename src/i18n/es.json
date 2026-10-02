@@ -252,7 +252,7 @@
 			"daw": { "when": "2023 a 2025", "short": "Ciclo de DAW y clases", "title": "Desarrollo de Aplicaciones Web (DAW)", "text": "Proyecto final: casino_online. A la vez, profesor particular de Java y Python para universitarios." },
 			"delogica": { "when": "2024", "short": "Junior en DELOGICA", "title": "Desarrollador junior, DELOGICA", "text": "Equipo Scrum. Automatización de tests para Android TV con Python y ADB, scripts de automatización web y automatización de procesos." },
 			"mrgates": { "when": "2025", "short": "Prácticas en MrGates", "title": "Desarrollador en prácticas, MrGates", "text": "Herramientas internas full-stack en PHP y JavaScript, con esquemas relacionales pequeños llevados del diagrama ER a MySQL." },
-			"now": { "when": "2025 a hoy", "short": "Desarrollador full-stack", "title": "Full Stack Developer and Engineering Support", "text": "Empresa actual, Madrid. Integraciones, una plataforma de eventos multiempresa, el estándar de ingeniería y la CI del equipo, y la mentoría de dos becarios hasta convertirse en juniors." }
+			"now": { "when": "2025 a hoy", "short": "Full-stack en VB Group", "title": "Full Stack Developer and Engineering Support, VB Group", "text": "Madrid. Integraciones, una plataforma de eventos multiempresa, el estándar de ingeniería y la CI del equipo, y la mentoría de dos becarios hasta convertirse en juniors." }
 		},
 		"howTitle": "Cómo trabajo",
 		"principles": [

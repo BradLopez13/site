@@ -252,7 +252,7 @@
 			"daw": { "when": "2023 to 2025", "short": "DAW degree and tutoring", "title": "Web application development (DAW)", "text": "Final project: casino_online. At the same time, private tutor in Java and Python for university students." },
 			"delogica": { "when": "2024", "short": "Junior at DELOGICA", "title": "Junior Developer, DELOGICA", "text": "Scrum team. Test automation for Android TV with Python and ADB, web automation scripts and process automation." },
 			"mrgates": { "when": "2025", "short": "Intern at MrGates", "title": "Intern Developer, MrGates", "text": "Internal full-stack tools in PHP and JavaScript, with small relational schemas taken from ER diagram to MySQL." },
-			"now": { "when": "2025 to today", "short": "Full-stack developer", "title": "Full Stack Developer and Engineering Support", "text": "Current company, Madrid. Integrations, a multi-tenant events platform, the team’s engineering standard and CI, and mentoring two interns into junior developers." }
+			"now": { "when": "2025 to today", "short": "Full-stack at VB Group", "title": "Full Stack Developer and Engineering Support, VB Group", "text": "Madrid. Integrations, a multi-tenant events platform, the team’s engineering standard and CI, and mentoring two interns into junior developers." }
 		},
 		"howTitle": "How I work",
 		"principles": [
