@@ -2,6 +2,7 @@ import { createTimeline } from 'animejs';
 import { useEffect, useRef, useState } from 'react';
 import { LINKS } from '../../consts';
 import { useT } from '../../i18n/store';
+import { iconSvg } from '../../icons';
 
 // The race from the Reservas test suite: fifty requests leave at once, the database lets one through.
 const WINNER = 23;
@@ -52,10 +53,12 @@ export default function Race() {
 					{done ? '1 × 201 Created, 49 × 409 PISTA_OCUPADA' : <span data-i18n="race.ready">{tr('race.ready')}</span>}
 				</span>
 				<button className="btn btn-ink" type="button" onClick={run} disabled={!ready}>
+					<i className="ico-box" aria-hidden="true" dangerouslySetInnerHTML={{ __html: iconSvg(runs ? 'repeat' : 'flag') }} />
 					<span data-i18n={runs ? undefined : 'race.run'}>{runs ? tr('race.again') : tr('race.run')}</span>
 				</button>
-				<a href={LINKS.raceTest} data-i18n="race.test">
-					{tr('race.test')}
+				<a href={LINKS.raceTest} className="inline-flex items-center gap-[0.4rem]">
+					<i className="ico-box" aria-hidden="true" dangerouslySetInnerHTML={{ __html: iconSvg('github') }} />
+					<span data-i18n="race.test">{tr('race.test')}</span>
 				</a>
 			</div>
 		</div>

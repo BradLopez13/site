@@ -1,5 +1,6 @@
 ---
 import { LINKS } from '../consts';
+import Icon from './Icon.astro';
 import T from './T.astro';
 
 interface Props {
@@ -7,10 +8,10 @@ interface Props {
 }
 const { current } = Astro.props;
 const items = [
-	{ href: '/#mine', key: 'nav.projects', id: 'projects' },
-	{ href: '/my-work/', key: 'nav.work', id: 'work' },
-	{ href: '/about/', key: 'nav.about', id: 'about' },
-	{ href: '/writing/', key: 'nav.writing', id: 'writing' },
+	{ href: '/#mine', key: 'nav.projects', id: 'projects', icon: 'code' },
+	{ href: '/my-work/', key: 'nav.work', id: 'work', icon: 'briefcase' },
+	{ href: '/about/', key: 'nav.about', id: 'about', icon: 'user' },
+	{ href: '/writing/', key: 'nav.writing', id: 'writing', icon: 'article' },
 ] as const;
 // A link to a section of another page marks "you are in this part", not "this page".
 const currentOf = (i: (typeof items)[number]) => (current === i.id ? (i.href.includes('#') ? 'true' : 'page') : undefined);
@@ -26,8 +27,16 @@ const CLOSE = 'M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,
 	<div class="wrap">
 		<a class="brand" href="/">Brad López</a>
 		<nav class="nav" data-i18n-attr="aria-label:ui.mainNav" aria-label="Main">
-			{items.map((i) => <T k={i.key} as="a" class="opt" href={i.href} aria-current={currentOf(i)} />)}
+			{
+				items.map((i) => (
+					<a class="opt" href={i.href} aria-current={currentOf(i)}>
+						<Icon name={i.icon} />
+						<T k={i.key} />
+					</a>
+				))
+			}
 			<button class="lang" type="button" data-lang-toggle data-i18n-attr="aria-label:ui.langSwitch" aria-label="Leer en español">
+				<Icon name="globe" />
 				<T k="ui.langShort" />
 			</button>
 			<button
@@ -41,15 +50,22 @@ const CLOSE = 'M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,
 				aria-label="Theme: system. Switch to light"
 				set:html={ico(SUN, 'i-light') + ico(MOON, 'i-dark') + ico(AUTO, 'i-auto')}
 			/>
-			<a class="btn btn-ink btn-sm write" href={`mailto:${LINKS.email}`}><T k="ui.writeMe" /></a>
+			<a class="btn btn-ink btn-sm write" href={`mailto:${LINKS.email}`}><Icon name="envelope" /><T k="ui.writeMe" /></a>
 			<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu data-i18n-attr="aria-label:ui.menu" aria-label="Menu" set:html={ico(MENU, 'i-open') + ico(CLOSE, 'i-close')} />
 		</nav>
 	</div>
 	<!-- Small screens: the same four destinations and the contact, one tap away -->
 	<div class="menu" id="site-menu" hidden>
 		<div class="wrap">
-			{items.map((i) => <T k={i.key} as="a" href={i.href} aria-current={currentOf(i)} />)}
-			<a class="btn btn-ink" href={`mailto:${LINKS.email}`}><T k="ui.writeMe" /></a>
+			{
+				items.map((i) => (
+					<a href={i.href} aria-current={currentOf(i)}>
+						<Icon name={i.icon} />
+						<T k={i.key} />
+					</a>
+				))
+			}
+			<a class="btn btn-ink" href={`mailto:${LINKS.email}`}><Icon name="envelope" /><T k="ui.writeMe" /></a>
 		</div>
 	</div>
 </header>

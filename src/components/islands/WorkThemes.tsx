@@ -4,6 +4,7 @@ import { pick, type Key } from '../../i18n';
 import en from '../../i18n/en.json';
 import es from '../../i18n/es.json';
 import { useT } from '../../i18n/store';
+import { iconSvg } from '../../icons';
 import Chain from './Chain';
 
 // Brad's professional work as tabs: each theme opens a panel whose diagram draws in the order data travels.
@@ -100,6 +101,7 @@ export default function WorkThemes({ prefix = 'home', level = 3, caseHref }: { p
 				{id === 'integration' && caseHref && (
 					<p className="mt-6 mb-0">
 						<a className="btn btn-line btn-sm" href={caseHref}>
+							<i className="ico-box" aria-hidden="true" dangerouslySetInnerHTML={{ __html: iconSvg('bookOpenText') }} />
 							<span data-i18n="ui.readCase">{tr('ui.readCase')}</span>
 						</a>
 					</p>

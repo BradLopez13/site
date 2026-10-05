@@ -1,6 +1,7 @@
 ---
 import { LINKS } from '../consts';
 import type { Key } from '../i18n';
+import Icon from './Icon.astro';
 import T from './T.astro';
 
 interface Props {
@@ -14,18 +15,18 @@ const [user, domain] = LINKS.email.split('@');
 	<div class="wrap">
 		<T k={leadKey} as="p" class="muted mt-0 mb-5 text-[1.15rem] max-w-[44ch]" />
 		<a class="mail" href={`mailto:${LINKS.email}`}>{user}@<wbr />{domain}</a>
-		<nav class="flex flex-wrap gap-x-6 gap-y-1 mt-8 font-semibold [&_a]:inline-flex [&_a]:items-center [&_a]:min-h-11" data-i18n-attr="aria-label:ui.footerNav" aria-label="Site">
-			<T k="nav.projects" as="a" href="/#mine" />
-			<T k="nav.work" as="a" href="/my-work/" />
-			<T k="nav.about" as="a" href="/about/" />
-			<T k="nav.writing" as="a" href="/writing/" />
+		<nav class="flex flex-wrap gap-x-6 gap-y-1 mt-8 font-semibold [&_a]:inline-flex [&_a]:items-center [&_a]:gap-[0.45rem] [&_a]:min-h-11" data-i18n-attr="aria-label:ui.footerNav" aria-label="Site">
+			<a href="/#mine"><Icon name="code" /><T k="nav.projects" /></a>
+			<a href="/my-work/"><Icon name="briefcase" /><T k="nav.work" /></a>
+			<a href="/about/"><Icon name="user" /><T k="nav.about" /></a>
+			<a href="/writing/"><Icon name="article" /><T k="nav.writing" /></a>
 		</nav>
 		<div class="flex flex-wrap justify-between gap-x-8 gap-y-4 mt-10 pt-6 rule-t-band">
 			<T k="footer.place" class="muted" />
 			<span class="links">
-				<button class="btn btn-line btn-sm" type="button" data-copy={LINKS.email} hidden><T k="ui.copyEmail" /></button>
-				<a href={LINKS.github}>GitHub</a>
-				<a href={LINKS.linkedin}>LinkedIn</a>
+				<button class="btn btn-line btn-sm" type="button" data-copy={LINKS.email} hidden><Icon name="copy" /><T k="ui.copyEmail" /></button>
+				<a href={LINKS.github}><Icon name="github" />GitHub</a>
+				<a href={LINKS.linkedin}><Icon name="linkedin" />LinkedIn</a>
 			</span>
 		</div>
 	</div>

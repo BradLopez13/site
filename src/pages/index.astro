@@ -4,6 +4,7 @@ import ArticleList from '../components/ArticleList.astro';
 import Experience from '../components/Experience.astro';
 import HowIWork from '../components/HowIWork.astro';
 import LiveWindow from '../components/LiveWindow.astro';
+import Icon from '../components/Icon.astro';
 import T from '../components/T.astro';
 import WorkThemes from '../components/islands/WorkThemes';
 import { LINKS } from '../consts';
@@ -25,8 +26,8 @@ import reservasShot from '../assets/shots/reservas-home.jpg';
 			<T k="home.lede" as="p" class="lede m-0" />
 			<p class="hero-stack muted m-0 text-[0.95rem]">React, TypeScript, Node.js, Express, Azure</p>
 			<div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-2">
-				<a class="btn btn-ink" href={`mailto:${LINKS.email}`}><T k="ui.writeMe" /></a>
-				<span class="links"><a href={LINKS.github}>GitHub</a><a href={LINKS.linkedin}>LinkedIn</a></span>
+				<a class="btn btn-ink" href={`mailto:${LINKS.email}`}><Icon name="envelope" /><T k="ui.writeMe" /></a>
+				<span class="links"><a href={LINKS.github}><Icon name="github" />GitHub</a><a href={LINKS.linkedin}><Icon name="linkedin" />LinkedIn</a></span>
 			</div>
 		</div>
 	</section>
@@ -46,7 +47,7 @@ import reservasShot from '../assets/shots/reservas-home.jpg';
 					<T k="projects.reservas.name" as="h3" class="disp h-m" />
 					<T k="projects.reservas.text" as="p" class="text-[1.15rem] mt-4 mb-0" />
 					<dl class="my-5 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 text-[0.97rem] [&_dt]:text-soft [&_dd]:m-0"><T k="ui.role" as="dt" /><T k="projects.reservas.role" as="dd" /><T k="ui.stack" as="dt" /><dd>Fastify, PostgreSQL, Drizzle, Zod, React, Playwright</dd></dl>
-					<p class="links"><a class="btn btn-ink btn-sm" href="/work/reservas/"><T k="ui.readCase" /></a><a href={LINKS.reservasRepo}><T k="ui.code" /></a></p>
+					<p class="links"><a class="btn btn-ink btn-sm" href="/work/reservas/"><Icon name="bookOpenText" /><T k="ui.readCase" /></a><a href={LINKS.reservasRepo}><Icon name="github" /><T k="ui.code" /></a></p>
 				</div>
 			</article>
 			<article class="grid grid-cols-1 gap-y-8 gap-x-[clamp(2rem,5vw,4.5rem)] items-start *:min-w-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.45fr)] mt-[clamp(4rem,8vw,7rem)]">
@@ -57,14 +58,14 @@ import reservasShot from '../assets/shots/reservas-home.jpg';
 					<T k="projects.casino.name" as="h3" class="disp h-m" />
 					<T k="projects.casino.text" as="p" class="text-[1.15rem] mt-4 mb-0" />
 					<dl class="my-5 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 text-[0.97rem] [&_dt]:text-soft [&_dd]:m-0"><T k="ui.role" as="dt" /><T k="projects.casino.role" as="dd" /><T k="ui.stack" as="dt" /><dd>Angular 19, Firebase, Firestore rules</dd></dl>
-					<p class="links"><a class="btn btn-ink btn-sm" href="/work/casino-online/"><T k="ui.readCase" /></a><a href={LINKS.casinoRepo}><T k="ui.code" /></a></p>
+					<p class="links"><a class="btn btn-ink btn-sm" href="/work/casino-online/"><Icon name="bookOpenText" /><T k="ui.readCase" /></a><a href={LINKS.casinoRepo}><Icon name="github" /><T k="ui.code" /></a></p>
 				</div>
 			</article>
 			<div class="grid grid-cols-1 xl:grid-cols-2 gap-x-[clamp(2rem,5vw,5rem)] gap-y-12 *:min-w-0 mt-[clamp(4rem,8vw,6rem)] pt-8 rule-t">
 				<div><T k="home.casaTitle" as="h3" class="disp h-m" /></div>
 				<div>
 					<T k="home.casaText" as="p" class="m-0 text-[1.1rem]" />
-					<p class="links mt-3"><a href="https://github.com/BradLopez13/casa"><T k="ui.followCode" /></a></p>
+					<p class="links mt-3"><a href="https://github.com/BradLopez13/casa"><Icon name="github" /><T k="ui.followCode" /></a></p>
 				</div>
 			</div>
 		</div>
@@ -92,7 +93,7 @@ import reservasShot from '../assets/shots/reservas-home.jpg';
 		<div class="wrap">
 			<div class="head"><T k="home.expTitle" as="h2" class="disp h-l" data-split /></div>
 			<Experience which="experience" wide />
-			<div class="mt-8"><a class="btn btn-line" href="/about/"><T k="ui.moreAboutMe" /></a></div>
+			<div class="mt-8"><a class="btn btn-line" href="/about/"><Icon name="user" /><T k="ui.moreAboutMe" /></a></div>
 		</div>
 	</section>
 

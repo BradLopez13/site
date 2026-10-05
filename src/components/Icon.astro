@@ -1,0 +1,12 @@
+---
+// A decorative icon next to a label. Keep it outside the element that carries data-i18n:
+// the translator replaces that element's text, and an icon inside it would be wiped.
+import { iconSvg, type IconName } from '../icons';
+
+interface Props {
+	name: IconName;
+}
+const { name } = Astro.props;
+---
+
+<Fragment set:html={iconSvg(name)} />

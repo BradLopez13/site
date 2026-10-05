@@ -5,6 +5,7 @@ import type { MarkdownHeading } from 'astro';
 import { LINKS } from '../consts';
 import { articles } from '../data/articles';
 import { dict, type Lang } from '../i18n';
+import Icon from './Icon.astro';
 
 interface Props {
 	lang: Lang;
@@ -32,7 +33,14 @@ const fromReservas = articles.find((x) => x.slug === slug)?.from === 'reservas';
 			<ol class="toc-list">
 				{sections.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
 			</ol>
-			{fromReservas && <a class="toc-repo" href={LINKS.reservasRepo}>{d.article.repo}</a>}
+			{
+				fromReservas && (
+					<a class="toc-repo" href={LINKS.reservasRepo}>
+						<Icon name="github" />
+						{d.article.repo}
+					</a>
+				)
+			}
 		</aside>
 		<div class="article">
 			<slot />

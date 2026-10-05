@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Experience from '../components/Experience.astro';
 import HowIWork from '../components/HowIWork.astro';
+import Icon from '../components/Icon.astro';
 import T from '../components/T.astro';
 import { LINKS } from '../consts';
 import Base from '../layouts/Base.astro';
@@ -17,7 +18,7 @@ import brad from '../assets/brad.jpg';
 		<div class="hero-meta" data-after-load>
 			<T k="about.lede" as="p" class="lede m-0 max-w-[52ch]" />
 			<T k="about.security" as="p" class="lede muted m-0 max-w-[52ch]" />
-			<div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-2"><a class="btn btn-ink" href={`mailto:${LINKS.email}`}><T k="ui.writeMe" /></a></div>
+			<div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-2"><a class="btn btn-ink" href={`mailto:${LINKS.email}`}><Icon name="envelope" /><T k="ui.writeMe" /></a></div>
 		</div>
 	</section>
 	<section class="section pt-0">

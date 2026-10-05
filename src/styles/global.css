@@ -151,7 +151,7 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 0.0
 .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.5rem; }
 .brand { white-space: nowrap; display: inline-flex; align-items: center; min-height: 2.75rem; font-family: var(--display); font-variation-settings: "wdth" 112, "wght" 820; font-size: 1.3rem; text-decoration: none; letter-spacing: -0.01em; }
 .nav { display: flex; align-items: center; gap: 0.25rem; }
-.nav .opt, .nav .lang { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 0.8rem; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.97rem; color: var(--soft); transition: color 0.2s, background-color 0.2s; }
+.nav .opt, .nav .lang { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 2.75rem; padding: 0 0.8rem; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.97rem; color: var(--soft); transition: color 0.2s, background-color 0.2s; }
 button.lang { border: 0; background: none; font-family: inherit; cursor: pointer; }
 .nav .opt:hover, .nav .lang:hover { color: var(--fg); background: var(--bg-2); }
 .nav .opt[aria-current] { color: var(--fg); }
@@ -167,12 +167,14 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .menu-btn[aria-expanded="true"] .i-close { display: block; }
 .menu { border-top: 0.0625rem solid var(--line); background: var(--bg); }
 .menu .wrap { display: flex; flex-direction: column; align-items: stretch; padding-block: 0.75rem 1.25rem; }
-.menu a:not(.btn) { display: flex; align-items: center; min-height: 3rem; font-family: var(--display); font-variation-settings: "wdth" 104, "wght" 720; font-size: 1.5rem; text-decoration: none; border-bottom: 0.0625rem solid var(--line); }
+.menu a:not(.btn) { display: flex; align-items: center; gap: 0.75rem; min-height: 3rem; font-family: var(--display); font-variation-settings: "wdth" 104, "wght" 720; font-size: 1.5rem; text-decoration: none; border-bottom: 0.0625rem solid var(--line); }
 .menu a[aria-current] { color: var(--accent); }
 .menu .btn { margin-top: 1rem; }
 @media (max-width: 56em) { .nav .opt { display: none; } .menu-btn { display: inline-grid; } }
 @media (min-width: 56.01em) { .menu { display: none; } }
 @media (max-width: 36em) { .nav .write { display: none; } }
+/* The narrowest phones: the language button keeps its EN/ES and drops the globe, so the header fits */
+@media (max-width: 30em) { .nav .lang .ico { display: none; } .nav .lang { padding-inline: 0.6rem; } }
 /* Every custom control keeps a visible focus ring; all: unset would otherwise remove it */
 .theme-btn:focus-visible, .menu-btn:focus-visible, .theme:focus-visible, button.lang:focus-visible, .live-back:focus-visible { outline: 0.125rem solid var(--accent); outline-offset: 0.125rem; }
 .band .theme:focus-visible { outline-color: var(--band-accent); }
@@ -182,7 +184,14 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .btn { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 3.25rem; padding: 0 1.35rem; border-radius: 0.5rem; border: 0; background: var(--btn-bg); color: var(--btn-fg); font-family: var(--display); font-variation-settings: "wdth" 108, "wght" 700; font-size: 1rem; letter-spacing: -0.005em; line-height: 1; text-decoration: none; white-space: nowrap; cursor: pointer; transition: color 0.3s var(--out), box-shadow 0.3s; }
 .btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--accent); transform: scaleY(0); transform-origin: 50% 100%; transition: transform 0.55s var(--out); }
 .btn > span { display: inline-block; transform-origin: 50% 100%; transition: transform 0.7s var(--spring); }
-.btn .ico { display: none; }
+.ico { flex: none; width: 1.1em; height: 1.1em; }
+.ico-box { display: inline-flex; flex: none; font-style: normal; }
+/* In the nav and menu the icon is a quiet marker; it takes the accent when that page is the current one */
+.nav .opt .ico, .menu a:not(.btn) .ico { opacity: 0.7; transition: opacity 0.2s, color 0.2s; }
+.nav .opt:hover .ico, .nav .opt[aria-current] .ico { opacity: 1; }
+.nav .opt[aria-current] .ico, .menu a[aria-current] .ico { color: var(--accent); opacity: 1; }
+.menu a:not(.btn) .ico { width: 0.85em; height: 0.85em; }
+.btn .ico { width: 1.15em; height: 1.15em; }
 .btn:hover::before, .btn:focus-visible::before { transform: scaleY(1); }
 .btn:hover, .btn:focus-visible { color: var(--accent-fg); }
 .btn:active > span { transform: scale(1.06, 0.84); transition-duration: 0.1s; }
@@ -199,7 +208,7 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .btn-sm { min-height: 2.75rem; padding: 0 1rem; font-size: 0.94rem; }
 @media (prefers-reduced-motion: reduce) { .btn::before { transition: none; } .btn:active > span { transform: none; } }
 .links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: center; font-weight: 600; }
-.links a { display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem; min-height: 2.75rem; min-width: 2.75rem; }
+.links a { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; min-height: 2.75rem; min-width: 2.75rem; }
 
 /* Sections and their two tracks */
 .band { background: var(--band); color: var(--band-fg); border-block: 0.0625rem solid var(--band-line); }
@@ -361,7 +370,7 @@ details.decision .body p { max-width: 38rem; }
 .toc-series a, .toc-series > li > span { font-size: 1rem; padding-block: 0.6rem; }
 .toc-series .n { display: block; font-size: 0.875rem; font-weight: 600; color: var(--soft); }
 .toc-series > li > span { opacity: 0.7; }
-.toc-repo { display: inline-flex; align-items: center; min-height: 2.75rem; font-size: 0.9rem; font-weight: 600; }
+.toc-repo { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; font-size: 0.9rem; font-weight: 600; }
 .article h2 { font-family: var(--display); font-variation-settings: "wdth" 104, "wght" 780; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; letter-spacing: -0.015em; margin: 3rem 0 1rem; }
 .article p { font-size: 1.15rem; line-height: 1.75; }
 .article pre.astro-code { margin: 1.5rem 0; padding: 1.25rem; border-radius: 1rem; font: 400 0.875rem/1.7 var(--font-mono); white-space: pre; overflow-x: auto; max-width: 100%; }
@@ -417,7 +426,7 @@ main:focus { outline: none; }
 
 @layer components {
 /* Live window states */
-.live-back { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; min-height: 2.75rem; margin-block: -0.6rem; padding-inline: 0.5rem; color: #fff; font-weight: 600; white-space: nowrap; }
+.live-back { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; margin-block: -0.6rem; padding-inline: 0.5rem; color: #fff; font-weight: 600; white-space: nowrap; }
 .live-back[hidden] { display: none; }
 .live-status { position: absolute; inset: auto 1rem 1rem 1rem; z-index: 1; margin: 0; padding: 0.75rem 1rem; border-radius: 0.6rem; background: rgb(15 15 18 / 0.85); color: #f2f2ef; font-size: 0.95rem; }
 .live-status[hidden], .live-status [hidden] { display: none; }

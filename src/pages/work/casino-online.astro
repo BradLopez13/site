@@ -1,5 +1,6 @@
 ---
 import LiveWindow from '../../components/LiveWindow.astro';
+import Icon from '../../components/Icon.astro';
 import T from '../../components/T.astro';
 import Chain from '../../components/islands/Chain';
 import { LINKS } from '../../consts';
@@ -28,7 +29,7 @@ import shot from '../../assets/shots/casino-blackjack.webp';
 			<T k="cases.casinoText" as="p" />
 			<T k="cases.casinoHold" as="p" />
 			<Chain nodes={en.cases.diagramCasino} label={en.cases.diagramCasinoA} labelKey="cases.diagramCasinoA" me={[1]} keyBase="cases.diagramCasino" draw />
-			<p class="links mt-6"><a href={LINKS.casinoRepo}><T k="ui.code" /></a></p>
+			<p class="links mt-6"><a href={LINKS.casinoRepo}><Icon name="github" /><T k="ui.code" /></a></p>
 		</div>
 	</section>
 </Base>
