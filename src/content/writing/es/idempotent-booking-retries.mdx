@@ -6,6 +6,8 @@ part: 3
 draft: false
 ---
 
+import IdempotencyLab from '../../../components/islands/IdempotencyLab';
+
 ## Por qué la añadí
 
 En el trabajo me había encontrado con modales que creaban dos presupuestos y con registros duplicados. Son cosas que fui descubriendo con la experiencia. En Reservas quería que repetir una petición no creara otra reserva para la misma acción.
@@ -25,6 +27,10 @@ El servidor guarda el resultado antes de enviarlo. Si el navegador no recibe la 
 Si la primera petición todavía está en curso, la segunda recibe `IDEMPOTENCIA_EN_CURSO`. No espera automáticamente a recibir el resultado de la primera. La marca de operación en curso se guarda en una transacción propia para que otras peticiones puedan verla.
 
 La clave se asocia al usuario y a un hash del cuerpo de la petición. Si se reutiliza con datos distintos, el servidor devuelve un 422, `IDEMPOTENCIA_CONFLICTO`. Cambiar la pista o el horario ya no es repetir la misma petición.
+
+<div class="wide" id="juego">
+  <IdempotencyLab client:visible lang="es" />
+</div>
 
 ## El 503 que no guardo
 

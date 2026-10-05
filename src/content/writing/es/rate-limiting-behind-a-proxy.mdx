@@ -6,6 +6,8 @@ part: 4
 draft: false
 ---
 
+import LimiterLab from '../../../components/islands/LimiterLab';
+
 ## El login podía funcionar y el límite estar mal
 
 Encontré el problema leyendo el código. No hubo un despliegue fallido ni una incidencia reportada por usuarios. Tampoco revisé los logs anteriores, así que no puedo afirmar qué IP estaba registrando la API en producción antes de corregirlo.
@@ -40,6 +42,10 @@ export function limitesDe(email: string, ip: string) {
 El intento se registra y confirma antes de contar. Contar primero y registrar después permitía que varias peticiones simultáneas vieran el mismo recuento y pasaran juntas. Una petición rechazada elimina su propio intento, para que insistir no prolongue el bloqueo.
 
 Cuando el login tiene éxito se limpian los contadores de ese email, pero no el de la IP. Así, entrar con una cuenta propia no sirve para reiniciar el contador de una máquina entre intentos contra otras cuentas.
+
+<div class="wide" id="juego">
+  <LimiterLab client:visible lang="es" />
+</div>
 
 ## Ver fallar las pruebas antes de la corrección
 

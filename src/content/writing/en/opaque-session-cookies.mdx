@@ -6,6 +6,8 @@ part: 2
 draft: false
 ---
 
+import SessionsLab from '../../../components/islands/SessionsLab';
+
 ## Why I changed the sessions
 
 I had used JWT at work and started looking into how to keep frontend JavaScript from reading the session token. For Reservas, I chose an opaque token in an HttpOnly cookie. I also wanted to close a session or revoke all sessions from the server.
@@ -44,6 +46,10 @@ Activity can extend a session, but never beyond thirty days after it was created
 export const SESION_DESLIZANTE_MS = 7 * 24 * 60 * 60 * 1000;
 export const SESION_MAX_MS = 30 * 24 * 60 * 60 * 1000;
 ```
+
+<div class="wide" id="game">
+  <SessionsLab client:visible lang="en" />
+</div>
 
 ## What I check when closing or revoking sessions
 

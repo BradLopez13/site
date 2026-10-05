@@ -6,6 +6,8 @@ part: 3
 draft: false
 ---
 
+import IdempotencyLab from '../../../components/islands/IdempotencyLab';
+
 ## Why I added it
 
 At work, I had come across modals that created two quotes and duplicate records. I learned about these problems through experience. In Reservas, I wanted a repeated request to avoid creating another booking for the same action.
@@ -25,6 +27,10 @@ The server stores the result before sending it. If the browser does not receive 
 If the first request is still running, the second gets `IDEMPOTENCIA_EN_CURSO`. It does not automatically wait for the first request's result. The in-progress marker is committed in its own transaction so other requests can see it.
 
 The key is associated with the user and a hash of the request body. Reusing it with different data returns a 422, `IDEMPOTENCIA_CONFLICTO`. Changing the court or time is no longer a repeat of the same request.
+
+<div class="wide" id="game">
+  <IdempotencyLab client:visible lang="en" />
+</div>
 
 ## The 503 I do not store
 

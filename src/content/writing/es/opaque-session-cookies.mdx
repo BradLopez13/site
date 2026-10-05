@@ -6,6 +6,8 @@ part: 2
 draft: false
 ---
 
+import SessionsLab from '../../../components/islands/SessionsLab';
+
 ## Por qué cambié las sesiones
 
 En mi trabajo había usado JWT y empecé a investigar cómo evitar que el JavaScript del frontend pudiera leer el token de sesión. En Reservas elegí un token opaco en una cookie HttpOnly. También quería poder cerrar una sesión o revocarlas todas desde el servidor.
@@ -44,6 +46,10 @@ La actividad puede alargar la sesión, pero nunca más allá de los treinta día
 export const SESION_DESLIZANTE_MS = 7 * 24 * 60 * 60 * 1000;
 export const SESION_MAX_MS = 30 * 24 * 60 * 60 * 1000;
 ```
+
+<div class="wide" id="juego">
+  <SessionsLab client:visible lang="es" />
+</div>
 
 ## Qué compruebo al cerrar o revocar sesiones
 

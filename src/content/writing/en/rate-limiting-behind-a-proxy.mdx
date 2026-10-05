@@ -6,6 +6,8 @@ part: 4
 draft: false
 ---
 
+import LimiterLab from '../../../components/islands/LimiterLab';
+
 ## Login could work while the limit was wrong
 
 I found the problem by reading the code. There was no failed deployment or user-reported incident. I did not inspect the old logs either, so I cannot say which IP the API recorded in production before the fix.
@@ -40,6 +42,10 @@ export function limitesDe(email: string, ip: string) {
 The attempt is recorded and committed before counting. Counting first and recording afterwards allowed simultaneous requests to see the same count and all pass together. A rejected request deletes its own attempt so repeated requests do not extend the lockout.
 
 A successful login clears the counters for that email, but not the IP counter. Logging into an account you own therefore cannot reset the machine's counter between attempts against other accounts.
+
+<div class="wide" id="game">
+  <LimiterLab client:visible lang="en" />
+</div>
 
 ## Seeing the tests fail before the fix
 
