@@ -24,7 +24,9 @@ export function apply(lang: Lang) {
 	});
 	root.lang = lang;
 	root.dataset.lang = lang;
-	if (d['meta.title'] && document.body.dataset.titleKey) document.title = d[document.body.dataset.titleKey] ?? document.title;
+	const b = document.body.dataset;
+	if (b.titleKey) document.title = d[b.titleKey] ?? document.title;
+	else if (b.titleEs) document.title = (lang === 'es' ? b.titleEs : b.titleEn) ?? document.title;
 	setLang(lang);
 	window.dispatchEvent(new CustomEvent('langchange', { detail: lang }));
 }

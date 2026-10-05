@@ -3,17 +3,16 @@ title: '50 peticiones, una ganadora: tres formas de evitar reservas dobles en Po
 description: 'Bloqueos pesimistas, versiones optimistas y una restricción EXCLUDE, compitiendo entre sí en reservas.'
 pubDate: '2026-10-05'
 part: 1
-draft: true
+draft: false
 ---
 
 import Tldr from '../../../components/Tldr.astro';
 import RaceDemo from '../../../components/islands/RaceDemo';
 
-{/* Versión en castellano del artículo 1. Brad escribe el texto; draft: false para publicar. */}
-
 <div class="wide">
   <Tldr
-    jump="#demo"
+    lang="es"
+    jump="#demo-es"
     items={[
       { label: 'El problema', text: 'Leer, comprobar e insertar se rompe cuando dos peticiones se solapan.', tone: 'bad' },
       { label: 'Tres soluciones', text: 'Bloquear la pista, reintentar si hay conflicto o dejar que PostgreSQL lo rechace.', tone: 'violet' },
@@ -22,25 +21,49 @@ import RaceDemo from '../../../components/islands/RaceDemo';
   />
 </div>
 
-<p class="placeholder">[Tu arranque: el momento en que dos personas pulsan Reservar en la última franja, con tus palabras.]</p>
+## El origen
 
-## Leer, comprobar, insertar
+Mi madre me contó que ella y una vecina habían intentado reservar la misma pista a la vez. La aplicación les dio un error y ninguna pudo cogerla. No sé qué pasó en aquella aplicación. Me quedé con la pregunta de cómo se resuelve una reserva cuando dos personas le dan al mismo tiempo y decidí hacer un proyecto para probarlo. En Reservas comparé distintas soluciones con peticiones simultáneas.
 
-<p class="placeholder">[Qué cabe entre el SELECT de una petición y el INSERT de la otra.]</p>
+## Qué ocurre entre comprobar y guardar
 
-<div class="wide" id="demo">
+Una reserva parece sencilla: preguntar si la franja de las diez está libre y, si lo está, guardarla. Pero entre comprobar y guardar pasan unos milisegundos. En ese hueco otra petición puede estar haciendo lo mismo.
+
+Ana pregunta y la base de datos le dice que está libre. Luis pregunta antes de que Ana haya guardado nada y recibe la misma respuesta. Ana guarda su reserva y, después, Luis guarda la suya. Cuando Luis actúa, el dato con el que tomó la decisión ya está desactualizado.
+
+Al probar las reservas una detrás de otra, ese cruce no se ve. Por eso hice un test con cincuenta peticiones simultáneas a la misma franja: debe guardarse una sola reserva y las otras cuarenta y nueve deben recibir `PISTA_OCUPADA`.
+
+<div class="wide" id="demo-es">
   <RaceDemo client:visible lang="es" />
 </div>
 
+## Bloquear la pista: la estrategia pesimista
+
+La petición bloquea la fila de la pista con `SELECT … FOR UPDATE` antes de comprobar los solapes. Las demás peticiones que necesitan ese bloqueo se quedan esperando hasta que termine la primera transacción. Cuando les toca, la comprobación con `READ COMMITTED` ve lo que la anterior acaba de confirmar.
+
+El inconveniente es que se bloquea la pista entera. Dos personas que reservan para días distintos también hacen cola, aunque sus reservas no puedan solaparse. Con esta estrategia, las reservas de una pista van de una en una y cada petición que espera ocupa una conexión del pool.
+
+## Detectar cambios: la estrategia optimista
+
+En la optimista, cada pista y día tiene un contador: la versión. La petición lo lee, comprueba los solapes e inserta su reserva dentro de una transacción. Al final intenta subir el contador, pero solo si sigue teniendo el valor que leyó.
+
+Si leyó siete, intenta subirlo a ocho con la condición de que siga en siete. Si otra transacción lo cambió entretanto, la actualización no toca ninguna fila. Se deshace la reserva y se vuelve a intentar desde el principio. Así se detecta que alguien cambió ese día desde que la petición lo consultó.
+
+El contador es por pista y día. Una reserva a las diez y otra a las dieciocho actualizan la misma versión, así que pueden entrar en conflicto aunque no se solapen. Si llegan muchas a la vez, alguna puede agotar sus tres intentos con la franja todavía libre.
+
+La espera puede aparecer al actualizar el contador: esa operación puede quedar pendiente de que termine otra transacción. Al principio no se toma el bloqueo explícito de la pista que usa la pesimista.
+
 ## Que decida PostgreSQL
 
-<p class="placeholder">[Qué dice la restricción, qué es 23P01 y por qué hace falta btree_gist.]</p>
+Con la tercera estrategia, la regla queda en una restricción `EXCLUDE` de PostgreSQL: dos reservas confirmadas de la misma pista no pueden tener horarios que se solapen. La igualdad compara la pista y el operador `&&` comprueba el solape de los rangos horarios. Hace falta `btree_gist` para combinar esa comparación de igualdad con el rango en el índice GiST.
 
 ```sql
 -- apps/api/drizzle/0001_exclude_solape.sql (commit 4385119)
 EXCLUDE USING gist ("pista_id" WITH =, "periodo" WITH &&)
   WHERE ("estado" = 'confirmada');
 ```
+
+Si una inserción incumple la regla, PostgreSQL devuelve `23P01`, el código de `exclusion_violation`. En el repositorio lo traduzco a `PISTA_OCUPADA`, el error que entiende el resto de la aplicación. La restricción solo cuenta las reservas confirmadas, así que cancelar una deja libre su franja.
 
 ```ts
 // apps/api/src/modules/reservas/infra/persistence/reservas/exclude.ts (commit da5a7f9)
@@ -54,8 +77,26 @@ async crear(tx, d) {
 },
 ```
 
-<p class="placeholder">[Por qué los tests de la pesimista y la optimista quitan la restricción antes de correr.]</p>
+## Probar cada estrategia por separado
 
-## Por qué EXCLUDE en producción
+Las tres estrategias pasan la misma batería de tests contra PostgreSQL real. Al probar la pesimista y la optimista, los tests quitan primero la restricción `EXCLUDE`.
 
-<p class="placeholder">[El argumento de la ruta que alguien añade mañana, y lo que descartaste: SERIALIZABLE en todo, un mutex en memoria en Vercel.]</p>
+Si dejara la restricción puesta, la base de datos podría impedir el duplicado aunque la estrategia estuviera rota. Encontrar una sola reserva en la tabla no bastaría para saber si la lógica funciona. Al quitar `EXCLUDE`, cada estrategia tiene que impedir el duplicado por su cuenta. Si permite guardar dos reservas, el test lo detecta.
+
+## Una franja libre puede dar contención
+
+El test de la misma franja pasaba. Una petición reservaba y las demás recibían `PISTA_OCUPADA`, que era lo que correspondía para ese horario.
+
+El problema apareció al repartir las cincuenta peticiones entre cincuenta franjas libres de la misma pista y día. La optimista podía agotar sus intentos por compartir el contador y devolver `PISTA_OCUPADA` para un horario que seguía libre. Se había dado por hecho que perder los intentos significaba que alguien había cogido la franja. Con una versión por día, eso no es cierto.
+
+Para ese caso añadí `CONTENCION`, un 503 con `Retry-After: 1`. La idempotencia no guarda esa respuesta: repetir la misma clave permite volver a intentarlo.
+
+## Por qué elegí EXCLUDE en producción
+
+La pesimista y la optimista funcionan mientras todas las reservas pasen por la función que aplica su lógica. Si mañana añado una ruta, un script de administración o un seed que inserta directamente, puedo saltarme esa protección.
+
+Elegí `EXCLUDE` para producción porque PostgreSQL comprueba la regla en cada inserción, venga de donde venga. A cambio, dependo de sus rangos y de `btree_gist`, y tengo que traducir el error de la base de datos al de la aplicación.
+
+Un mutex en memoria no me servía: en Vercel las peticiones pueden llegar a instancias distintas y ese mutex solo conoce la suya. También descarté usar `SERIALIZABLE` en toda la aplicación por los reintentos que habría que gestionar ante conflictos de serialización. Para este problema podía poner la regla directamente en la tabla de reservas.
+
+Comparar las tres me ayudó a entender dónde vive la garantía de cada una. Y el test de las franjas libres añadió algo que la carrera por una sola franja no comprobaba: qué pasa cuando las peticiones llegan a la vez, pero deberían poder reservar todas.

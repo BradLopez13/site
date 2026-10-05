@@ -352,8 +352,8 @@
 		"now": "What I work on at VB Group",
 		"caseTitle": "The case: bookings in, invoices out",
 		"caseSub": "Integration between an events platform and an invoicing ERP.",
-		"caseText": "Bookings, attendees and fees came out of an events platform; an invoicing ERP needed simplified invoices, management expenses and VAT split the way an accountant expects. I built the layer between them, and to do it right I learned the accounting from scratch.",
-		"caseHold": "[Your words: the hardest mapping, the decision you made about it, what you rejected.]",
+		"caseText": "Ticket sales and handling fees came out of an events platform; an invoicing ERP needed them as simplified invoices, with VAT split the way an accountant expects. I built the layer between them.",
+		"caseHold": "Ticket sales used to be passed to accounting by hand to generate simplified invoices. I built the integration that takes ticket sales, handling fees, merchandise and refunds and maps them to the fields the invoicing API needs. I had to work with two unfamiliar APIs and learn enough accounting to understand the data. I made direct requests and compared the responses to see how each system represented the same sale. Rounding caused problems too: the sales API sent rounded amounts, and the invoicing API recalculated them. I had to find a way to get more decimal places from the source so the amounts would match. Working with both APIs taught me how to test an integration when I do not control either system.",
 		"diagramNote": "The diagram uses invented names and no real data.",
 		"before": "Before VB Group",
 		"beforeSub": "Where I learned the trade."
@@ -372,7 +372,7 @@
 		"problem": "The problem",
 		"problemSub": "Two requests, one slot, a few milliseconds apart.",
 		"problemText": "Both requests read that the slot is free, both insert, and the court is sold twice. Reading, checking and inserting is exactly the code that fails under load.",
-		"problemHold": "[In your words: why you picked this problem, and what you wanted to prove.]",
+		"problemHold": "My mother told me she and a neighbour had tried to book the same court at the same time. The app gave them both an error, and neither got the booking. That got me wondering how to handle two people trying to book the same slot. I built Reservas to try it out and find a way for one booking to succeed without saving duplicates.",
 		"fix": "The fix, run it",
 		"fixSub": "The race from the test suite, in your browser.",
 		"decisions": "Decisions",
@@ -389,12 +389,12 @@
 		"result": "The result",
 		"resultSub": "Three strategies, the same fifteen tests, a real database.",
 		"learned": "What I learned",
-		"learnedHold1": "[One line: the lesson, in your words.]",
-		"learnedHold2": "[The bug that surprised you, and what you would do the same way in a team.]",
+		"learnedHold1": "I used to stick to the same structure in every project. Researching other approaches and writing ADRs helped me choose an architecture based on what the project needs.",
+		"learnedHold2": "Reading the code, I found that the login rate limiter could be counting the proxy's IP address instead of the client's. Logging in manually could work fine while the limit was being applied incorrectly. I fixed it and added tests with different IP addresses and simultaneous requests. I also ran them against the old code to check that they failed there. I would do the same in a team: check that a new regression test catches the original bug, especially with concurrency or proxies.",
 		"longVersion": "Read the long version, part 1",
-		"casinoWhat": "What it does",
-		"casinoText": "Blackjack, roulette and slots with play money. There is no backend of my own: Firestore security rules decide what each player can read and write, so a player cannot change their own balance or another player’s game.",
-		"casinoHold": "[What you learned building it, in your words.]",
+		"casinoWhat": "What it does and what I learned",
+		"casinoText": "Blackjack, roulette and slots with play money. There is no backend of my own: Firestore security rules decide what each player can read and write, so no one can see or change another player’s data. The rules also keep a balance from going below zero, but the chips have no real value, and a player can still change their own.",
+		"casinoHold": "The casino was one of the ideas my school suggested. I chose it because it sounded fun to build while learning. I had used Firebase before, but Angular and TypeScript were new to me. Understanding standalone components and how they fit together took time. So did the roulette logic and the scratch-off animation. I worked it out bit by bit, putting in the hours. I was working while building it, so I could put what I learned in each place to use in the other. The experience of connecting the app to an external database was particularly useful. Later, I refreshed the design to see what I could improve with more experience.",
 		"diagramProblem": [
 			[
 				"Request A",
@@ -446,10 +446,10 @@
 		"lede": "A four-part series on what it took to make Reservas hold up. Each part has a live demo and links to the code behind every claim.",
 		"part": "Part {n}",
 		"p1": "50 requests, one winner",
-		"p1d": "Three ways to stop double bookings in PostgreSQL.",
-		"p2": "Sessions: opaque cookies, revoked instantly",
-		"p3": "Idempotency: a retry that never books twice",
-		"p4": "[Brad’s fourth topic]",
+		"p1d": "Three ways to prevent double bookings in PostgreSQL.",
+		"p2": "Sessions: opaque cookies you can revoke immediately",
+		"p3": "Idempotency: retrying without booking twice",
+		"p4": "Login rate limiting behind a proxy: which IP are you counting?",
 		"seriesCrumb": "The Reservas series, part {n} of 4"
 	}
 }

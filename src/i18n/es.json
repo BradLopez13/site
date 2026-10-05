@@ -352,8 +352,8 @@
 		"now": "En qué trabajo en VB Group",
 		"caseTitle": "El caso: reservas que salen facturadas",
 		"caseSub": "Integración entre una plataforma de eventos y un ERP de facturación.",
-		"caseText": "De la plataforma de eventos salían reservas, asistentes y tarifas; el ERP necesitaba facturas simplificadas, gastos de gestión y el IVA desglosado como lo espera un contable. Construí la capa entre los dos y, para hacerlo bien, aprendí contabilidad desde cero.",
-		"caseHold": "[Con tus palabras: el mapeo más difícil, lo que decidiste y lo que descartaste.]",
+		"caseText": "De la plataforma de eventos salían ventas de entradas y gastos de gestión; el ERP de facturación los necesitaba como facturas simplificadas, con el IVA desglosado como lo espera un contable. Construí la capa entre los dos.",
+		"caseHold": "Antes se pasaban las ventas de entradas a mano a contabilidad para generar las facturas simplificadas. Yo hice la integración que recoge entradas, gastos de gestión, merchandising y devoluciones y los lleva a los campos que necesita la API de facturación. Tuve que pegarme con dos APIs que no conocía y aprender contabilidad para entender los datos. Hacía llamadas directas y comparaba las respuestas para ver cómo representaba cada sistema una misma venta. Los redondeos también dieron problemas: una API mandaba los importes redondeados y la otra los recalculaba. Tuve que investigar cómo sacar más decimales del origen para que cuadraran. Aprendí a probar una integración con dos sistemas cuyo comportamiento no depende de mí.",
 		"diagramNote": "El diagrama usa nombres inventados y ningún dato real.",
 		"before": "Antes de VB Group",
 		"beforeSub": "Donde aprendí el oficio."
@@ -372,7 +372,7 @@
 		"problem": "El problema",
 		"problemSub": "Dos peticiones, una franja, a pocos milisegundos.",
 		"problemText": "Las dos peticiones leen que la franja está libre, las dos insertan y la pista se vende dos veces. Leer, comprobar e insertar es justo el código que falla bajo carga.",
-		"problemHold": "[Con tus palabras: por qué elegiste este problema y qué querías demostrar.]",
+		"problemHold": "Mi madre me contó que ella y una vecina habían intentado reservar la misma pista a la vez. La aplicación les dio un error y ninguna pudo cogerla. Me quedé pensando en cómo se podía resolver eso y decidí hacer un proyecto para probarlo: qué pasa cuando varias personas reservan a la vez y cómo conseguir que una se quede con la franja sin guardar reservas duplicadas.",
 		"fix": "La solución, pruébala",
 		"fixSub": "La carrera de los tests, en tu navegador.",
 		"decisions": "Decisiones",
@@ -389,12 +389,12 @@
 		"result": "El resultado",
 		"resultSub": "Tres estrategias, los mismos quince tests, una base de datos real.",
 		"learned": "Lo que aprendí",
-		"learnedHold1": "[Una línea: la lección, con tus palabras.]",
-		"learnedHold2": "[El fallo que te sorprendió y lo que harías igual en un equipo.]",
+		"learnedHold1": "Antes usaba siempre las mismas estructuras. Investigar otras opciones y escribir ADRs me ayudó a elegir según lo que necesita cada proyecto.",
+		"learnedHold2": "Leyendo el código encontré que el limitador de intentos de login podía estar contando la IP del proxy en lugar de la del cliente. Al entrar a mano todo podía parecer correcto, aunque el límite se estuviera aplicando mal. Lo corregí y añadí tests con distintas IP y peticiones simultáneas. También los pasé contra el código antiguo para comprobar que fallaban. Eso lo haría igual en un equipo: comprobar que un test de regresión detecta el fallo original, sobre todo cuando hay concurrencia o proxies.",
 		"longVersion": "Leer la versión larga, parte 1",
-		"casinoWhat": "Qué hace",
-		"casinoText": "Blackjack, ruleta y tragaperras con dinero ficticio. No hay backend propio: las reglas de seguridad de Firestore deciden qué puede leer y escribir cada jugador, así que nadie puede cambiar su saldo ni la partida de otro.",
-		"casinoHold": "[Lo que aprendiste haciéndolo, con tus palabras.]",
+		"casinoWhat": "Qué hace y qué aprendí",
+		"casinoText": "Blackjack, ruleta y tragaperras con dinero ficticio. No hay backend propio: las reglas de seguridad de Firestore deciden qué puede leer y escribir cada jugador, así que nadie puede ver ni cambiar los datos de otro. Las reglas también impiden que el saldo baje de cero, pero las fichas no tienen valor real y cada jugador puede cambiar el suyo.",
+		"casinoHold": "El casino era una de las ideas que nos propuso la escuela y me pareció divertido de hacer mientras aprendía. Ya había usado Firebase, pero Angular y TypeScript eran nuevos para mí. Me costó entender los componentes standalone y cómo se organizaban. La lógica de la ruleta también tuvo su trabajo, igual que la animación de borrado del rasca y gana. Lo fui sacando poco a poco, metiéndole horas. Como trabajaba a la vez, aprovechaba lo que aprendía en un sitio para el otro. Me llevé sobre todo la experiencia de conectar la aplicación con una base de datos externa. Después le hice un refresco visual para ver qué podía mejorar con lo que había aprendido.",
 		"diagramProblem": [
 			[
 				"Petición A",
@@ -449,7 +449,7 @@
 		"p1d": "Tres formas de evitar reservas dobles en PostgreSQL.",
 		"p2": "Sesiones: cookies opacas que se revocan al momento",
 		"p3": "Idempotencia: un reintento que nunca reserva dos veces",
-		"p4": "[El cuarto tema de Brad]",
+		"p4": "Limitar intentos de login detrás de un proxy: ¿qué IP estás contando?",
 		"seriesCrumb": "La serie de Reservas, parte {n} de 4"
 	}
 }

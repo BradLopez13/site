@@ -10,11 +10,13 @@ interface Props {
 	descriptionKey?: Key;
 	/** A literal title (an article's own title), used when no key fits. */
 	title?: string;
+	/** The same literal title in Spanish, swapped in when the visitor reads Spanish. */
+	titleEs?: string;
 	current?: 'projects' | 'work' | 'about' | 'writing';
 	footerKey?: Key;
 }
 
-const { titleKey = 'meta.title', descriptionKey = 'meta.description', title, current, footerKey } = Astro.props;
+const { titleKey = 'meta.title', descriptionKey = 'meta.description', title, titleEs, current, footerKey } = Astro.props;
 // The Spanish texts, applied synchronously at the end of the body when the visitor reads Spanish,
 // before the first paint; the bundled i18n script takes over for later switches.
 const es = JSON.stringify(flat('es'));
@@ -26,7 +28,7 @@ const es = JSON.stringify(flat('es'));
 		<BaseHead title={title ?? t(titleKey)} description={t(descriptionKey)} />
 		<slot name="head" />
 	</head>
-	<body data-title-key={title ? undefined : titleKey}>
+	<body data-title-key={title ? undefined : titleKey} data-title-en={titleEs ? title : undefined} data-title-es={titleEs}>
 		<T k="ui.skip" as="a" class="skip" href="#main" />
 		<Header current={current} />
 		<main id="main" tabindex="-1">

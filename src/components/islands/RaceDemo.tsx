@@ -31,7 +31,7 @@ export default function RaceDemo({ lang, slot = 'Pádel 1, 19:30' }: { lang: Lan
 	const slot_rem = small ? 5 : 9.375;
 
 	return (
-		<figure className="race dark">
+		<figure className="race-demo dark">
 			<div className="race-head">
 				<div className="seg" role="group" aria-label={t.label}>
 					{strategies.map((s) => (

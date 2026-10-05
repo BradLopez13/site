@@ -1,27 +1,29 @@
 ---
-import { dict, langFromUrl } from '../i18n';
+// The article in three lines, in the article's own language (both language versions share one route).
+import { dict, type Lang } from '../i18n';
 
 interface Props {
 	items: { label: string; text: string; tone: 'bad' | 'violet' | 'ok' }[];
 	jump?: string;
+	lang?: Lang;
 }
-const { items, jump } = Astro.props;
-const t = dict(langFromUrl(Astro.url)).article;
+const { items, jump, lang = 'en' } = Astro.props;
+const t = dict(lang).article;
 ---
 
-<section aria-label={t.inBrief} class="tldr" data-stagger="drop">
+<section aria-label={t.inBrief} class="tldr">
 	{
-		items.map((t) => (
-			<div class="card stack" style="--gap: 0.625rem">
-				<span class:list={['tldr-label', t.tone]}>{t.label}</span>
-				<strong>{t.text}</strong>
+		items.map((i) => (
+			<div class="tldr-card">
+				<span class:list={['tldr-label', i.tone]}>{i.label}</span>
+				<strong>{i.text}</strong>
 			</div>
 		))
 	}
 	{
 		jump && (
-			<a href={jump} class="tldr-jump dark">
-				<span class="tag">{t.noTime}</span>
+			<a href={jump} class="tldr-jump">
+				<span>{t.noTime}</span>
 				<strong>{t.jump}</strong>
 			</a>
 		)
@@ -32,12 +34,25 @@ const t = dict(langFromUrl(Astro.url)).article;
 	.tldr {
 		display: grid;
 		gap: 0.75rem;
-		grid-template-columns: repeat(auto-fit, minmax(13.75rem, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+		margin: 2rem 0 1rem;
+	}
+	.tldr-card,
+	.tldr-jump {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		padding: 1.15rem 1.25rem;
+		border-radius: 1rem;
+	}
+	.tldr-card {
+		background: var(--bg-2);
 	}
 	.tldr strong {
-		font-family: var(--font-display);
-		font-size: clamp(1rem, 1.5vw, 1.25rem);
-		line-height: 1.3;
+		font-family: var(--display);
+		font-variation-settings: 'wdth' 104, 'wght' 720;
+		font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+		line-height: 1.25;
 	}
 	.tldr-label {
 		font-size: 0.875rem;
@@ -47,20 +62,26 @@ const t = dict(langFromUrl(Astro.url)).article;
 		color: var(--err-text);
 	}
 	.violet {
-		color: var(--ink);
+		color: var(--accent);
 	}
 	.ok {
 		color: var(--ok-text);
 	}
 	.tldr-jump {
-		display: flex;
-		flex-direction: column;
 		justify-content: space-between;
-		gap: 1rem;
-		padding: 1.5rem;
-		border-radius: 1.5rem;
-		background: var(--ink);
-		color: var(--paper);
+		background: var(--btn-bg);
+		color: var(--btn-fg);
 		text-decoration: none;
+		transition: background-color 0.3s var(--out), color 0.3s;
+	}
+	.tldr-jump span {
+		font-size: 0.875rem;
+		font-weight: 600;
+		opacity: 0.75;
+	}
+	.tldr-jump:hover,
+	.tldr-jump:focus-visible {
+		background: var(--accent);
+		color: var(--accent-fg);
 	}
 </style>

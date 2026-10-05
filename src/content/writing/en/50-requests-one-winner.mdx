@@ -1,18 +1,17 @@
 ---
-title: '50 requests, one winner: three ways to stop double bookings in PostgreSQL'
+title: '50 requests, one winner: three ways to prevent double bookings in PostgreSQL'
 description: 'Pessimistic locks, optimistic versions and an EXCLUDE constraint, raced against each other in reservas.'
 pubDate: '2026-10-05'
 part: 1
-draft: true
+draft: false
 ---
 
 import Tldr from '../../../components/Tldr.astro';
 import RaceDemo from '../../../components/islands/RaceDemo';
 
-{/* Material and questions: _notas/site/2026-09-28-articulo-1-material.md. Brad writes the text; set draft: false to publish. */}
-
 <div class="wide">
   <Tldr
+    lang="en"
     jump="#demo"
     items={[
       { label: 'The problem', text: 'Read, check, insert breaks when two requests overlap.', tone: 'bad' },
@@ -22,25 +21,49 @@ import RaceDemo from '../../../components/islands/RaceDemo';
   />
 </div>
 
-<p class="placeholder">[Your opening: the moment two people press Book on the last slot, in your own words.]</p>
+## How it started
 
-## Read, check, insert
+My mother told me she and a neighbour had tried to book the same court at the same time. The app gave them both an error, and neither got the booking. I do not know what happened in that app. It got me wondering how to handle a booking when two people click at once, so I built a project to try it out. In Reservas, I compared different approaches using simultaneous requests.
 
-<p class="placeholder">[What fits between the SELECT of one request and the INSERT of the other.]</p>
+## What happens between checking and saving
+
+A booking looks simple: ask whether the ten o'clock slot is free and, if it is, save it. But a few milliseconds pass between checking and saving. Another request can be doing the same thing in that gap.
+
+Ana asks, and the database says the slot is free. Luis asks before Ana has saved anything and gets the same answer. Ana saves her booking, then Luis saves his. By the time Luis acts, the information he based his decision on is out of date.
+
+Booking one slot after another does not reveal that race. That is why I wrote a test with fifty simultaneous requests for the same slot: exactly one booking must be saved, and the other forty-nine requests must get `PISTA_OCUPADA`.
 
 <div class="wide" id="demo">
   <RaceDemo client:visible lang="en" />
 </div>
 
-## Let PostgreSQL refuse
+## Locking the court: the pessimistic strategy
 
-<p class="placeholder">[What the constraint says, what 23P01 is and why btree_gist is needed.]</p>
+The request locks the court's row with `SELECT … FOR UPDATE` before checking for overlapping bookings. Other requests that need the same lock wait until the first transaction finishes. When their turn comes, the check under `READ COMMITTED` sees what the previous transaction has just committed.
+
+The drawback is that the lock covers the whole court. Two people booking different days still queue, even though their bookings cannot overlap. With this strategy, bookings for a court are processed one at a time, and each waiting request occupies a connection from the pool.
+
+## Detecting changes: the optimistic strategy
+
+In the optimistic strategy, each court and day has a counter: the version. The request reads it, checks for overlaps and inserts its booking within a transaction. At the end, it tries to increment the counter, but only if it still holds the value the request read.
+
+If it read seven, it tries to change it to eight on the condition that it is still seven. If another transaction changed it in the meantime, the update affects no rows. The booking is rolled back, and the operation starts again. That detects whether someone changed that day after the request checked it.
+
+The counter is shared by court and day. A booking at ten and another at six in the evening update the same version, so they can conflict even though they do not overlap. If enough requests arrive at once, one can exhaust its three attempts while its slot is still free.
+
+Waiting can happen when the counter is updated: that operation may have to wait for another transaction to finish. At the start, the optimistic strategy does not take the explicit court lock used by the pessimistic strategy.
+
+## Letting PostgreSQL decide
+
+The third strategy puts the rule in a PostgreSQL `EXCLUDE` constraint: two confirmed bookings for the same court cannot have overlapping time ranges. Equality compares the court, and the `&&` operator checks whether the time ranges overlap. The `btree_gist` extension lets the GiST index combine that equality comparison with the range.
 
 ```sql
 -- apps/api/drizzle/0001_exclude_solape.sql (commit 4385119)
 EXCLUDE USING gist ("pista_id" WITH =, "periodo" WITH &&)
   WHERE ("estado" = 'confirmada');
 ```
+
+If an insert breaks the rule, PostgreSQL returns `23P01`, the code for `exclusion_violation`. In the repository, I translate it to `PISTA_OCUPADA`, the error the rest of the application understands. The constraint only covers confirmed bookings, so cancelling one frees its slot.
 
 ```ts
 // apps/api/src/modules/reservas/infra/persistence/reservas/exclude.ts (commit da5a7f9)
@@ -54,8 +77,26 @@ async crear(tx, d) {
 },
 ```
 
-<p class="placeholder">[Why the pessimistic and optimistic tests drop the constraint before running.]</p>
+## Testing each strategy on its own
 
-## Why EXCLUDE in production
+All three strategies run through the same tests against a real PostgreSQL database. For the pessimistic and optimistic strategies, the tests first remove the `EXCLUDE` constraint.
 
-<p class="placeholder">[The argument about the route someone adds tomorrow, and what you ruled out: SERIALIZABLE everywhere, an in-memory mutex on Vercel.]</p>
+If I left the constraint in place, the database could prevent a duplicate even if the strategy was broken. Finding only one booking in the table would not be enough to tell whether the logic worked. Without `EXCLUDE`, each strategy has to prevent duplicates on its own. If it allows two bookings to be saved, the test catches it.
+
+## A free slot can still face contention
+
+The same-slot test passed. One request booked it, and the others got `PISTA_OCUPADA`, which was the correct response for that slot.
+
+The problem appeared when the fifty requests were spread across fifty free slots on the same court and day. The optimistic strategy could exhaust its attempts because of the shared counter and return `PISTA_OCUPADA` for a slot that was still free. The code assumed that running out of attempts meant someone had taken the slot. With a version shared across the day, that assumption does not hold.
+
+For that case, I added `CONTENCION`, a 503 with `Retry-After: 1`. The idempotency layer does not store that response, so repeating the same key allows another attempt.
+
+## Why I chose EXCLUDE for production
+
+The pessimistic and optimistic strategies work as long as every booking goes through the function that applies their logic. If I add a route, an administration script or a seed that inserts directly, I can bypass that protection.
+
+I chose `EXCLUDE` for production because PostgreSQL checks the rule on every insert, wherever it comes from. In exchange, I depend on its range types and `btree_gist`, and I have to translate the database error into the application's error.
+
+An in-memory mutex would not work here: on Vercel, requests can reach different instances, and each mutex only knows about its own instance. I also ruled out using `SERIALIZABLE` throughout the application because of the retries needed for serialization conflicts. For this problem, I could put the rule directly in the bookings table.
+
+Comparing the three helped me understand where each guarantee lives. The free-slot test also checked something the race for a single slot did not: what happens when requests arrive at once but should all be able to book.

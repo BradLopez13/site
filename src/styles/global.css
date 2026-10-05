@@ -309,10 +309,6 @@ details.decision .body p { max-width: 38rem; }
 .article h2 { font-family: var(--display); font-variation-settings: "wdth" 104, "wght" 780; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; letter-spacing: -0.015em; margin: 3rem 0 1rem; }
 .article p { font-size: 1.15rem; line-height: 1.75; }
 .article pre.astro-code { margin: 1.5rem 0; padding: 1.25rem; border-radius: 1rem; font: 400 0.875rem/1.7 var(--font-mono); white-space: pre; overflow-x: auto; max-width: 100%; }
-.tldr { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 2rem 0; }
-.tldr div { padding: 1.1rem 1.25rem; border-radius: 0.9rem; background: var(--bg-2); }
-.tldr b { display: block; margin-bottom: 0.3rem; }
-@media (max-width: 48em) { .tldr { grid-template-columns: 1fr; } }
 
 }
 
@@ -330,6 +326,8 @@ details.decision .body p { max-width: 38rem; }
 :root[data-lang="es"] [data-only="en"], :root[data-lang="en"] [data-only="es"] { display: none !important; }
 
 main:focus { outline: none; }
+/* Anchored sections land below the sticky header */
+[id] { scroll-margin-top: 5.5rem; }
 
 /* Names the article components (Tldr, RaceDemo) still use, mapped onto this system's tokens */
 :root {

@@ -30,8 +30,8 @@ const decisions = [1, 2, 3] as const;
 	<section class="wrap case-block mt-12">
 		<div><T k="cases.problem" as="h2" class="disp h-m" data-split /><T k="cases.problemSub" as="p" class="muted" /></div>
 		<div class="prose">
+			<T k="cases.problemHold" as="p" />
 			<T k="cases.problemText" as="p" />
-			<p><T k="cases.problemHold" class="placeholder" /></p>
 			<div class="max-w-[40rem]"><Chain nodes={en.cases.diagramProblem} label={en.cases.diagramProblemA} me={[2]} keyBase="cases.diagramProblem" draw /></div>
 		</div>
 	</section>
@@ -73,8 +73,8 @@ Tests  15 passed (15)</pre>
 	<section class="wrap case-block">
 		<div><T k="cases.learned" as="h2" class="disp h-m" data-split /></div>
 		<div class="prose">
-			<p><T k="cases.learnedHold1" class="placeholder" /></p>
-			<p><T k="cases.learnedHold2" class="placeholder" /></p>
+			<T k="cases.learnedHold1" as="p" />
+			<T k="cases.learnedHold2" as="p" />
 			<p class="links">
 				{hasArticle && <a class="btn btn-ink" href="/writing/50-requests-one-winner/"><T k="cases.longVersion" /></a>}
 				<a href={LINKS.reservasRepo}><T k="ui.code" /></a>

@@ -26,7 +26,7 @@ import Base from '../layouts/Base.astro';
 		</div>
 		<div class="prose">
 			<T k="work.caseText" as="p" />
-			<p><T k="work.caseHold" class="placeholder" /></p>
+			<T k="work.caseHold" as="p" />
 			<Chain nodes={pick(en, 'themes.integration.n') as string[][]} label={en.themes.integration.a} me={[1]} keyBase="themes.integration.n" draw />
 			<T k="work.diagramNote" as="p" class="muted mt-6 text-[0.95rem]" />
 		</div>
