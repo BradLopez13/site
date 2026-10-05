@@ -4,7 +4,6 @@ import Experience from '../components/Experience.astro';
 import HowIWork from '../components/HowIWork.astro';
 import LiveWindow from '../components/LiveWindow.astro';
 import T from '../components/T.astro';
-import Race from '../components/islands/Race';
 import WorkThemes from '../components/islands/WorkThemes';
 import { LINKS } from '../consts';
 import { getArticles } from '../lib/content';
@@ -59,7 +58,6 @@ const parts = [
 					<p class="links"><a class="btn btn-ink btn-sm" href="/work/reservas/"><T k="ui.readCase" /></a><a href={LINKS.reservasRepo}><T k="ui.code" /></a></p>
 				</div>
 			</article>
-			<Race client:visible />
 			<article class="project flip" style="margin-top:clamp(4rem,8vw,7rem)">
 				<div>
 					<LiveWindow url={LINKS.casinoDemo} shot={casinoShot} altKey="projects.casino.alt" titleKey="projects.casino.liveTitle" noteKey="projects.casino.note" />
@@ -71,7 +69,7 @@ const parts = [
 					<p class="links"><a class="btn btn-ink btn-sm" href="/work/casino-online/"><T k="ui.readCase" /></a><a href={LINKS.casinoRepo}><T k="ui.code" /></a></p>
 				</div>
 			</article>
-			<div class="two" style="margin-top:clamp(4rem,8vw,6rem);padding-top:2rem;border-top:1px solid var(--line)">
+			<div class="two" style="margin-top:clamp(4rem,8vw,6rem);padding-top:2rem;border-top:0.0625rem solid var(--line)">
 				<div><T k="home.casaTitle" as="h3" class="disp h-m" /></div>
 				<div>
 					<T k="home.casaText" as="p" style="margin:0;font-size:1.1rem" />

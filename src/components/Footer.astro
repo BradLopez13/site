@@ -12,7 +12,7 @@ const { leadKey = 'footer.lead' } = Astro.props;
 <footer class="band foot">
 	<div class="wrap">
 		<T k={leadKey} as="p" class="muted" style="margin:0 0 1.25rem;font-size:1.15rem;max-width:44ch" />
-		<a class="mail" href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
+		<a class="mail" href={`mailto:${LINKS.email}`}>{LINKS.email.split("@")[0]}@<wbr />{LINKS.email.split("@")[1]}</a>
 		<div class="foot-row">
 			<T k="footer.place" class="muted" />
 			<span class="links">

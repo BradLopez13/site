@@ -8,3 +8,7 @@ node_modules/
 .impeccable/
 DESIGN.md
 PRODUCT.md
+
+# Internal notes (glossaries, plans, design docs) stay on this machine
+*.md
+!README.md

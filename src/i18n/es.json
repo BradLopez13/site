@@ -191,7 +191,7 @@
 	},
 	"how": {
 		"r1t": "Decidir antes de programar",
-		"r1d": "Primero un plan y registros de decisión cortos: el problema, las opciones y por qué esta. Reservas los guarda en docs/adr.",
+		"r1d": "Primero un plan y ADRs cortos (registros de decisión): el problema, las opciones y por qué esta. Reservas los guarda en docs/adr.",
 		"r2t": "Que las reglas las guarden las herramientas",
 		"r2d": "Si una convención importa, la hace cumplir un linter o la CI, no una página de wiki.",
 		"r3t": "Probar contra lo real",
@@ -199,12 +199,12 @@
 		"r4t": "Leerlo como un atacante",
 		"r4d": "Mi máster en seguridad ofensiva cambió cómo reviso: cada endpoint lo leo como lo leería alguien que quiere entrar.",
 		"aiTitle": "Cómo uso la IA.",
-		"ai": "Yo planifico, diseño y decido; la IA me ayuda a implementar, y por eso mis proyectos avanzan rápido. Nada se fusiona sin mi revisión y los tests en verde."
+		"ai": "Yo planifico, diseño y decido; la IA me ayuda a implementar, y por eso mis proyectos avanzan rápido. Nada entra en main sin mi revisión y los tests en verde."
 	},
 	"exp": {
 		"since": "Desde 2025",
 		"vbT": "Desarrollador full‑stack, VB Group.",
-		"vbD": "Integraciones, una plataforma de eventos multiempresa, el estándar y la CI del equipo y dos becarios formados. Entré como junior y me ascendieron a los tres meses.",
+		"vbD": "Integraciones, una plataforma de eventos multi-tenant, el estándar y la CI del equipo y dos becarios formados. Entré como junior y me ascendieron a los tres meses.",
 		"mgT": "Desarrollador en prácticas, MrGates.",
 		"mgD": "Herramientas internas en PHP y JavaScript.",
 		"mgLong": "Herramientas internas full-stack en PHP y JavaScript, con esquemas relacionales pequeños llevados del diagrama E-R a MySQL.",
@@ -251,7 +251,7 @@
 			"t": "Un estándar que vigila el linter",
 			"k": "Ingeniería",
 			"h": "Un estándar de código que nadie tiene que recordar",
-			"d": "No había convenciones. Escribí una arquitectura por capas como reglas de lint, con límites de tamaño y complejidad por capa y sin any, además de la estrategia de ramas, la CI y las comprobaciones antes de fusionar. Lo escribí cuando éramos dos desarrolladores y aguantó mientras el equipo crecía.",
+			"d": "No había convenciones. Escribí una arquitectura por capas como reglas de lint, con límites de tamaño y complejidad por capa y sin any, además de la estrategia de ramas, la CI y los checks previos al merge. Lo escribí cuando éramos dos desarrolladores y aguantó mientras el equipo crecía.",
 			"n": [
 				[
 					"Un commit",
@@ -263,7 +263,7 @@
 				],
 				[
 					"CI",
-					"antes de fusionar"
+					"antes del merge"
 				],
 				[
 					"main",
@@ -273,9 +273,9 @@
 			"a": "Un commit pasa las reglas de lint y la CI antes de llegar a main"
 		},
 		"product": {
-			"t": "Una plataforma multiempresa",
+			"t": "Una plataforma multi-tenant",
 			"k": "Producto",
-			"h": "Una plataforma, y cada empresa con la suya",
+			"h": "Una plataforma multi-tenant: cada empresa, con la suya",
 			"d": "Permisos por rol, tema por empresa y departamento, itinerarios, presupuestos y módulos de costes con fórmulas. En producción.",
 			"n": [
 				[
@@ -291,7 +291,7 @@
 					"sus módulos"
 				]
 			],
-			"a": "Dos empresas comparten plataforma, cada una con su tema y sus módulos"
+			"a": "Dos empresas comparten una plataforma multi-tenant, cada una con su tema y sus módulos"
 		},
 		"cloud": {
 			"t": "Gestión de viajes en Azure",
@@ -318,10 +318,10 @@
 			"t": "Dos becarios, ahora juniors",
 			"k": "Personas",
 			"h": "De becario a desarrollador junior",
-			"d": "Acogida, tareas partidas en piezas pequeñas, revisiones de código y resolución de incidencias, hasta que los dos trabajaron por su cuenta sobre el estándar del equipo.",
+			"d": "Onboarding, tareas partidas en piezas pequeñas, code reviews y resolución de incidencias, hasta que los dos trabajaron por su cuenta sobre el estándar del equipo.",
 			"n": [
 				[
-					"Acogida",
+					"Onboarding",
 					"el estándar"
 				],
 				[
@@ -329,7 +329,7 @@
 					"revisables"
 				],
 				[
-					"Revisión",
+					"Code review",
 					"cada PR"
 				],
 				[
@@ -337,7 +337,7 @@
 					"por su cuenta"
 				]
 			],
-			"a": "Acogida, tareas pequeñas y revisiones hasta tener dos juniors"
+			"a": "Onboarding, tareas pequeñas y code reviews hasta tener dos juniors"
 		}
 	},
 	"work": {
@@ -425,7 +425,7 @@
 				"el jugador"
 			],
 			[
-				"Reglas Firestore",
+				"Reglas de Firestore",
 				"quién escribe qué"
 			],
 			[

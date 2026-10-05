@@ -37,8 +37,8 @@ export default function WorkThemes({ prefix = 'home', level = 3, caseHref }: { p
 		const nodes = Array.from(panel.current.querySelectorAll<SVGGElement>('.node'));
 		const wires = Array.from(panel.current.querySelectorAll<SVGPathElement>('.wire'));
 		const tl = createTimeline({ defaults: { ease: 'outQuart' } });
-		tl.add(panel.current, { opacity: [0, 1], y: [10, 0], duration: 450 }, 0);
-		nodes.forEach((n, i) => tl.add(n, { opacity: [0, 1], y: [10, 0], duration: 450 }, 120 + i * 220));
+		tl.add(panel.current, { opacity: [0, 1], y: ['0.625rem', '0rem'], duration: 450 }, 0);
+		nodes.forEach((n, i) => tl.add(n, { opacity: [0, 1], y: ['0.625rem', '0rem'], duration: 450 }, 120 + i * 220));
 		wires.forEach((wire, i) => tl.add(svg.createDrawable(wire), { draw: ['0 0', '0 1'], duration: 520, ease: 'inOutQuad' }, 300 + i * 220));
 	}, [sel]);
 

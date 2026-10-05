@@ -24,6 +24,7 @@ const es = JSON.stringify(flat('es'));
 <html lang="en" data-lang="en" data-theme="auto">
 	<head>
 		<BaseHead title={title ?? t(titleKey)} description={t(descriptionKey)} />
+		<slot name="head" />
 	</head>
 	<body data-title-key={title ? undefined : titleKey}>
 		<T k="ui.skip" as="a" class="skip" href="#main" />

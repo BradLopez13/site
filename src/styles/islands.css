@@ -338,7 +338,7 @@ html.js .pan {
 	display: grid;
 	gap: 1.5rem 2.5rem;
 }
-/* The commit in the code caption: a real link, 44px tall without making the caption taller. */
+/* The commit in the code caption: a real link, 2.75rem tall without making the caption taller. */
 .code-commit {
 	flex: none;
 	align-self: center;

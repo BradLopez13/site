@@ -6,17 +6,17 @@ export default function Chain({ nodes, label, me = [], keyBase, draw }: { nodes:
 		<svg className="diagram" viewBox={`-4 0 ${w + 8} ${h}`} role="img" aria-label={label} data-draw={draw ? '' : undefined}>
 			{nodes.slice(0, -1).map((_, i) => {
 				const x = i * (nw + gap);
-				return <path key={`w${i}`} className="wire" d={`M${x + nw + 2} ${h / 2} H${x + nw + gap - 2}`} />;
+				return <path key={`w${i}`} className="wire" strokeWidth={2} d={`M${x + nw + 2} ${h / 2} H${x + nw + gap - 2}`} />;
 			})}
 			{nodes.map(([t, s], i) => {
 				const x = i * (nw + gap);
 				return (
 					<g key={i} className={me.includes(i) ? 'node me' : 'node'}>
-						<rect x={x} y={8} width={nw} height={h - 16} rx={10} />
-						<text x={x + 14} y={44} data-i18n={keyBase ? `${keyBase}.${i}.0` : undefined}>
+						<rect x={x} y={8} width={nw} height={h - 16} rx={10} strokeWidth={1.5} />
+						<text x={x + 14} y={44} fontSize={15} data-i18n={keyBase ? `${keyBase}.${i}.0` : undefined}>
 							{t}
 						</text>
-						<text className="s" x={x + 14} y={68} data-i18n={keyBase ? `${keyBase}.${i}.1` : undefined}>
+						<text className="s" x={x + 14} y={68} fontSize={13} data-i18n={keyBase ? `${keyBase}.${i}.1` : undefined}>
 							{s}
 						</text>
 					</g>

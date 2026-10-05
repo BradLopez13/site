@@ -85,7 +85,7 @@ export function drawDiagram(d: Element) {
 	nodes.forEach((n) => (n.style.opacity = '0'));
 	wires.forEach((w) => (w.style.opacity = '0'));
 	const tl = createTimeline({ defaults: { ease: 'outQuart' } });
-	nodes.forEach((n, i) => tl.add(n, { opacity: [0, 1], y: [10, 0], duration: 500 }, i * 260));
+	nodes.forEach((n, i) => tl.add(n, { opacity: [0, 1], y: ['0.625rem', '0rem'], duration: 500 }, i * 260));
 	wires.forEach((w, i) => {
 		w.style.opacity = '1';
 		tl.add(svg.createDrawable(w), { draw: ['0 0', '0 1'], duration: 600, ease: 'inOutQuad' }, 200 + i * 260);
@@ -102,7 +102,7 @@ if (!reduce) {
 		rest.forEach((e) => (e.style.opacity = '0'));
 		const tl = createTimeline({ defaults: { ease: 'outExpo' } });
 		tl.add(chars, { opacity: [0, 1], y: ['40%', '0%'], duration: 900, delay: stagger(14) }, 100);
-		if (rest.length) tl.add(rest, { opacity: [0, 1], y: [16, 0], duration: 700, delay: stagger(90) }, 520);
+		if (rest.length) tl.add(rest, { opacity: [0, 1], y: ['1rem', '0rem'], duration: 700, delay: stagger(90) }, 520);
 		tl.then(() => chars.forEach((c) => { c.style.removeProperty('transform'); c.style.removeProperty('opacity'); }));
 	}
 
@@ -116,7 +116,7 @@ if (!reduce) {
 			if (el.hasAttribute('data-split')) enterTitle(el);
 			else drawDiagram(el);
 		}),
-		{ rootMargin: '0px 0px -12% 0px' },
+		{ rootMargin: '0% 0% -12% 0%' },
 	);
 	titles.forEach((h, i) => {
 		h.dataset.v = variants[i % variants.length];
@@ -130,7 +130,7 @@ if (!reduce) {
 		if (h.dataset.v === 'rot') animate(w, { y: ['110%', '0%'], rotate: [7, 0], duration: 1000, delay: stagger(55), ease: 'outQuart' });
 		else if (h.dataset.v === 'blur') {
 			w.forEach((e) => (e.style.transform = 'none'));
-			animate(w, { opacity: [0, 1], filter: ['blur(10px)', 'blur(0px)'], y: [18, 0], duration: 900, delay: stagger(70), ease: 'outQuart' });
+			animate(w, { opacity: [0, 1], filter: ['blur(0.625rem)', 'blur(0rem)'], y: ['1.125rem', '0rem'], duration: 900, delay: stagger(70), ease: 'outQuart' });
 		} else animate(w, { y: ['110%', '0%'], duration: 900, delay: stagger(40), ease: 'outExpo' });
 	}
 }
