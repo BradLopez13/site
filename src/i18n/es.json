@@ -113,7 +113,9 @@
 		"description": "Brad López escribe software pensando en cómo puede romperse: sus proyectos, en vivo, y su trabajo profesional, explicado.",
 		"workTitle": "Mi trabajo, por Brad López",
 		"aboutTitle": "Sobre Brad López",
-		"writingTitle": "Artículos de Brad López"
+		"writingTitle": "Artículos de Brad López",
+		"reservasTitle": "Reservas · Brad López",
+		"casinoTitle": "Casino Online · Brad López"
 	},
 	"ui": {
 		"skip": "Saltar al contenido",
@@ -183,7 +185,8 @@
 			"text": "Una app de reservas de pistas en Madrid que nunca vende la misma franja dos veces. La hice para descubrir qué pasa cuando cincuenta personas reservan la misma pista en el mismo segundo, y para demostrar la solución.",
 			"role": "Todo: diseño, API, web, tests y despliegue",
 			"tagline": "Cincuenta personas, una pista, el mismo segundo. Hecha para descubrir qué pasa y demostrarlo.",
-			"kind": "Proyecto propio, de código abierto"
+			"kind": "Proyecto propio, de código abierto",
+			"name": "Reservas"
 		},
 		"casino": {
 			"alt": "Mesa de blackjack de Casino Online: la banca muestra un as y el jugador tiene 10 y 7",
@@ -194,7 +197,8 @@
 			"text": "Un casino con dinero ficticio cuyo único servidor son sus reglas de seguridad. Firestore decide qué puede leer y escribir cada jugador, y los tests cubren esas reglas.",
 			"role": "Proyecto final del ciclo, en solitario",
 			"tagline": "Un casino cuyo único servidor son sus reglas de seguridad.",
-			"roleCase": "Proyecto final del ciclo de desarrollo web, en solitario"
+			"roleCase": "Proyecto final del ciclo de desarrollo web, en solitario",
+			"name": "Casino Online"
 		}
 	},
 	"how": {

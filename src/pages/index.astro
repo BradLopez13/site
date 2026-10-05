@@ -40,10 +40,10 @@ import reservasShot from '../assets/shots/reservas-home.jpg';
 			</div>
 			<article class="grid grid-cols-1 gap-y-8 gap-x-[clamp(2rem,5vw,4.5rem)] items-start *:min-w-0 xl:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
 				<div>
-					<LiveWindow url={LINKS.reservasDemo} name="Reservas" shot={reservasShot} altKey="projects.reservas.alt" titleKey="projects.reservas.liveTitle" noteKey="projects.reservas.note" noteOnKey="ui.liveOn" />
+					<LiveWindow url={LINKS.reservasDemo} nameKey="projects.reservas.name" shot={reservasShot} altKey="projects.reservas.alt" titleKey="projects.reservas.liveTitle" noteKey="projects.reservas.note" noteOnKey="ui.liveOn" />
 				</div>
 				<div>
-					<h3 class="disp h-m">Reservas</h3>
+					<T k="projects.reservas.name" as="h3" class="disp h-m" />
 					<T k="projects.reservas.text" as="p" class="text-[1.15rem] mt-4 mb-0" />
 					<dl class="my-5 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 text-[0.97rem] [&_dt]:text-soft [&_dd]:m-0"><T k="ui.role" as="dt" /><T k="projects.reservas.role" as="dd" /><T k="ui.stack" as="dt" /><dd>Fastify, PostgreSQL, Drizzle, Zod, React, Playwright</dd></dl>
 					<p class="links"><a class="btn btn-ink btn-sm" href="/work/reservas/"><T k="ui.readCase" /></a><a href={LINKS.reservasRepo}><T k="ui.code" /></a></p>
@@ -51,10 +51,10 @@ import reservasShot from '../assets/shots/reservas-home.jpg';
 			</article>
 			<article class="grid grid-cols-1 gap-y-8 gap-x-[clamp(2rem,5vw,4.5rem)] items-start *:min-w-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.45fr)] mt-[clamp(4rem,8vw,7rem)]">
 				<div class="xl:order-2">
-					<LiveWindow url={LINKS.casinoDemo} name="Casino Online" shot={casinoShot} altKey="projects.casino.alt" titleKey="projects.casino.liveTitle" noteKey="projects.casino.note" />
+					<LiveWindow url={LINKS.casinoDemo} nameKey="projects.casino.name" shot={casinoShot} altKey="projects.casino.alt" titleKey="projects.casino.liveTitle" noteKey="projects.casino.note" />
 				</div>
 				<div>
-					<h3 class="disp h-m">Casino Online</h3>
+					<T k="projects.casino.name" as="h3" class="disp h-m" />
 					<T k="projects.casino.text" as="p" class="text-[1.15rem] mt-4 mb-0" />
 					<dl class="my-5 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 text-[0.97rem] [&_dt]:text-soft [&_dd]:m-0"><T k="ui.role" as="dt" /><T k="projects.casino.role" as="dd" /><T k="ui.stack" as="dt" /><dd>Angular 19, Firebase, Firestore rules</dd></dl>
 					<p class="links"><a class="btn btn-ink btn-sm" href="/work/casino-online/"><T k="ui.readCase" /></a><a href={LINKS.casinoRepo}><T k="ui.code" /></a></p>

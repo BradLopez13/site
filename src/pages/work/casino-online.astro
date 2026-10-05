@@ -8,10 +8,10 @@ import Base from '../../layouts/Base.astro';
 import shot from '../../assets/shots/casino-blackjack.webp';
 ---
 
-<Base current="projects" title="Casino Online · Brad López">
+<Base current="projects" titleKey="meta.casinoTitle">
 	<section class="wrap case-hero">
 		<a class="crumb" href="/#mine"><T k="ui.myProjects" /></a>
-		<h1 class="disp load text-[clamp(2.2rem,8vw,8.5rem)]">Casino Online</h1>
+		<T k="projects.casino.name" as="h1" class="disp load text-[clamp(2.2rem,8vw,8.5rem)]" />
 		<T k="projects.casino.tagline" as="p" class="lede text-[clamp(1.25rem,2vw,1.6rem)] max-w-[34ch]" />
 		<dl class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-6 rule-t-fg [&_dt]:text-[0.9rem] [&_dt]:text-soft [&_dd]:m-0 [&_dd]:mt-1.5 [&_dd]:font-semibold">
 			<div><T k="ui.role" as="dt" /><T k="projects.casino.roleCase" as="dd" /></div>
@@ -20,7 +20,7 @@ import shot from '../../assets/shots/casino-blackjack.webp';
 		</dl>
 	</section>
 	<section class="wrap">
-		<LiveWindow url={LINKS.casinoDemo} name="Casino Online" shot={shot} altKey="projects.casino.altCase" titleKey="projects.casino.liveTitle" noteKey="projects.casino.noteCase" />
+		<LiveWindow url={LINKS.casinoDemo} nameKey="projects.casino.name" shot={shot} altKey="projects.casino.altCase" titleKey="projects.casino.liveTitle" noteKey="projects.casino.noteCase" />
 	</section>
 	<section class="wrap case-block mt-12">
 		<div><T k="cases.casinoWhat" as="h2" class="disp h-m" data-split /></div>

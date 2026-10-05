@@ -13,10 +13,10 @@ const hasArticle = (await getArticles('en')).some((a) => a.slug === '50-requests
 const decisions = [1, 2, 3] as const;
 ---
 
-<Base current="projects" title="Reservas · Brad López">
+<Base current="projects" titleKey="meta.reservasTitle">
 	<section class="wrap case-hero">
 		<a class="crumb" href="/#mine"><T k="ui.myProjects" /></a>
-		<h1 class="disp h-xl load">Reservas</h1>
+		<T k="projects.reservas.name" as="h1" class="disp h-xl load" />
 		<T k="projects.reservas.tagline" as="p" class="lede text-[clamp(1.25rem,2vw,1.6rem)] max-w-[34ch]" />
 		<dl class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-6 rule-t-fg [&_dt]:text-[0.9rem] [&_dt]:text-soft [&_dd]:m-0 [&_dd]:mt-1.5 [&_dd]:font-semibold">
 			<div><T k="ui.role" as="dt" /><T k="projects.reservas.role" as="dd" /></div>
@@ -25,7 +25,7 @@ const decisions = [1, 2, 3] as const;
 		</dl>
 	</section>
 	<section class="wrap">
-		<LiveWindow url={LINKS.reservasDemo} name="Reservas" shot={shot} altKey="projects.reservas.altCase" titleKey="projects.reservas.liveTitle" noteKey="projects.reservas.note" noteOnKey="ui.liveOn" />
+		<LiveWindow url={LINKS.reservasDemo} nameKey="projects.reservas.name" shot={shot} altKey="projects.reservas.altCase" titleKey="projects.reservas.liveTitle" noteKey="projects.reservas.note" noteOnKey="ui.liveOn" />
 	</section>
 	<section class="wrap case-block mt-12">
 		<div><T k="cases.problem" as="h2" class="disp h-m" data-split /><T k="cases.problemSub" as="p" class="muted" /></div>
