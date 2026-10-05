@@ -1,6 +1,6 @@
 ---
 title: '50 requests, one winner: three ways to prevent double bookings in PostgreSQL'
-description: 'Pessimistic locks, optimistic versions and an EXCLUDE constraint, raced against each other in Court Bookings.'
+description: 'Pessimistic locks, optimistic versions and an EXCLUDE constraint, raced against each other in Rally.'
 pubDate: '2026-10-05'
 part: 1
 draft: false
@@ -23,7 +23,7 @@ import RaceDemo from '../../../components/islands/RaceDemo';
 
 ## How it started
 
-My mother told me she and a neighbour had tried to book the same court at the same time. The app gave them both an error, and neither got the booking. I do not know what happened in that app. It got me wondering how to handle a booking when two people click at once, so I built a project to try it out. In Court Bookings, I compared different approaches using simultaneous requests.
+My mother told me she and a neighbour had tried to book the same court at the same time. The app gave them both an error, and neither got the booking. I do not know what happened in that app. It got me wondering how to handle a booking when two people click at once, so I built a project to try it out. In Rally, I compared different approaches using simultaneous requests.
 
 ## What happens between checking and saving
 

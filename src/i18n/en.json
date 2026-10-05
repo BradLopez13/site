@@ -41,7 +41,7 @@
 		},
 		"created": "201 Created",
 		"occupied": "409 PISTA_OCUPADA",
-		"caption": "A simulation of the race test in Court Bookings; timings are illustrative.",
+		"caption": "A simulation of the race test in Rally; timings are illustrative.",
 		"people": "Fifty people press Book on the same slot.",
 		"ready": "50 requests, ready",
 		"run": "Run the race",
@@ -114,8 +114,8 @@
 		"workTitle": "My work, by Brad López",
 		"aboutTitle": "About Brad López",
 		"writingTitle": "Writing by Brad López",
-		"reservasTitle": "Court Bookings · Brad López",
-		"casinoTitle": "Online Casino · Brad López"
+		"reservasTitle": "Rally · Brad López",
+		"casinoTitle": "Meridian · Brad López"
 	},
 	"ui": {
 		"skip": "Skip to content",
@@ -178,32 +178,32 @@
 	},
 	"projects": {
 		"reservas": {
-			"alt": "Court Bookings home page with the court list (the app is in Spanish)",
-			"altCase": "Court Bookings court page with the day strip and time slots (in Spanish)",
-			"liveTitle": "Court Bookings, the live app",
+			"alt": "Rally home page with the court list (the app is in Spanish)",
+			"altCase": "Rally court page with the day strip and time slots (in Spanish)",
+			"liveTitle": "Rally, the live app",
 			"note": "Loads the deployed app only when you ask, so this page stays fast. The app is in Spanish: it books padel courts in Madrid.",
 			"text": "Court bookings in Madrid that never sell the same slot twice. I built it to find out what happens when fifty people book the same court in the same second, and to prove the fix.",
 			"role": "Everything: design, API, web, tests, deploy",
 			"tagline": "Fifty people, one court, the same second. Built to find out what happens, and to prove it.",
 			"kind": "My own project, open source",
-			"name": "Court Bookings"
+			"name": "Rally"
 		},
 		"casino": {
-			"alt": "Online Casino blackjack table: the dealer shows an ace, the player holds 10 and 7",
-			"altCase": "Online Casino blackjack game",
-			"liveTitle": "Online Casino, the live app",
+			"alt": "Meridian blackjack table: the dealer shows an ace, the player holds 10 and 7",
+			"altCase": "Meridian blackjack game",
+			"liveTitle": "Meridian, the live app",
 			"note": "My degree’s final project, 2025. Play money only; to play, create a free account.",
 			"noteCase": "Play money only. To play, create a free account; sign-in opens in its own tab.",
 			"text": "A play-money casino whose only server is its security rules. Firestore decides what each player can read and write, and tests cover the rules.",
 			"role": "Final degree project, on my own",
 			"tagline": "A casino whose only server is its security rules.",
 			"roleCase": "Final project of my web development degree, on my own",
-			"name": "Online Casino"
+			"name": "Meridian"
 		}
 	},
 	"how": {
 		"r1t": "Decide before coding",
-		"r1d": "A plan and short decision records first: the problem, the options, why this one. Court Bookings keeps them in docs/adr.",
+		"r1d": "A plan and short decision records first: the problem, the options, why this one. Rally keeps them in docs/adr.",
 		"r2t": "Let the tools hold the rules",
 		"r2d": "If a convention matters, a linter or a CI check enforces it, not a wiki page.",
 		"r3t": "Test against the real thing",
@@ -230,7 +230,7 @@
 	"edu": {
 		"masterT": "Professional Master’s in Cybersecurity Management and Offensive Security,",
 		"dawT": "Web application development (DAW).",
-		"dawD": "Final project: Online Casino.",
+		"dawD": "Final project: Meridian, an online casino.",
 		"damT": "Multiplatform application development (DAM).",
 		"damD": "Java, databases, desktop and mobile.",
 		"also": "Also",
@@ -378,7 +378,7 @@
 		"problem": "The problem",
 		"problemSub": "Two requests, one slot, a few milliseconds apart.",
 		"problemText": "Both requests read that the slot is free, both insert, and the court is sold twice. Reading, checking and inserting is exactly the code that fails under load.",
-		"problemHold": "My mother told me she and a neighbour had tried to book the same court at the same time. The app gave them both an error, and neither got the booking. That got me wondering how to handle two people trying to book the same slot. I built Court Bookings to try it out and find a way for one booking to succeed without saving duplicates.",
+		"problemHold": "My mother told me she and a neighbour had tried to book the same court at the same time. The app gave them both an error, and neither got the booking. That got me wondering how to handle two people trying to book the same slot. I built Rally to try it out and find a way for one booking to succeed without saving duplicates.",
 		"fix": "The fix, run it",
 		"fixSub": "The race from the test suite, in your browser.",
 		"decisions": "Decisions",
@@ -449,7 +449,7 @@
 	},
 	"writing": {
 		"title": "Writing",
-		"lede": "Things I have run into while building software, written down with the code behind them and a demo you can play. Most come from Court Bookings for now; more will come from my team and from whatever I build next.",
+		"lede": "Things I have run into while building software, written down with the code behind them and a demo you can play. Most come from Rally for now; more will come from my team and from whatever I build next.",
 		"p1": "50 requests, one winner",
 		"p1d": "Three ways to prevent double bookings in PostgreSQL.",
 		"p2": "Sessions: opaque cookies you can revoke immediately",
@@ -461,7 +461,7 @@
 		"p5": "From two to six: lint rules by file type, without eslint-disable",
 		"p5d": "How we kept one way of writing code while the team grew from two people to six.",
 		"from": {
-			"reservas": "From Court Bookings",
+			"reservas": "From Rally",
 			"team": "From my team"
 		}
 	},
@@ -469,7 +469,7 @@
 		"reset": "Start again",
 		"log": "What happened",
 		"empty": "Press a button to start.",
-		"note": "A simulation of how Court Bookings behaves; the values are illustrative.",
+		"note": "A simulation of how Rally behaves; the values are illustrative.",
 		"browsers": "Browsers",
 		"browser": "Browser",
 		"sessions": {

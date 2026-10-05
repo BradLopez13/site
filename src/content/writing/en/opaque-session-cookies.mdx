@@ -10,7 +10,7 @@ import SessionsLab from '../../../components/islands/SessionsLab';
 
 ## Why I changed the sessions
 
-I had used JWT at work and started looking into how to keep frontend JavaScript from reading the session token. For Court Bookings, I chose an opaque token in an HttpOnly cookie. I also wanted to close a session or revoke all sessions from the server.
+I had used JWT at work and started looking into how to keep frontend JavaScript from reading the session token. For Rally, I chose an opaque token in an HttpOnly cookie. I also wanted to close a session or revoke all sessions from the server.
 
 These are two separate choices: which token to use and how to store it in the browser. A JWT can also be stored in an HttpOnly cookie. Here, the token is a random value the server uses to look up the session; it does not contain user data.
 
@@ -33,7 +33,7 @@ const opciones = (ctx: Contexto) => ({ httpOnly: true, secure: ctx.config.cookie
 
 `SameSite=Lax` limits when the browser sends the cookie from another site. It allows some navigations to the application, such as following a link. It does not mean every request must come from the same origin: site and origin are different concepts.
 
-In Court Bookings, the proxy makes the web app and API appear under the same origin to the browser. The server also checks `Origin` on requests that change data and rejects those that do not match the configured origin. Together with `SameSite=Lax`, this helps defend against CSRF. It does not establish who is making the request: a client outside the browser can set that header and still has to pass authentication and permission checks.
+In Rally, the proxy makes the web app and API appear under the same origin to the browser. The server also checks `Origin` on requests that change data and rejects those that do not match the configured origin. Together with `SameSite=Lax`, this helps defend against CSRF. It does not establish who is making the request: a client outside the browser can set that header and still has to pass authentication and permission checks.
 
 ## When a session expires
 

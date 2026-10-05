@@ -10,7 +10,7 @@ import IdempotencyLab from '../../../components/islands/IdempotencyLab';
 
 ## Why I added it
 
-At work, I had come across modals that created two quotes and duplicate records. I learned about these problems through experience. In Court Bookings, I wanted a repeated request to avoid creating another booking for the same action.
+At work, I had come across modals that created two quotes and duplicate records. I learned about these problems through experience. In Rally, I wanted a repeated request to avoid creating another booking for the same action.
 
 A double click is one example. Another is when the server saves the booking but the response never reaches the browser. The user cannot tell whether it worked and tries again. I send an idempotency key with the request so the server can recognise that retry.
 

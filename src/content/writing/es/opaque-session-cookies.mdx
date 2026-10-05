@@ -10,7 +10,7 @@ import SessionsLab from '../../../components/islands/SessionsLab';
 
 ## Por qué cambié las sesiones
 
-En mi trabajo había usado JWT y empecé a investigar cómo evitar que el JavaScript del frontend pudiera leer el token de sesión. En Reservas elegí un token opaco en una cookie HttpOnly. También quería poder cerrar una sesión o revocarlas todas desde el servidor.
+En mi trabajo había usado JWT y empecé a investigar cómo evitar que el JavaScript del frontend pudiera leer el token de sesión. En Rally elegí un token opaco en una cookie HttpOnly. También quería poder cerrar una sesión o revocarlas todas desde el servidor.
 
 Son dos decisiones distintas: qué token uso y cómo lo guardo en el navegador. Un JWT también se puede guardar en una cookie HttpOnly. Aquí el token es un valor aleatorio que el servidor usa para buscar la sesión; no contiene los datos del usuario.
 
@@ -33,7 +33,7 @@ const opciones = (ctx: Contexto) => ({ httpOnly: true, secure: ctx.config.cookie
 
 `SameSite=Lax` limita cuándo el navegador envía la cookie desde otro sitio. Permite, por ejemplo, determinadas navegaciones a la aplicación al seguir un enlace. No significa que todas las peticiones tengan que venir del mismo origen: sitio y origen son conceptos distintos.
 
-En Reservas, el proxy permite que el navegador vea la web y la API bajo el mismo origen. Además, el servidor comprueba `Origin` en las peticiones que modifican datos y rechaza las que no coinciden con el origen configurado. Es una defensa frente a CSRF, junto con `SameSite=Lax`. No demuestra quién hace la petición: un cliente ajeno al navegador puede escribir esa cabecera, y sigue necesitando pasar la autenticación y los permisos.
+En Rally, el proxy permite que el navegador vea la web y la API bajo el mismo origen. Además, el servidor comprueba `Origin` en las peticiones que modifican datos y rechaza las que no coinciden con el origen configurado. Es una defensa frente a CSRF, junto con `SameSite=Lax`. No demuestra quién hace la petición: un cliente ajeno al navegador puede escribir esa cabecera, y sigue necesitando pasar la autenticación y los permisos.
 
 ## Cuándo caduca una sesión
 

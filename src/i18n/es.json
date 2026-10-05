@@ -41,7 +41,7 @@
 		},
 		"created": "201 Created",
 		"occupied": "409 PISTA_OCUPADA",
-		"caption": "Una simulación del test de la carrera de reservas; los tiempos son ilustrativos.",
+		"caption": "Una simulación del test de la carrera en Rally; los tiempos son ilustrativos.",
 		"people": "Cincuenta personas pulsan Reservar en la misma franja.",
 		"ready": "50 peticiones, listas",
 		"run": "Lanzar la carrera",
@@ -114,8 +114,8 @@
 		"workTitle": "Mi trabajo, por Brad López",
 		"aboutTitle": "Sobre Brad López",
 		"writingTitle": "Artículos de Brad López",
-		"reservasTitle": "Reservas · Brad López",
-		"casinoTitle": "Casino Online · Brad López"
+		"reservasTitle": "Rally · Brad López",
+		"casinoTitle": "Meridiano · Brad López"
 	},
 	"ui": {
 		"skip": "Saltar al contenido",
@@ -178,32 +178,32 @@
 	},
 	"projects": {
 		"reservas": {
-			"alt": "Portada de Reservas con la lista de pistas",
-			"altCase": "Página de una pista en Reservas con la tira de días y las franjas",
-			"liveTitle": "Reservas, la app en vivo",
+			"alt": "Portada de Rally con la lista de pistas",
+			"altCase": "Página de una pista en Rally con la tira de días y las franjas",
+			"liveTitle": "Rally, la app en vivo",
 			"note": "Carga la app desplegada solo cuando la pides, para que esta página siga siendo rápida. Reserva pistas de pádel en Madrid.",
 			"text": "Una app de reservas de pistas en Madrid que nunca vende la misma franja dos veces. La hice para descubrir qué pasa cuando cincuenta personas reservan la misma pista en el mismo segundo, y para demostrar la solución.",
 			"role": "Todo: diseño, API, web, tests y despliegue",
 			"tagline": "Cincuenta personas, una pista, el mismo segundo. Hecha para descubrir qué pasa y demostrarlo.",
 			"kind": "Proyecto propio, de código abierto",
-			"name": "Reservas"
+			"name": "Rally"
 		},
 		"casino": {
-			"alt": "Mesa de blackjack de Casino Online: la banca muestra un as y el jugador tiene 10 y 7",
-			"altCase": "Partida de blackjack en Casino Online",
-			"liveTitle": "Casino Online, la app en vivo",
+			"alt": "Mesa de blackjack de Meridiano: la banca muestra un as y el jugador tiene 10 y 7",
+			"altCase": "Partida de blackjack en Meridiano",
+			"liveTitle": "Meridiano, la app en vivo",
 			"note": "El proyecto final de mi ciclo, 2025. Solo dinero ficticio; para jugar, crea una cuenta gratis.",
 			"noteCase": "Solo dinero ficticio. Para jugar hace falta crear una cuenta gratis; el inicio de sesión se abre en su propia pestaña.",
 			"text": "Un casino con dinero ficticio cuyo único servidor son sus reglas de seguridad. Firestore decide qué puede leer y escribir cada jugador, y los tests cubren esas reglas.",
 			"role": "Proyecto final del ciclo, en solitario",
 			"tagline": "Un casino cuyo único servidor son sus reglas de seguridad.",
 			"roleCase": "Proyecto final del ciclo de desarrollo web, en solitario",
-			"name": "Casino Online"
+			"name": "Meridiano"
 		}
 	},
 	"how": {
 		"r1t": "Decidir antes de programar",
-		"r1d": "Primero un plan y ADRs cortos (registros de decisión): el problema, las opciones y por qué esta. Reservas los guarda en docs/adr.",
+		"r1d": "Primero un plan y ADRs cortos (registros de decisión): el problema, las opciones y por qué esta. Rally los guarda en docs/adr.",
 		"r2t": "Que las reglas las guarden las herramientas",
 		"r2d": "Si una convención importa, la hace cumplir un linter o la CI, no una página de wiki.",
 		"r3t": "Probar contra lo real",
@@ -230,7 +230,7 @@
 	"edu": {
 		"masterT": "Máster Profesional en Dirección de Ciberseguridad y Seguridad Ofensiva,",
 		"dawT": "Desarrollo de Aplicaciones Web (DAW).",
-		"dawD": "Proyecto final: Casino Online.",
+		"dawD": "Proyecto final: Meridiano, un casino online.",
 		"damT": "Desarrollo de Aplicaciones Multiplataforma (DAM).",
 		"damD": "Java, bases de datos, escritorio y móvil.",
 		"also": "Además",
@@ -449,7 +449,7 @@
 	},
 	"writing": {
 		"title": "Artículos",
-		"lede": "Cosas con las que me he ido encontrando al hacer software, con el código detrás y una demo para jugar. De momento la mayoría salen de Reservas; irán llegando más de mi equipo y de lo que haga después.",
+		"lede": "Cosas con las que me he ido encontrando al hacer software, con el código detrás y una demo para jugar. De momento la mayoría salen de Rally; irán llegando más de mi equipo y de lo que haga después.",
 		"p1": "50 peticiones, una ganadora",
 		"p1d": "Tres formas de evitar reservas dobles en PostgreSQL.",
 		"p2": "Sesiones: cookies opacas que se revocan al momento",
@@ -461,7 +461,7 @@
 		"p5": "De dos a seis: reglas de lint por tipo de archivo, sin eslint-disable",
 		"p5d": "Cómo mantuvimos una sola forma de escribir código mientras el equipo pasaba de dos a seis personas.",
 		"from": {
-			"reservas": "De Reservas",
+			"reservas": "De Rally",
 			"team": "De mi equipo"
 		}
 	},
@@ -469,7 +469,7 @@
 		"reset": "Empezar de nuevo",
 		"log": "Qué ha pasado",
 		"empty": "Pulsa un botón para empezar.",
-		"note": "Una simulación de cómo se comporta reservas; los valores son ilustrativos.",
+		"note": "Una simulación de cómo se comporta Rally; los valores son ilustrativos.",
 		"browsers": "Navegadores",
 		"browser": "Navegador",
 		"sessions": {

@@ -10,7 +10,7 @@ import IdempotencyLab from '../../../components/islands/IdempotencyLab';
 
 ## Por qué la añadí
 
-En el trabajo me había encontrado con modales que creaban dos presupuestos y con registros duplicados. Son cosas que fui descubriendo con la experiencia. En Reservas quería que repetir una petición no creara otra reserva para la misma acción.
+En el trabajo me había encontrado con modales que creaban dos presupuestos y con registros duplicados. Son cosas que fui descubriendo con la experiencia. En Rally quería que repetir una petición no creara otra reserva para la misma acción.
 
 Un doble clic es un ejemplo, pero también puede pasar que el servidor guarde la reserva y la respuesta no llegue al navegador. El usuario no sabe si ha funcionado y vuelve a intentarlo. Para reconocer ese reintento, mando una clave de idempotencia junto con la petición.
 
