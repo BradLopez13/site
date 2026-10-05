@@ -276,10 +276,19 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .band .diagram .wire { stroke: var(--band-accent); }
 
 /* Rules, experience, writing */
-.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 2rem 3rem; }
-.rules dt { font-family: var(--display); font-variation-settings: "wdth" 104, "wght" 760; font-size: 1.35rem; line-height: 1.1; }
-.rules dd { margin: 0.5rem 0 0; color: var(--soft); }
-.ai-line { margin-top: 3rem; padding: 1.5rem 1.75rem; border-radius: 1rem; background: var(--bg-2); font-size: 1.15rem; max-width: 52rem; }
+/* How I work: four rules on one grid. Titles share a row (subgrid), so every description starts on the same line;
+   each rule has a rule line on top, like the rows in Experience and Writing */
+.rules { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(2rem, 4vw, 4.5rem); row-gap: 2.5rem; }
+.rules > div { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0.6rem; padding-top: 1.25rem; border-top: 0.0625rem solid var(--line); }
+.rules dt { font-family: var(--display); font-variation-settings: "wdth" 104, "wght" 760; font-size: clamp(1.2rem, 1.5vw, 1.4rem); line-height: 1.15; }
+.rules dd { margin: 0; color: var(--soft); }
+@media (max-width: 60em) { .rules { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 36em) { .rules { grid-template-columns: minmax(0, 1fr); } }
+/* How he uses AI: a row on the same grid, its title in the first column and the text across the rest */
+.ai-line { margin: clamp(2.5rem, 5vw, 3.5rem) 0 0; padding-top: 1.25rem; border-top: 0.0625rem solid var(--fg); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(2rem, 4vw, 4.5rem); row-gap: 0.6rem; font-size: 1.15rem; line-height: 1.55; }
+.ai-line b { font-family: var(--display); font-variation-settings: "wdth" 104, "wght" 760; font-size: clamp(1.2rem, 1.5vw, 1.4rem); line-height: 1.15; }
+.ai-line > span { grid-column: 2 / -1; max-width: 52rem; }
+@media (max-width: 60em) { .ai-line { grid-template-columns: minmax(0, 1fr); } .ai-line > span { grid-column: auto; } }
 .path { list-style: none; margin: 0; padding: 0; }
 .path li { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; padding: 1.1rem 0; border-top: 0.0625rem solid var(--line); transition: opacity 0.35s var(--out); }
 .path:hover li:not(:hover) { opacity: 0.4; }
