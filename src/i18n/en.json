@@ -446,7 +446,7 @@
 	},
 	"writing": {
 		"title": "Writing",
-		"lede": "A four-part series on what it took to make Reservas hold up, with the code behind every claim.",
+		"lede": "A four-part series on what it took to make Reservas hold up. Each part has a demo you can play and the code behind every claim.",
 		"part": "Part {n}",
 		"p1": "50 requests, one winner",
 		"p1d": "Three ways to prevent double bookings in PostgreSQL.",

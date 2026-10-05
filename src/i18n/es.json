@@ -446,7 +446,7 @@
 	},
 	"writing": {
 		"title": "Artículos",
-		"lede": "Una serie de cuatro partes sobre lo que hizo falta para que Reservas aguante, con el código detrás de cada afirmación.",
+		"lede": "Una serie de cuatro partes sobre lo que hizo falta para que Reservas aguante. Cada parte tiene una demo para jugar y el código de cada afirmación.",
 		"part": "Parte {n}",
 		"p1": "50 peticiones, una ganadora",
 		"p1d": "Tres formas de evitar reservas dobles en PostgreSQL.",
