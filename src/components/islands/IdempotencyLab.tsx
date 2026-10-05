@@ -23,7 +23,13 @@ export default function IdempotencyLab({ lang }: { lang: Lang }) {
 	const s = t.idem;
 	const [key, setKey] = useState(1);
 	const [court, setCourt] = useState<Court>(1);
-	const [lose, setLose] = useState(false);
+	const [lose, setLoseState] = useState(false);
+	// Read and cleared synchronously: a double click delivers two responses in one event, and only the first may go missing.
+	const loseNext = useRef(false);
+	const setLose = (v: boolean) => {
+		loseNext.current = v;
+		setLoseState(v);
+	};
 	const [busy, setBusy] = useState(false);
 	const [seen, setSeen] = useState<string>(s.nothingYet);
 	const [, render] = useState(0);
@@ -72,7 +78,7 @@ export default function IdempotencyLab({ lang }: { lang: Lang }) {
 	};
 
 	const deliver = (r: { status: string; tone: Tone; text: string }) => {
-		if (lose) {
+		if (loseNext.current) {
 			// Only the next response goes missing; the retry that follows gets through.
 			setLose(false);
 			setSeen(s.seenLost);
@@ -135,7 +141,7 @@ export default function IdempotencyLab({ lang }: { lang: Lang }) {
 					<Btn onClick={withNewKey}>{s.newKey}</Btn>
 					<Btn onClick={otherCourt}>{s.change}</Btn>
 					<Btn onClick={doubleClick}>{s.double}</Btn>
-					<Btn onClick={() => setLose((v) => !v)} pressed={lose}>
+					<Btn onClick={() => setLose(!lose)} pressed={lose}>
 						{s.lose}
 					</Btn>
 					<Btn onClick={() => setBusy((v) => !v)} pressed={busy}>

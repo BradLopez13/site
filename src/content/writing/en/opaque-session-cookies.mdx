@@ -37,7 +37,9 @@ In Reservas, the proxy makes the web app and API appear under the same origin to
 
 ## When a session expires
 
-I set expiration to seven days without activity, with a maximum of thirty days from login. I do not have a specific reason for those two values, and I did not choose them based on a study. They are the limits configured in the project.
+I set expiration to seven days without activity, with a maximum of thirty days from login. People usually open the app once or twice a week to book the whole week, so seven days covers the gap between one visit and the next. If more than a week goes by without logging in, the session expires.
+
+Thirty days is the overall limit, even if the session keeps being used. A month seems reasonable to me: it is about as long as a holiday, and anything can have changed by the time you come back, so you log in again.
 
 Activity can extend a session, but never beyond thirty days after it was created. The backend checks expiration even if the browser still has the cookie. Having a stored token is not enough to remain authenticated.
 

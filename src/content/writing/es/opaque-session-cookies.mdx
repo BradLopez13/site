@@ -37,7 +37,9 @@ En Reservas, el proxy permite que el navegador vea la web y la API bajo el mismo
 
 ## Cuándo caduca una sesión
 
-Dejé la caducidad en siete días sin actividad y treinta días como máximo desde el login. No tengo una razón concreta para esos dos valores ni los elegí a partir de un estudio. Son los plazos configurados en el proyecto.
+Dejé la caducidad en siete días sin actividad y treinta días como máximo desde el login. Lo normal es entrar una o dos veces por semana para reservar la semana entera, así que siete días cubren el tiempo entre una visita y la siguiente. Si pasa más de una semana sin entrar, la sesión caduca.
+
+Los treinta días son el límite total, aunque la sesión se siga usando. Un mes me parece razonable: es lo que pueden durar unas vacaciones, y al volver puede haber cambiado cualquier cosa, así que toca iniciar sesión de nuevo.
 
 La actividad puede alargar la sesión, pero nunca más allá de los treinta días desde que se creó. El backend comprueba la caducidad aunque el navegador todavía tenga la cookie. Tener un token guardado no basta para seguir autenticado.
 
