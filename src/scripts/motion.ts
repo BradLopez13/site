@@ -164,6 +164,9 @@ $$('[data-live]').forEach((box) => {
 		const f = document.createElement('iframe');
 		f.src = box.dataset.live!;
 		f.title = box.dataset.title || 'Live app';
+		window.addEventListener('langchange', () => {
+			if (f.isConnected) f.title = box.dataset.title || f.title;
+		});
 		f.setAttribute('referrerpolicy', 'no-referrer');
 		show('loading');
 		// The deployed app answers in a few seconds; past fifteen, say so and point to its own tab.

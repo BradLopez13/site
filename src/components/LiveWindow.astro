@@ -20,7 +20,7 @@ const { url, name, shot, altKey, titleKey, noteKey, noteOnKey } = Astro.props;
 const host = new URL(url).host;
 ---
 
-<div class="live" data-live={url} data-title={t(titleKey)}>
+<div class="live" data-live={url} data-title={t(titleKey)} data-i18n-attr={`data-title:${titleKey}`}>
 	<div class="live-bar">
 		<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
 		<span class="url">{host}</span>
