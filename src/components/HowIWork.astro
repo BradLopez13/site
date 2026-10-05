@@ -1,0 +1,17 @@
+---
+// How Brad works: four rules, each with where it shows, and how he uses AI.
+import T from './T.astro';
+const rules = [1, 2, 3, 4] as const;
+---
+
+<dl class="rules">
+	{
+		rules.map((n) => (
+			<div>
+				<T k={`how.r${n}t`} as="dt" />
+				<T k={`how.r${n}d`} as="dd" />
+			</div>
+		))
+	}
+</dl>
+<p class="ai-line"><T k="how.aiTitle" as="b" /> <T k="how.ai" /></p>

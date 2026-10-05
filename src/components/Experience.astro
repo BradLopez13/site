@@ -1,0 +1,27 @@
+---
+// Experience and education lists, shared by the home and About. Current role first; years only.
+import T from './T.astro';
+
+interface Props {
+	which: 'experience' | 'education';
+}
+const { which } = Astro.props;
+---
+
+{
+	which === 'experience' ? (
+		<ol class="path">
+			<li><T k="exp.since" class="y" /><span><T k="exp.vbT" as="b" /> <T k="exp.vbD" /></span></li>
+			<li><span class="y">2025</span><span><T k="exp.mgT" as="b" /> <T k="exp.mgD" /></span></li>
+			<li><span class="y">2024</span><span><T k="exp.dlT" as="b" /> <T k="exp.dlD" /></span></li>
+			<li><span class="y">2023</span><span><T k="exp.tuT" as="b" /> <T k="exp.tuD" /></span></li>
+		</ol>
+	) : (
+		<ol class="path">
+			<li><span class="y">2026</span><span><T k="edu.masterT" as="b" /> EIP International Business School.</span></li>
+			<li><span class="y">2025</span><span><T k="edu.dawT" as="b" /> <T k="edu.dawD" /></span></li>
+			<li><span class="y">2023</span><span><T k="edu.damT" as="b" /> <T k="edu.damD" /></span></li>
+			<li><T k="edu.also" class="y" /><T k="edu.alsoD" /></li>
+		</ol>
+	)
+}

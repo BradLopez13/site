@@ -1,66 +1,49 @@
 ---
-// Global styles for every page.
+// Head for every page: one route per page, English in the HTML, the visitor's language and theme
+// applied before the first paint so there is no flash of the other language or theme.
 import '../styles/global.css';
-import '../styles/islands.css';
 import { SITE_TITLE } from '../consts';
-import { Font, getImage } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import brad from '../assets/brad.jpg';
-import { base, langFromUrl, switchPath } from '../i18n';
 
 interface Props {
 	title: string;
 	description: string;
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const lang = langFromUrl(Astro.url);
-// The same page in each language, so search engines pair them.
-const alternates = (['en', 'es'] as const).map((l) => ({ l, href: new URL(switchPath(Astro.url.pathname, l), Astro.site) }));
-
 const { title, description } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 // His portrait as the preview when a link to the site is shared (LinkedIn, email, chat).
 const ogImage = await getImage({ src: brad, width: 1200, format: 'jpg' });
 const ogImageUrl = new URL(ogImage.src, Astro.site);
 ---
 
-<!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />
-<link
-	rel="alternate"
-	type="application/rss+xml"
-	title={SITE_TITLE}
-	href={new URL(`${base(lang)}/rss.xml`, Astro.site)}
-/>
-<meta name="generator" content={Astro.generator} />
-
-<Font cssVariable="--font-display" preload />
-<Font cssVariable="--font-body" preload />
-<Font cssVariable="--font-mono" />
-<meta name="theme-color" content="#e4e6ea" />
-<!-- Motion starts hidden only when JS runs and the visitor allows motion (animacion-ui rule 6). -->
-<script is:inline>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('js')</script>
-
-<!-- Canonical URL -->
+<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={new URL('/rss.xml', Astro.site)} />
+<link rel="preload" href="/fonts/anybody.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin />
+<!-- Language and theme before paint: a saved choice wins, then the browser's language and the system theme. -->
+<script is:inline>
+	(function () {
+		var r = document.documentElement, l = null, t = null;
+		try { l = localStorage.getItem('lang'); t = localStorage.getItem('theme'); } catch (e) {}
+		if (l !== 'en' && l !== 'es') l = /^es\b/i.test(navigator.language || '') ? 'es' : 'en';
+		r.dataset.lang = l;
+		r.lang = l;
+		r.dataset.theme = t === 'light' || t === 'dark' ? t : 'auto';
+	})();
+</script>
 <link rel="canonical" href={canonicalURL} />
-{alternates.map((a) => <link rel="alternate" hreflang={a.l} href={a.href} />)}
-<link rel="alternate" hreflang="x-default" href={alternates[0].href} />
-<meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_GB'} />
-
-<!-- Primary Meta Tags -->
 <title>{title}</title>
+<meta name="title" content={title} />
 <meta name="description" content={description} />
-
-<!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImageUrl} />
-<meta property="og:image:alt" content="Brad López" />
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:image" content={ogImageUrl} />
+<meta name="twitter:card" content="summary_large_image" />

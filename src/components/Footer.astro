@@ -1,141 +1,25 @@
 ---
 import { LINKS } from '../consts';
-import { base, dict, langFromUrl } from '../i18n';
-import { getArticles } from '../lib/content';
+import type { Key } from '../i18n';
+import T from './T.astro';
 
 interface Props {
-	lead?: string;
+	leadKey?: Key;
 }
-
-const lang = langFromUrl(Astro.url);
-const t = dict(lang).footer;
-// The feed is linked once there is something in it.
-const hasArticles = (await getArticles(lang)).length > 0;
-const { lead = t.lead } = Astro.props;
+const { leadKey = 'footer.lead' } = Astro.props;
 ---
 
-<footer class="band-dark dark wrap site-footer" id="contact">
-	<p class="lead">{lead}</p>
-	<div class="mail-row">
+<footer class="band foot">
+	<div class="wrap">
+		<T k={leadKey} as="p" class="muted" style="margin:0 0 1.25rem;font-size:1.15rem;max-width:44ch" />
 		<a class="mail" href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
-		<!-- For visitors without a mail client, where mailto does nothing. Hidden until the script can
-		     reach the clipboard; the address above stays readable and selectable either way. -->
-		<button type="button" class="copy" hidden data-email={LINKS.email} data-done={t.copied}>
-			<span class="copy-label">{t.copy}</span>
-		</button>
-		<span class="sr-only copy-status" aria-live="polite"></span>
-	</div>
-	<div class="bottom">
-		<div class="row" style="--gap: 1.75rem">
-			<a href={LINKS.linkedin}>LinkedIn</a>
-			<a href={LINKS.github}>GitHub</a>
-			{hasArticles && <a href={`${base(lang)}/rss.xml`}>RSS</a>}
+		<div class="foot-row">
+			<T k="footer.place" class="muted" />
+			<span class="links">
+				<button class="btn btn-line btn-sm" type="button" data-copy={LINKS.email} hidden><T k="ui.copyEmail" /></button>
+				<a href={LINKS.github}>GitHub</a>
+				<a href={LINKS.linkedin}>LinkedIn</a>
+			</span>
 		</div>
-		<span class="muted">{t.place}</span>
 	</div>
 </footer>
-
-<script>
-	const btn = document.querySelector<HTMLButtonElement>('.site-footer .copy');
-	const status = document.querySelector('.site-footer .copy-status');
-	if (btn && navigator.clipboard) {
-		btn.hidden = false;
-		const label = btn.querySelector('.copy-label')!;
-		const idle = label.textContent;
-		let timer = 0;
-		btn.addEventListener('click', async () => {
-			try {
-				await navigator.clipboard.writeText(btn.dataset.email!);
-			} catch {
-				return;
-			}
-			label.textContent = btn.dataset.done!;
-			if (status) status.textContent = btn.dataset.done!;
-			btn.classList.add('done');
-			clearTimeout(timer);
-			timer = window.setTimeout(() => {
-				label.textContent = idle;
-				if (status) status.textContent = '';
-				btn.classList.remove('done');
-			}, 2000);
-		});
-	}
-</script>
-
-<style>
-	.mail-row {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.75rem 1.5rem;
-	}
-	.copy {
-		display: inline-flex;
-		align-items: center;
-		min-height: 2.75rem;
-		padding: 0 1.125rem;
-		border: 0.125rem solid var(--line-on-ink);
-		border-radius: 99em;
-		background: transparent;
-		color: var(--paper);
-		font-weight: 700;
-		font-size: 0.875rem;
-	}
-	.copy:hover {
-		border-color: var(--violet-soft);
-	}
-	/* Copied reads as done for two seconds: the selected fill, then back. */
-	.copy.done {
-		border-color: var(--violet);
-		background: var(--violet);
-		color: var(--white);
-	}
-	.copy[hidden] {
-		display: none;
-	}
-	.site-footer {
-		margin-top: auto;
-		display: flex;
-		flex-direction: column;
-		gap: clamp(1.25rem, 3vw, 2.5rem);
-		padding-block: clamp(2.5rem, 6vw, 5.5rem) 2rem;
-	}
-	.lead {
-		max-width: 40ch;
-		font-size: clamp(1.125rem, 1.8vw, 1.5rem);
-		line-height: 1.45;
-	}
-	.mail {
-		font-family: var(--font-display);
-		font-weight: 800;
-		font-size: clamp(1.0625rem, 4.4vw, 3.75rem);
-		letter-spacing: -0.02em;
-		color: var(--violet-soft);
-		text-decoration: none;
-		overflow-wrap: anywhere;
-		/* A 44px target even at the smallest size of the type. */
-		min-height: 2.75rem;
-		padding-block: 0.375rem;
-		align-self: flex-start;
-		max-width: 100%;
-	}
-	.bottom .row a {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 2.75rem;
-		min-height: 2.75rem;
-	}
-	.bottom {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		gap: 1rem;
-		padding-top: 1.5rem;
-		border-top: 0.0625rem solid var(--ink-2);
-		font-weight: 600;
-	}
-	.bottom .muted {
-		font-weight: 400;
-	}
-</style>

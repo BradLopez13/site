@@ -1,0 +1,84 @@
+---
+import LiveWindow from '../../components/LiveWindow.astro';
+import T from '../../components/T.astro';
+import Chain from '../../components/islands/Chain';
+import Race from '../../components/islands/Race';
+import { LINKS } from '../../consts';
+import en from '../../i18n/en.json';
+import { getArticles } from '../../lib/content';
+import Base from '../../layouts/Base.astro';
+import shot from '../../assets/shots/reservas-franjas.jpg';
+
+const hasArticle = (await getArticles('en')).some((a) => a.slug === '50-requests-one-winner');
+const decisions = [1, 2, 3] as const;
+---
+
+<Base current="projects" title="Reservas · Brad López">
+	<section class="wrap case-hero">
+		<a class="crumb" href="/#mine"><T k="ui.myProjects" /></a>
+		<h1 class="disp h-xl load">Reservas</h1>
+		<T k="projects.reservas.tagline" as="p" class="lede" style="font-size:clamp(1.25rem,2vw,1.6rem);max-width:34ch" />
+		<dl class="case-facts">
+			<div><T k="ui.role" as="dt" /><T k="projects.reservas.role" as="dd" /></div>
+			<div><T k="ui.kind" as="dt" /><T k="projects.reservas.kind" as="dd" /></div>
+			<div><T k="ui.stack" as="dt" /><dd>Fastify, PostgreSQL, Drizzle, Zod, React, Playwright</dd></div>
+		</dl>
+	</section>
+	<section class="wrap">
+		<LiveWindow url={LINKS.reservasDemo} shot={shot} altKey="projects.reservas.altCase" titleKey="projects.reservas.liveTitle" noteKey="projects.reservas.note" noteOnKey="ui.liveOn" />
+	</section>
+	<section class="wrap block" style="margin-top:3rem">
+		<div><T k="cases.problem" as="h2" class="disp h-m" data-split /><T k="cases.problemSub" as="p" class="muted" /></div>
+		<div class="prose">
+			<T k="cases.problemText" as="p" />
+			<p><T k="cases.problemHold" class="placeholder" /></p>
+			<div style="max-width:40rem"><Chain nodes={en.cases.diagramProblem} label={en.cases.diagramProblemA} me={[2]} keyBase="cases.diagramProblem" draw /></div>
+		</div>
+	</section>
+	<section class="wrap block">
+		<div><T k="cases.fix" as="h2" class="disp h-m" data-split /><T k="cases.fixSub" as="p" class="muted" /></div>
+		<div>
+			<Race client:visible />
+			<div style="margin-top:2.5rem"><Chain nodes={en.cases.diagramFix} label={en.cases.diagramFixA} me={[2]} keyBase="cases.diagramFix" draw /></div>
+		</div>
+	</section>
+	<section class="wrap block">
+		<div><T k="cases.decisions" as="h2" class="disp h-m" data-split /><T k="cases.decisionsSub" as="p" class="muted" /></div>
+		<div>
+			{
+				decisions.map((n, i) => (
+					<details class="decision" open={i === 0}>
+						<T k={`cases.d${n}t`} as="summary" />
+						<div class="body">
+							<T k={`cases.d${n}w`} as="p" />
+							<p><T k="ui.rejected" as="b" /> <T k={`cases.d${n}r`} /></p>
+						</div>
+					</details>
+				))
+			}
+		</div>
+	</section>
+	<section class="wrap block">
+		<div><T k="cases.result" as="h2" class="disp h-m" data-split /><T k="cases.resultSub" as="p" class="muted" /></div>
+		<div class="terminal">
+			<div class="cap">pnpm --filter @reservas/api exec vitest run estrategias</div>
+			<pre><span class="ok">✓</span> estrategia pesimista › 50 peticiones simultáneas por la última franja: exactamente una gana
+<span class="ok">✓</span> estrategia optimista › 50 peticiones simultáneas por la última franja: exactamente una gana
+<span class="ok">✓</span> estrategia exclude › 50 peticiones simultáneas por la última franja: exactamente una gana
+<span class="ok">✓</span> estrategia exclude › 50 franjas libres del mismo día: ninguna recibe PISTA_OCUPADA
+… 11 more
+Tests  15 passed (15)</pre>
+		</div>
+	</section>
+	<section class="wrap block">
+		<div><T k="cases.learned" as="h2" class="disp h-m" data-split /></div>
+		<div class="prose">
+			<p><T k="cases.learnedHold1" class="placeholder" /></p>
+			<p><T k="cases.learnedHold2" class="placeholder" /></p>
+			<p class="links">
+				{hasArticle && <a class="btn btn-ink" href="/writing/50-requests-one-winner/"><T k="cases.longVersion" /></a>}
+				<a href={LINKS.reservasRepo}><T k="ui.code" /></a>
+			</p>
+		</div>
+	</section>
+</Base>

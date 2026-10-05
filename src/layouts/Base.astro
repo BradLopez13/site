@@ -2,58 +2,53 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_TITLE } from '../consts';
-import { dict, langFromUrl } from '../i18n';
+import T from '../components/T.astro';
+import { flat, t, type Key } from '../i18n';
 
 interface Props {
+	titleKey?: Key;
+	descriptionKey?: Key;
+	/** A literal title (an article's own title), used when no key fits. */
 	title?: string;
-	description?: string;
-	footerLead?: string;
+	current?: 'projects' | 'work' | 'about' | 'writing';
+	footerKey?: Key;
 }
 
-const lang = langFromUrl(Astro.url);
-const { title, description = dict(lang).meta.description, footerLead } = Astro.props;
+const { titleKey = 'meta.title', descriptionKey = 'meta.description', title, current, footerKey } = Astro.props;
+// The Spanish texts, applied synchronously at the end of the body when the visitor reads Spanish,
+// before the first paint; the bundled i18n script takes over for later switches.
+const es = JSON.stringify(flat('es'));
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang="en" data-lang="en" data-theme="auto">
 	<head>
-		<BaseHead title={title ? `${title} · ${SITE_TITLE}` : `${SITE_TITLE} · ${dict(lang).meta.role}`} description={description} />
+		<BaseHead title={title ?? t(titleKey)} description={t(descriptionKey)} />
 	</head>
-	<body>
-		<a class="skip" href="#main">{dict(lang).common.skip}</a>
-		<Header />
+	<body data-title-key={title ? undefined : titleKey}>
+		<T k="ui.skip" as="a" class="skip" href="#main" />
+		<Header current={current} />
 		<main id="main" tabindex="-1">
 			<slot />
 		</main>
-		<Footer lead={footerLead} />
-		<script>
-			// Plays each entrance once, as its block is about to scroll into view: the margin reaches 10%
-			// below the fold, so a tall block (the race panel) has started before the visitor arrives
-			// and a fast scroll never lands on an empty band.
-			const selector = '[data-a], [data-stagger], .split, .drawx, .typelines, .stack3d';
-			if (document.documentElement.classList.contains('js')) {
-				const io = new IntersectionObserver(
-					(entries) => {
-						for (const e of entries) {
-							if (e.isIntersecting) {
-								e.target.classList.add('in');
-								io.unobserve(e.target);
-							}
-						}
-					},
-					{ rootMargin: '0% 0% 10% 0%', threshold: 0 },
-				);
-				document.querySelectorAll(selector).forEach((el) => io.observe(el));
+		<Footer leadKey={footerKey} />
+		<script is:inline define:vars={{ es }}>
+			if (document.documentElement.dataset.lang === 'es') {
+				var d = JSON.parse(es);
+				document.querySelectorAll('[data-i18n]').forEach(function (el) {
+					var s = d[el.dataset.i18n];
+					if (s == null) return;
+					var v = el.dataset.i18nVars ? JSON.parse(el.dataset.i18nVars) : {};
+					el.textContent = s.replace(/\{(\w+)\}/g, function (m, k) { return k in v ? v[k] : m; });
+				});
+				document.querySelectorAll('[data-i18n-attr]').forEach(function (el) {
+					el.dataset.i18nAttr.split(';').forEach(function (p) { var a = p.split(':'); if (d[a[1]] != null) el.setAttribute(a[0], d[a[1]]); });
+				});
 			}
+		</script>
+		<script>
+			import '../scripts/i18n';
+			import '../scripts/motion';
 		</script>
 	</body>
 </html>
-
-<style>
-	body {
-		min-height: 100vh;
-		display: flex;
-		flex-direction: column;
-	}
-</style>

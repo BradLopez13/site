@@ -1,0 +1,129 @@
+---
+import { Image } from 'astro:assets';
+import Experience from '../components/Experience.astro';
+import HowIWork from '../components/HowIWork.astro';
+import LiveWindow from '../components/LiveWindow.astro';
+import T from '../components/T.astro';
+import Race from '../components/islands/Race';
+import WorkThemes from '../components/islands/WorkThemes';
+import { LINKS } from '../consts';
+import { getArticles } from '../lib/content';
+import Base from '../layouts/Base.astro';
+import brad from '../assets/brad.jpg';
+import casinoShot from '../assets/shots/casino-table.webp';
+import reservasShot from '../assets/shots/reservas-home.jpg';
+
+// Only link to articles that exist in this build: drafts stay out of production.
+const published = new Set((await getArticles('en')).map((a) => a.slug));
+const parts = [
+	{ n: 1, title: 'writing.p1', text: 'writing.p1d', slug: '50-requests-one-winner' },
+	{ n: 2, title: 'writing.p2' },
+	{ n: 3, title: 'writing.p3' },
+	{ n: 4, title: 'writing.p4' },
+] as const;
+---
+
+<Base current="projects">
+	<!-- Who he is first, in his own words; the work follows as evidence -->
+	<section class="wrap hero">
+		<T k="home.title" as="h1" class="disp h-xl load" />
+		<div class="hero-row" data-after-load>
+			<Image src={brad} alt="Brad López" widths={[300, 600]} sizes="(min-width: 60em) 17rem, 6.5rem" loading="eager" fetchpriority="high" />
+			<div style="display:flex;flex-direction:column;gap:.9rem">
+				<T k="home.byline" as="p" style="margin:0;font-weight:600;font-size:1.15rem" />
+				<T k="home.lede" as="p" class="lede" style="margin:0" />
+				<p class="muted" style="margin:0;font-size:.95rem">React, TypeScript, Node.js, Express, Azure</p>
+			</div>
+			<div class="hero-ctas">
+				<a class="btn btn-ink" href={`mailto:${LINKS.email}`}><T k="ui.writeMe" /></a>
+				<span class="links"><a href={LINKS.github}>GitHub</a><a href={LINKS.linkedin}>LinkedIn</a></span>
+			</div>
+		</div>
+	</section>
+
+	<!-- What he built on his own: live, usable in the page -->
+	<section id="mine" class="section" style="padding-top:clamp(2rem,4vw,3rem)">
+		<div class="wrap">
+			<div class="head">
+				<T k="home.mineTitle" as="h2" class="disp h-l" data-split />
+				<T k="home.mineLede" as="p" class="lede muted" style="margin:0" />
+			</div>
+			<article class="project">
+				<div>
+					<LiveWindow url={LINKS.reservasDemo} shot={reservasShot} altKey="projects.reservas.alt" titleKey="projects.reservas.liveTitle" noteKey="projects.reservas.note" noteOnKey="ui.liveOn" />
+				</div>
+				<div>
+					<h3 class="disp h-m">Reservas</h3>
+					<T k="projects.reservas.text" as="p" style="font-size:1.15rem;margin:1rem 0 0" />
+					<dl class="facts"><T k="ui.role" as="dt" /><T k="projects.reservas.role" as="dd" /><T k="ui.stack" as="dt" /><dd>Fastify, PostgreSQL, Drizzle, Zod, React, Playwright</dd></dl>
+					<p class="links"><a class="btn btn-ink btn-sm" href="/work/reservas/"><T k="ui.readCase" /></a><a href={LINKS.reservasRepo}><T k="ui.code" /></a></p>
+				</div>
+			</article>
+			<Race client:visible />
+			<article class="project flip" style="margin-top:clamp(4rem,8vw,7rem)">
+				<div>
+					<LiveWindow url={LINKS.casinoDemo} shot={casinoShot} altKey="projects.casino.alt" titleKey="projects.casino.liveTitle" noteKey="projects.casino.note" />
+				</div>
+				<div>
+					<h3 class="disp h-m">Casino Online</h3>
+					<T k="projects.casino.text" as="p" style="font-size:1.15rem;margin:1rem 0 0" />
+					<dl class="facts"><T k="ui.role" as="dt" /><T k="projects.casino.role" as="dd" /><T k="ui.stack" as="dt" /><dd>Angular 19, Firebase, Firestore rules</dd></dl>
+					<p class="links"><a class="btn btn-ink btn-sm" href="/work/casino-online/"><T k="ui.readCase" /></a><a href={LINKS.casinoRepo}><T k="ui.code" /></a></p>
+				</div>
+			</article>
+			<div class="two" style="margin-top:clamp(4rem,8vw,6rem);padding-top:2rem;border-top:1px solid var(--line)">
+				<div><T k="home.casaTitle" as="h3" class="disp h-m" /></div>
+				<div>
+					<T k="home.casaText" as="p" style="margin:0;font-size:1.1rem" />
+					<p class="links" style="margin-top:.75rem"><a href="https://github.com/BradLopez13/casa"><T k="ui.followCode" /></a></p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- His professional work: private, explained by its shape -->
+	<section id="work" class="section band">
+		<div class="wrap">
+			<div class="head">
+				<T k="home.workTitle" as="h2" class="disp h-l" data-split />
+				<T k="home.workLede" as="p" class="lede muted" style="margin:0" />
+			</div>
+			<WorkThemes client:visible prefix="home" caseHref="/my-work/#integration" />
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="head"><T k="home.howTitle" as="h2" class="disp h-l" data-split /></div>
+			<HowIWork />
+		</div>
+	</section>
+
+	<section class="section" style="padding-top:0">
+		<div class="wrap two">
+			<div><T k="home.expTitle" as="h2" class="disp h-m" data-split /><div style="margin-top:1.5rem"><Experience which="experience" /></div></div>
+			<div><T k="home.eduTitle" as="h2" class="disp h-m" data-split /><div style="margin-top:1.5rem"><Experience which="education" /></div></div>
+		</div>
+		<div class="wrap" style="margin-top:2rem"><a class="btn btn-line" href="/about/"><T k="ui.moreAboutMe" /></a></div>
+	</section>
+
+	<section class="section" style="padding-top:0">
+		<div class="wrap two">
+			<div>
+				<T k="home.writingTitle" as="h2" class="disp h-m" data-split />
+				<T k="home.writingLede" as="p" class="muted" style="margin:1rem 0 0;max-width:40ch" />
+			</div>
+			<ul class="series">
+				{
+					parts.map((p) =>
+						'slug' in p && published.has(p.slug) ? (
+							<li><a href={`/writing/${p.slug}/`}><T k="writing.part" vars={{ n: p.n }} class="p" /><span><T k={p.title} as="b" class="disp h-s" /><br /><T k={p.text} class="muted" /></span></a></li>
+						) : (
+							<li><span class="soon"><T k="writing.part" vars={{ n: p.n }} class="p" /><T k={p.title} /></span></li>
+						),
+					)
+				}
+			</ul>
+		</div>
+	</section>
+</Base>

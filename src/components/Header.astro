@@ -1,215 +1,43 @@
 ---
-import { LINKS, SITE_TITLE } from '../consts';
-import { base, dict, langFromUrl, switchPath } from '../i18n';
-import { getArticles } from '../lib/content';
+import { LINKS } from '../consts';
+import T from './T.astro';
 
-const lang = langFromUrl(Astro.url);
-const t = dict(lang);
-const b = base(lang);
-const other = lang === 'en' ? 'es' : 'en';
-// Writing joins the menu the day the first article is published; until then it would lead nowhere.
-const hasArticles = (await getArticles(lang)).length > 0;
-const links = [
-	{ href: `${b}/work/`, label: t.nav.work },
-	...(hasArticles ? [{ href: `${b}/writing/`, label: t.nav.writing }] : []),
-	{ href: `${b}/about/`, label: t.nav.about },
-];
-const path = Astro.url.pathname;
-const current = (href: string) => path.startsWith(href);
-const switchHref = switchPath(path, other);
+interface Props {
+	current?: 'projects' | 'work' | 'about' | 'writing';
+}
+const { current } = Astro.props;
+const items = [
+	{ href: '/#mine', key: 'nav.projects', id: 'projects' },
+	{ href: '/my-work/', key: 'nav.work', id: 'work' },
+	{ href: '/about/', key: 'nav.about', id: 'about' },
+	{ href: '/writing/', key: 'nav.writing', id: 'writing' },
+] as const;
+const ico = (path: string, cls: string) => `<svg class="ico ${cls}" width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="${path}"/></svg>`;
+const SUN = 'M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z';
+const MOON = 'M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.36A88,88,0,0,1,65.64,67.09,89,89,0,0,1,96,49.27a104.06,104.06,0,0,0,110.73,110.73A89,89,0,0,1,188.9,190.36Z';
+const AUTO = 'M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,16.37a88,88,0,0,1,0,175.26Z';
 ---
 
-<header class="wrap site-header">
-	<a class="brand" href={`${b}/`}>{SITE_TITLE}</a>
-	<nav aria-label={t.nav.main} class="nav-wide">
-		{
-			links.map((l) => (
-				<a href={l.href} aria-current={current(l.href) ? 'page' : undefined}>
-					{l.label}
-				</a>
-			))
-		}
-		<a class="lang" href={switchHref} hreflang={other} lang={other} aria-label={t.meta.otherLangLabel}>{other.toUpperCase()}</a>
-		<a class="contact" href={`mailto:${LINKS.email}`}>{t.common.writeMe}</a>
-	</nav>
-	<!-- On a phone the contact pill stays in the bar, never only in the menu: writing to him is the
-	     page's whole job. Below 24em the language switch moves into the menu to make room for it. -->
-	<div class="small-nav">
-		<a class="contact" href={`mailto:${LINKS.email}`}>{t.common.writeMe}</a>
-		<a class="lang lang-bar" href={switchHref} hreflang={other} lang={other} aria-label={t.meta.otherLangLabel}>{other.toUpperCase()}</a>
-		<details class="nav-menu">
-			<summary aria-label={t.nav.menu}>
-				<svg class="icon-open" width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
-					><path d="M0 1h18M0 11h18"></path></svg
-				>
-				<svg class="icon-close" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
-					><path d="M1 1l12 12M13 1L1 13"></path></svg
-				>
-			</summary>
-			<nav aria-label={t.nav.main}>
-				{
-					links.map((l) => (
-						<a href={l.href} aria-current={current(l.href) ? 'page' : undefined}>
-							{l.label}
-						</a>
-					))
-				}
-				<a class="lang-menu" href={switchHref} hreflang={other} lang={other}>{t.meta.otherLang}</a>
-			</nav>
-		</details>
+<header class="top">
+	<div class="wrap">
+		<a class="brand" href="/">Brad López</a>
+		<nav class="nav" data-i18n-attr="aria-label:ui.mainNav" aria-label="Main">
+			{items.map((i) => <T k={i.key} as="a" class="opt" href={i.href} aria-current={current === i.id ? 'page' : undefined} />)}
+			<button class="lang" type="button" data-lang-toggle data-i18n-attr="aria-label:ui.langSwitch" aria-label="Leer en español">
+				<T k="ui.langShort" />
+			</button>
+			<button
+				class="theme-btn"
+				type="button"
+				data-theme-toggle
+				data-l-auto="ui.themeAuto"
+				data-l-light="ui.themeLight"
+				data-l-dark="ui.themeDark"
+				data-i18n-attr="aria-label:ui.themeAuto"
+				aria-label="Theme: system. Switch to light"
+				set:html={ico(SUN, 'i-light') + ico(MOON, 'i-dark') + ico(AUTO, 'i-auto')}
+			/>
+			<a class="btn btn-ink btn-sm" href={`mailto:${LINKS.email}`}><T k="ui.writeMe" /></a>
+		</nav>
 	</div>
 </header>
-
-<script>
-	// The menu is a native <details>, so it opens and closes without JS. This adds what a menu is
-	// expected to do on top: close on Escape (focus back on the button), on a tap outside, and when
-	// a link is chosen.
-	const menu = document.querySelector<HTMLDetailsElement>('.nav-menu');
-	if (menu) {
-		const close = (refocus: boolean) => {
-			if (!menu.open) return;
-			menu.open = false;
-			if (refocus) menu.querySelector('summary')?.focus();
-		};
-		document.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape') close(menu.contains(document.activeElement));
-		});
-		document.addEventListener('click', (e) => {
-			if (!menu.contains(e.target as Node)) close(false);
-		});
-		menu.querySelector('nav')?.addEventListener('click', (e) => {
-			if ((e.target as Element).closest('a')) close(false);
-		});
-	}
-</script>
-
-<style>
-	.site-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding-block: 1.25rem;
-		position: relative;
-		z-index: 10;
-	}
-	.brand {
-		font-family: var(--font-display);
-		font-weight: 800;
-		font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
-		text-decoration: none;
-		white-space: nowrap;
-	}
-	.nav-wide {
-		display: none;
-		align-items: center;
-		gap: 0.5rem;
-		font-weight: 600;
-	}
-	.nav-wide a {
-		padding: 0.625rem 1rem;
-		border-radius: 99em;
-		text-decoration: none;
-	}
-	.nav-wide a[aria-current='page'] {
-		background: var(--white);
-	}
-	.contact {
-		background: var(--ink);
-		color: var(--paper);
-	}
-	.contact:hover {
-		color: var(--violet-soft);
-	}
-	.small-nav .contact {
-		display: inline-flex;
-		align-items: center;
-		min-height: 2.75rem;
-		padding: 0 1rem;
-		border-radius: 99em;
-		font-weight: 700;
-		font-size: 0.875rem;
-		text-decoration: none;
-		white-space: nowrap;
-	}
-	.lang-menu {
-		display: none;
-	}
-	@media (max-width: 23.99em) {
-		.small-nav .lang-bar {
-			display: none;
-		}
-		.nav-menu nav .lang-menu {
-			display: block;
-		}
-	}
-	.lang {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 2.75rem;
-		min-height: 2.75rem;
-		border: 0.125rem solid currentColor;
-		border-radius: 99em;
-		font-weight: 700;
-		font-size: 0.875rem;
-		letter-spacing: 0.04em;
-		text-decoration: none;
-	}
-	.small-nav {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-	.nav-menu summary {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.75rem;
-		height: 2.75rem;
-		border-radius: 99em;
-		background: var(--ink);
-		color: var(--paper);
-		cursor: pointer;
-		list-style: none;
-	}
-	.nav-menu summary::-webkit-details-marker {
-		display: none;
-	}
-	.nav-menu .icon-close,
-	.nav-menu[open] .icon-open {
-		display: none;
-	}
-	.nav-menu[open] .icon-close {
-		display: block;
-	}
-	.nav-menu nav {
-		position: absolute;
-		right: var(--gutter);
-		top: 4.5rem;
-		display: flex;
-		flex-direction: column;
-		min-width: 13.75rem;
-		padding: 0.5rem;
-		border-radius: 1.25rem;
-		background: var(--ink);
-		color: var(--paper);
-		box-shadow: 0 1.25rem 2.5rem rgb(0 0 0 / 0.25);
-	}
-	.nav-menu nav a {
-		padding: 0.875rem 1rem;
-		border-radius: 0.75rem;
-		font-weight: 700;
-		text-decoration: none;
-	}
-	.nav-menu nav a[aria-current='page'] {
-		background: var(--ink-2);
-	}
-	@media (min-width: 56em) {
-		.nav-wide {
-			display: flex;
-		}
-		.small-nav {
-			display: none;
-		}
-	}
-</style>

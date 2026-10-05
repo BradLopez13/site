@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import Experience from '../components/Experience.astro';
+import HowIWork from '../components/HowIWork.astro';
+import T from '../components/T.astro';
+import { LINKS } from '../consts';
+import Base from '../layouts/Base.astro';
+import brad from '../assets/brad.jpg';
+---
+
+<Base current="about" titleKey="meta.aboutTitle" footerKey="footer.leadAbout">
+	<section class="wrap hero">
+		<T k="about.title" as="h1" class="disp h-xl load" />
+		<div class="hero-row" data-after-load>
+			<Image src={brad} alt="Brad López" widths={[300, 600]} sizes="(min-width: 60em) 17rem, 6.5rem" loading="eager" />
+			<div style="display:flex;flex-direction:column;gap:.9rem">
+				<T k="about.lede" as="p" class="lede" style="margin:0;max-width:52ch" />
+				<T k="about.security" as="p" class="lede muted" style="margin:0;max-width:52ch" />
+			</div>
+			<div class="hero-ctas"><a class="btn btn-ink" href={`mailto:${LINKS.email}`}><T k="ui.writeMe" /></a></div>
+		</div>
+	</section>
+	<section class="section" style="padding-top:0">
+		<div class="wrap">
+			<div class="head"><T k="home.howTitle" as="h2" class="disp h-l" data-split /></div>
+			<HowIWork />
+		</div>
+	</section>
+	<section class="section" style="padding-top:0">
+		<div class="wrap two">
+			<div><T k="home.expTitle" as="h2" class="disp h-m" data-split /><div style="margin-top:1.5rem"><Experience which="experience" /></div></div>
+			<div><T k="home.eduTitle" as="h2" class="disp h-m" data-split /><div style="margin-top:1.5rem"><Experience which="education" /></div></div>
+		</div>
+	</section>
+	<section class="section" style="padding-top:0">
+		<div class="wrap">
+			<div class="head">
+				<T k="about.knowTitle" as="h2" class="disp h-m" data-split />
+				<T k="about.knowLede" as="p" class="muted" style="margin:0;max-width:56ch" />
+			</div>
+			<div class="three">
+				<div><T k="about.prod" as="b" class="disp h-s" /><p class="muted">TypeScript, React, Node.js, Express, REST APIs, MongoDB, Cosmos DB, Azure Storage, GitHub Actions, Docker, Jest, ESLint.</p></div>
+				<div><T k="about.own" as="b" class="disp h-s" /><p class="muted">Fastify, PostgreSQL, Drizzle, Zod, Vitest, Testcontainers, Playwright, Angular 19, Firebase, Supabase, Expo.</p></div>
+				<div><T k="about.before" as="b" class="disp h-s" /><p class="muted">Java, Python, PHP, MySQL, Power BI, Android Studio.</p></div>
+			</div>
+		</div>
+	</section>
+</Base>

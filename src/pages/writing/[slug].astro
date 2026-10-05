@@ -1,0 +1,42 @@
+---
+// One route per article: both language versions render, and only the visitor's language shows.
+import { render } from 'astro:content';
+import '../../styles/islands.css';
+import T from '../../components/T.astro';
+import { series } from '../../data/series';
+import { getArticles } from '../../lib/content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+	const es = await getArticles('es');
+	return (await getArticles('en')).map((article) => ({
+		params: { slug: article.slug },
+		props: { article, translation: es.find((e) => e.slug === article.slug) },
+	}));
+}
+
+const { article, translation } = Astro.props;
+const { Content } = await render(article);
+const Es = translation ? (await render(translation)).Content : null;
+const part = series.find((s) => s.slug === article.slug)?.part ?? 1;
+---
+
+<Base current="writing" title={`${article.data.title} · Brad López`}>
+	<article class="wrap" style="padding-block:clamp(2.5rem,6vw,5rem)">
+		<a class="crumb" href="/writing/"><T k="writing.seriesCrumb" vars={{ n: part }} /></a>
+		<div lang="en" data-only={Es ? 'en' : undefined}>
+			<h1 class="disp h-l" style="max-width:18ch">{article.data.title}</h1>
+			<p class="lede" style="margin-top:1rem">{article.data.description}</p>
+			<div class="article prose-legacy"><Content /></div>
+		</div>
+		{
+			Es && translation && (
+				<div lang="es" data-only="es">
+					<h1 class="disp h-l" style="max-width:18ch">{translation.data.title}</h1>
+					<p class="lede" style="margin-top:1rem">{translation.data.description}</p>
+					<div class="article prose-legacy"><Es /></div>
+				</div>
+			)
+		}
+	</article>
+</Base>

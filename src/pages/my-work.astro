@@ -1,0 +1,45 @@
+---
+import T from '../components/T.astro';
+import Chain from '../components/islands/Chain';
+import WorkThemes from '../components/islands/WorkThemes';
+import { pick } from '../i18n';
+import en from '../i18n/en.json';
+import Base from '../layouts/Base.astro';
+---
+
+<Base current="work" titleKey="meta.workTitle">
+	<!-- What he works on now, then the case he can tell, then the rest of his history -->
+	<section class="band" style="padding-block:clamp(3rem,7vw,6rem) clamp(4rem,8vw,7rem)">
+		<div class="wrap">
+			<div class="head">
+				<T k="work.title" as="h1" class="disp h-xl load" />
+				<T k="work.lede" as="p" class="lede muted" style="margin:0" />
+			</div>
+			<T k="work.now" as="h2" class="disp h-m" style="margin-bottom:2rem" />
+			<WorkThemes client:visible prefix="vb" level={3} />
+		</div>
+	</section>
+	<section id="integration" class="wrap block">
+		<div>
+			<T k="work.caseTitle" as="h2" class="disp h-m" data-split />
+			<T k="work.caseSub" as="p" class="muted" />
+		</div>
+		<div class="prose">
+			<T k="work.caseText" as="p" />
+			<p><T k="work.caseHold" class="placeholder" /></p>
+			<Chain nodes={pick(en, 'themes.integration.n') as string[][]} label={en.themes.integration.a} me={[1]} keyBase="themes.integration.n" draw />
+			<T k="work.diagramNote" as="p" class="muted" style="margin-top:1.5rem;font-size:.95rem" />
+		</div>
+	</section>
+	<section class="wrap block">
+		<div>
+			<T k="work.before" as="h2" class="disp h-m" data-split />
+			<T k="work.beforeSub" as="p" class="muted" />
+		</div>
+		<ol class="path">
+			<li><span class="y">2025</span><span><T k="exp.mgT" as="b" /> <T k="exp.mgLong" /></span></li>
+			<li><span class="y">2024</span><span><T k="exp.dlT" as="b" /> <T k="exp.dlLong" /></span></li>
+			<li><span class="y">2023</span><span><T k="exp.tuT" as="b" /> <T k="exp.tuLong" /></span></li>
+		</ol>
+	</section>
+</Base>

@@ -1,24 +1,4 @@
 {
-	"meta": {
-		"description": "Full-stack developer in Madrid. React, TypeScript, Node.js and Azure, built thinking about how it breaks.",
-		"otherLang": "Español",
-		"otherLangLabel": "ES, leer en español",
-		"role": "Full-stack developer"
-	},
-	"nav": {
-		"main": "Main",
-		"menu": "Menu",
-		"work": "Work",
-		"writing": "Writing",
-		"about": "About"
-	},
-	"footer": {
-		"lead": "A question about anything here, or just want to talk shop? I answer every email.",
-		"leadAbout": "Want to ask how something here works, or argue about it? Write to me.",
-		"place": "Madrid, Spain. EU citizen.",
-		"copy": "Copy email",
-		"copied": "Copied"
-	},
 	"common": {
 		"readStory": "Read the story",
 		"hideStory": "Hide the story",
@@ -45,250 +25,6 @@
 		"skip": "Skip to content",
 		"openApp": "Open the app"
 	},
-	"home": {
-		"title": "I build software thinking about how it breaks.",
-		"byline": "Brad López, full‑stack developer in Madrid",
-		"lede": "I wrote my team’s engineering standard and CI when we were two developers, and it held as the team grew. A master’s in offensive security taught me to read my own code the way an attacker would.",
-		"seeWork": "See my work",
-		"profilesLabel": "Elsewhere",
-		"cv": "CV (PDF)",
-		"pause": "Pause motion",
-		"photoAlt": "Brad López",
-		"liveTitle": "Deployed and running. Open them.",
-		"liveLede": "Two apps I built and deployed: court bookings, and my degree’s final project.",
-		"screensLabel": "reservas screens",
-		"screens": {
-			"courts": {
-				"label": "Courts",
-				"alt": "reservas home page with the court list (the app’s interface is in Spanish)"
-			},
-			"day": {
-				"label": "Book a slot",
-				"alt": "reservas court page with the day strip and time slots (in Spanish)"
-			},
-			"grid": {
-				"label": "Court grid",
-				"alt": "reservas grid of courts with the next free hour (in Spanish)"
-			}
-		},
-		"phoneAlt": "reservas on a phone",
-		"reservasDesc": "Court bookings in Madrid that never sell the same slot twice.",
-		"casinoDesc": "My degree’s final project: a play-money casino where Firestore security rules do the server’s job.",
-		"casinoAlt": "casino_online blackjack table: the dealer shows an ace, the player holds 10 and 7 with 50 chips in play",
-		"backendTitle": "Follow one request through the code.",
-		"backendLede": "Real code, real file, at the commit it comes from.",
-		"workTitle": "Problems I solved at work.",
-		"workLede": "No code, clients or numbers: the problems, explained.",
-		"everyDay": "Main stack",
-		"everything": "My path and training, on About",
-		"playTitle": "Race my API.",
-		"playLede": "Book a court, lose the reply on the way back, then retry. See why the retry never books twice.",
-		"howOpen": "How it works",
-		"howClose": "Hide the rules",
-		"howRules": "Everyone wants {court} at {time} and only the first insert wins. Then resend with the same Idempotency-Key: my API returns the stored response instead of trying again, so a retry never books twice.",
-		"howSim": "A simulation in your browser with the real request and response shapes. It never touches the live database.",
-		"writingTitle": "Writing",
-		"writingLede": "A four-part series on what it took to make reservas hold up, each with a live demo and the commit behind it.",
-		"raceCaption": "The race test from the reservas repository.",
-		"raceWin": "1 × 201 Created",
-		"raceLose": "49 × 409 PISTA_OCUPADA",
-		"raceProof": "See the test (debed11)",
-		"raceTitle": "Fifty requests. One booking. Every time.",
-		"raceStart": "50 people press Book at the same moment",
-		"raceWall": "The database",
-		"raceGets": "1 gets the court",
-		"raceWinGloss": "booked",
-		"raceLoseGloss": "“court taken”, in the API’s Spanish",
-		"raceSr": "Animation of the test: 50 booking requests for the same court arrive at the same moment. The database lets one through and refuses the other 49."
-	},
-	"backend": {
-		"label": "Stops",
-		"steps": {
-			"http": {
-				"label": "HTTP",
-				"ask": "Who is asking?",
-				"title": "The request arrives",
-				"text": "Only signed-in people can book. The session is an opaque cookie, checked before the handler runs."
-			},
-			"contract": {
-				"label": "Contract",
-				"ask": "Is it valid?",
-				"title": "One schema, both ends",
-				"text": "The browser and the server agree on what a booking looks like: one Zod schema validates this body on the server and types the form in the browser."
-			},
-			"idempotency": {
-				"label": "Idempotency",
-				"ask": "Sent twice?",
-				"title": "Retries do not book twice",
-				"text": "If the phone sends the same booking twice, the second one gets the first answer back. The key and a hash of the body are stored; a repeat returns the stored response instead of running again."
-			},
-			"repository": {
-				"label": "Repository",
-				"ask": "Court taken?",
-				"title": "Translate the database",
-				"text": "When the court is taken, the database says no and the app turns that into a clear answer: PostgreSQL refuses the insert with 23P01, which becomes a 409, the court is taken."
-			},
-			"postgres": {
-				"label": "PostgreSQL",
-				"ask": "Who decides?",
-				"title": "The database decides",
-				"text": "The rule lives in the database itself: no two confirmed bookings for the same court may overlap in time. Whatever route inserts tomorrow, it still holds."
-			}
-		},
-		"commitLabel": "at {commit}",
-		"codeLabel": "Code from {file}"
-	},
-	"job": {
-		"label": "Work themes",
-		"readCase": "Read the case",
-		"readFullCase": "Read the full case",
-		"seeAll": "See all work",
-		"themes": {
-			"integration": {
-				"tag": "Integration",
-				"title": "Bookings in, invoices out",
-				"headline": "Event bookings in, invoices an accountant accepts out",
-				"text": "A mapping and normalisation layer between an events platform and an invoicing ERP: simplified invoices, management expenses and VAT. I learned the accounting domain from scratch to model it correctly."
-			},
-			"standards": {
-				"tag": "Engineering",
-				"title": "A standard the linter enforces",
-				"headline": "A code standard nobody has to remember",
-				"text": "There were no conventions. I wrote a layered architecture as lint rules, with size limits per layer, complexity limits and no any, plus the branching strategy, CI, Husky, Commitlint and pre-merge checks. I wrote it when we were two developers, and it held as the team grew."
-			},
-			"product": {
-				"tag": "Product",
-				"title": "A multi-tenant events platform",
-				"headline": "One platform, every company its own",
-				"text": "Role-based permissions, theming per company and department, itineraries, budgets and cost modules driven by formulas. Shipped to production."
-			},
-			"cloud": {
-				"tag": "Cloud",
-				"title": "Travel management on Azure",
-				"headline": "A travel app, modelled from zero on Azure",
-				"text": "An application for an external client. I designed its NoSQL data model from scratch on Cosmos DB, with files in Azure Storage."
-			},
-			"people": {
-				"tag": "People",
-				"title": "Two interns, mentored into juniors",
-				"headline": "From intern to junior developer",
-				"text": "Onboarding, task breakdown, code reviews and incident resolution, day to day, until both could work on their own on top of the team’s standard."
-			}
-		},
-		"diagram": {
-			"integration": [
-				[
-					"Events platform",
-					"bookings, attendees, fees"
-				],
-				[
-					"My normalisation layer",
-					"accounting terms, VAT split"
-				],
-				[
-					"Invoicing ERP",
-					"simplified invoices, expenses"
-				]
-			],
-			"cloud": [
-				[
-					"Client app",
-					"web and mobile"
-				],
-				[
-					"Cosmos DB",
-					"NoSQL model, designed from scratch"
-				],
-				[
-					"Azure Storage",
-					"documents and files"
-				]
-			],
-			"layers": [
-				"Hooks and components",
-				"Services and mappers",
-				"Repositories and models",
-				"Everywhere"
-			],
-			"layersNote": "Illustrative rule names. Every layer has its own limits, and CI fails when one is broken.",
-			"tenants": [
-				[
-					"Company A",
-					"Sales, Marketing"
-				],
-				[
-					"Company B",
-					"Operations"
-				],
-				[
-					"Company C",
-					"Finance, HR"
-				]
-			],
-			"modules": [
-				"Itinerary",
-				"Budget",
-				"Costs"
-			],
-			"tenantsNote": "Same app, each company and department with its own theme, roles and modules. Names are made up.",
-			"people": [
-				[
-					"Onboarding",
-					"The standard, the repo, the flow"
-				],
-				[
-					"Task breakdown",
-					"Small, reviewable pieces"
-				],
-				[
-					"Code review",
-					"Every pull request"
-				],
-				[
-					"Junior developers",
-					"Working on their own"
-				]
-			]
-		}
-	},
-	"work": {
-		"title": "Work",
-		"lede": "Open projects you can click through, and problems from my professional work, told without the code.",
-		"atJob": "Professional work",
-		"atJobLede": "Private work. No clients, no figures, no screens.",
-		"casesLabel": "Cases",
-		"demo": "Open the demo",
-		"code": "Code"
-	},
-	"game": {
-		"requests": "Requests to my API",
-		"booked": "Bookings made",
-		"sendNew": "Send the booking",
-		"sendSame": "Retry with the same key",
-		"reset": "Start over",
-		"empty": "No response yet. Your request is one of 50 for {court} at {time}.",
-		"lose": "You arrived {rank} of 50. Someone got the court first.",
-		"win": "You arrived first of 50. The court is yours.",
-		"replayLose": "Same key, same 201, served from the idempotency store. The winner still has one booking, not two.",
-		"replayWin": "Same key, same 201. Still one booking: the retry was answered from the idempotency store.",
-		"lesson": "That is the part that matters: a retry never books twice.",
-		"arrival": "Arrival order of the 50 requests",
-		"you": "You",
-		"winner": "Winner",
-		"fromStore": "from the idempotency store",
-		"esNote": "My API answers in Spanish: “that slot is already booked”.",
-		"keyHint": "One key per booking attempt, so the server can recognise a retry.",
-		"utcNote": "Times travel in UTC: {utc} is {time} in Madrid.",
-		"step2Win": "Suppose that 201 never reached your phone: the connection dropped on the way back. Your app retries with the same key.",
-		"step2Lose": "Now take the winner. Suppose its 201 never reached the phone: the connection dropped on the way back. Its app retries with the same key.",
-		"retryNew": "Retry with a new key",
-		"newKeyWin": "A new key looks like a new booking. The court is already taken, by your own booking, so your phone is told it failed when it worked.",
-		"newKeyLose": "A new key looks like a new booking. The court is already taken, by the winner’s own booking, so the winner’s phone is told it failed when it worked.",
-		"afterNew": "Now retry with the original key.",
-		"tryNew": "Try a new key instead",
-		"reqLabel": "Request body",
-		"resLabel": "Response body"
-	},
 	"race": {
 		"label": "Strategy",
 		"lock": {
@@ -305,7 +41,14 @@
 		},
 		"created": "201 Created",
 		"occupied": "409 PISTA_OCUPADA",
-		"caption": "A simulation of the race test in reservas; timings are illustrative."
+		"caption": "A simulation of the race test in reservas; timings are illustrative.",
+		"people": "Fifty people press Book on the same slot.",
+		"ready": "50 requests, ready",
+		"run": "Run the race",
+		"again": "Run it again",
+		"test": "See the real test (debed11)",
+		"aria": "Fifty booking requests for one slot",
+		"ariaDone": "Fifty requests: one booked, forty-nine refused"
 	},
 	"problem": {
 		"free": "free",
@@ -363,165 +106,344 @@
 		"noTime": "No time?",
 		"jump": "Jump to the race"
 	},
+	"meta": {
+		"title": "Brad López, full-stack developer",
+		"description": "Brad López builds software thinking about how it breaks: his own projects, live, and his professional work, explained.",
+		"workTitle": "My work, by Brad López",
+		"aboutTitle": "About Brad López",
+		"writingTitle": "Writing by Brad López"
+	},
+	"ui": {
+		"skip": "Skip to content",
+		"mainNav": "Main",
+		"writeMe": "Write to me",
+		"readCase": "Read the case",
+		"code": "Code",
+		"open": "Open",
+		"useLive": "Use it here, live",
+		"liveOn": "This is the deployed app. Browsing works here; to sign in and book, open it in its own tab.",
+		"role": "Role",
+		"stack": "Stack",
+		"kind": "Kind",
+		"when": "When",
+		"copyEmail": "Copy email",
+		"copied": "Copied",
+		"moreAboutMe": "More about me",
+		"followCode": "Follow the code",
+		"myProjects": "My projects",
+		"langSwitch": "Leer en español",
+		"langShort": "ES",
+		"themeAuto": "Theme: system. Switch to light",
+		"themeLight": "Theme: light. Switch to dark",
+		"themeDark": "Theme: dark. Switch to system",
+		"rejected": "Rejected:",
+		"soon": "Coming"
+	},
+	"nav": {
+		"projects": "My projects",
+		"work": "My work",
+		"about": "About",
+		"writing": "Writing"
+	},
+	"footer": {
+		"lead": "A question about anything here, or just want to talk shop? I answer every email.",
+		"leadAbout": "Want to ask how something here works, or argue about it? Write to me.",
+		"place": "Madrid, Spain. EU citizen."
+	},
+	"home": {
+		"title": "I build software thinking about how it breaks.",
+		"byline": "Brad López, full‑stack developer in Madrid",
+		"lede": "I build and run software in production, front to back, and I care most about the parts nobody sees until they fail.",
+		"mineTitle": "Things I built on my own.",
+		"mineLede": "Open projects, deployed and running. Use them right here, or open them in their own tab.",
+		"casaTitle": "Casa, in progress",
+		"casaText": "Shared household tasks and a shopping list, in Expo and Supabase. The part I’m deep in is the database’s security: which roles may run what, with tests that fail if anyone widens it.",
+		"workTitle": "My work.",
+		"workLede": "Since 2025 I’m a full‑stack developer at VB Group. It’s private work, so no code, clients or figures: the problem, what I did, and its shape.",
+		"howTitle": "How I work.",
+		"expTitle": "Experience",
+		"eduTitle": "Education",
+		"writingTitle": "Writing",
+		"writingLede": "A four-part series on what it took to make Reservas hold up, each with a live demo and the code behind it."
+	},
+	"projects": {
+		"reservas": {
+			"alt": "Reservas home page with the court list (the app is in Spanish)",
+			"altCase": "Reservas court page with the day strip and time slots (in Spanish)",
+			"liveTitle": "Reservas, the live app",
+			"note": "Loads the deployed app only when you ask, so this page stays fast. The app is in Spanish: it books padel courts in Madrid.",
+			"text": "Court bookings in Madrid that never sell the same slot twice. I built it to find out what happens when fifty people book the same court in the same second, and to prove the fix.",
+			"role": "Everything: design, API, web, tests, deploy",
+			"tagline": "Fifty people, one court, the same second. Built to find out what happens, and to prove it.",
+			"kind": "My own project, open source"
+		},
+		"casino": {
+			"alt": "Casino Online blackjack table: the dealer shows an ace, the player holds 10 and 7",
+			"altCase": "Casino Online blackjack game",
+			"liveTitle": "Casino Online, the live app",
+			"note": "My degree’s final project, 2025. Play money only.",
+			"noteCase": "Play money only. Sign-in opens in its own tab.",
+			"text": "A play-money casino whose only server is its security rules. Firestore decides what each player can read and write, and tests cover the rules.",
+			"role": "Final degree project, on my own",
+			"tagline": "A casino whose only server is its security rules.",
+			"roleCase": "Final project of my web development degree, on my own"
+		}
+	},
+	"how": {
+		"r1t": "Decide before coding",
+		"r1d": "A plan and short decision records first: the problem, the options, why this one. Reservas keeps them in docs/adr.",
+		"r2t": "Let the tools hold the rules",
+		"r2d": "If a convention matters, a linter or a CI check enforces it, not a wiki page.",
+		"r3t": "Test against the real thing",
+		"r3d": "A real PostgreSQL for concurrency, a real browser for flows, tests for security rules.",
+		"r4t": "Read it as an attacker",
+		"r4d": "My master’s in offensive security changed how I review: every endpoint gets read the way someone breaking in would.",
+		"aiTitle": "How I use AI.",
+		"ai": "I plan, design and decide; AI helps me implement, which is why my own projects move fast. Nothing merges without my review and green tests."
+	},
+	"exp": {
+		"since": "Since 2025",
+		"vbT": "Full‑stack developer, VB Group.",
+		"vbD": "Integrations, a multi-tenant events platform, the team’s standard and CI, two interns mentored. Joined as junior; promoted after three months.",
+		"mgT": "Intern developer, MrGates.",
+		"mgD": "Internal tools in PHP and JavaScript.",
+		"mgLong": "Internal full-stack tools in PHP and JavaScript, with small relational schemas taken from ER diagram to MySQL.",
+		"dlT": "Junior developer, DELOGICA.",
+		"dlD": "Scrum team; test automation for Android TV with Python.",
+		"dlLong": "A Scrum team. Test automation for Android TV with Python and ADB, web automation scripts and process automation.",
+		"tuT": "Programming tutor.",
+		"tuD": "Java and Python for university students.",
+		"tuLong": "Java, Python and programming fundamentals for university students, self-employed and remote."
+	},
+	"edu": {
+		"masterT": "Professional Master’s in Cybersecurity Management and Offensive Security,",
+		"dawT": "Web application development (DAW).",
+		"dawD": "Final project: Casino Online.",
+		"damT": "Multiplatform application development (DAM).",
+		"damD": "Java, databases, desktop and mobile.",
+		"also": "Also",
+		"alsoD": "Spanish native, English B2 (TOEIC). Certifications from ISMS Forum, Certiport, IESE and Harvard Business Impact."
+	},
+	"themes": {
+		"label": "My work at VB Group",
+		"integration": {
+			"t": "Bookings in, invoices out",
+			"k": "Integration",
+			"h": "Event bookings in, invoices an accountant accepts out",
+			"d": "A mapping and normalisation layer between an events platform and an invoicing ERP: simplified invoices, management expenses and VAT. I learned the accounting domain from scratch to model it correctly.",
+			"n": [
+				[
+					"Events platform",
+					"bookings, fees"
+				],
+				[
+					"My layer",
+					"accounting, VAT"
+				],
+				[
+					"ERP",
+					"invoices, expenses"
+				]
+			],
+			"a": "Events platform to my normalisation layer to the invoicing ERP"
+		},
+		"standards": {
+			"t": "A standard the linter enforces",
+			"k": "Engineering",
+			"h": "A code standard nobody has to remember",
+			"d": "There were no conventions. I wrote a layered architecture as lint rules, with size and complexity limits per layer and no any, plus the branching strategy, CI and pre-merge checks. I wrote it when we were two developers, and it held as the team grew.",
+			"n": [
+				[
+					"A commit",
+					"any developer"
+				],
+				[
+					"Lint rules",
+					"layers, limits"
+				],
+				[
+					"CI",
+					"before merge"
+				],
+				[
+					"main",
+					"only what passes"
+				]
+			],
+			"a": "A commit passes lint rules and CI before reaching main"
+		},
+		"product": {
+			"t": "A multi-tenant events platform",
+			"k": "Product",
+			"h": "One platform, every company its own",
+			"d": "Role-based permissions, theming per company and department, itineraries, budgets and cost modules driven by formulas. Shipped to production.",
+			"n": [
+				[
+					"Company A",
+					"own theme, roles"
+				],
+				[
+					"One platform",
+					"shared code"
+				],
+				[
+					"Company B",
+					"own modules"
+				]
+			],
+			"a": "Two companies share one platform, each with its own theme and modules"
+		},
+		"cloud": {
+			"t": "Travel management on Azure",
+			"k": "Cloud",
+			"h": "A travel app, modelled from zero on Azure",
+			"d": "An application for an external client. I designed its NoSQL data model from scratch on Cosmos DB, with files in Azure Storage.",
+			"n": [
+				[
+					"Client app",
+					"web and mobile"
+				],
+				[
+					"Cosmos DB",
+					"model from scratch"
+				],
+				[
+					"Azure Storage",
+					"documents, files"
+				]
+			],
+			"a": "Client app to Cosmos DB and Azure Storage"
+		},
+		"people": {
+			"t": "Two interns, mentored into juniors",
+			"k": "People",
+			"h": "From intern to junior developer",
+			"d": "Onboarding, task breakdown, code reviews and incident resolution, day to day, until both could work on their own on top of the team’s standard.",
+			"n": [
+				[
+					"Onboarding",
+					"the standard"
+				],
+				[
+					"Small tasks",
+					"reviewable"
+				],
+				[
+					"Review",
+					"every PR"
+				],
+				[
+					"Juniors",
+					"on their own"
+				]
+			],
+			"a": "Onboarding, small tasks and reviews lead to two junior developers"
+		}
+	},
+	"work": {
+		"title": "My work.",
+		"lede": "Since 2025 I’m a full‑stack developer at VB Group: I joined as a junior web developer and was promoted to full stack after three months. This is private work, so you’ll find the problems, what I did and their shape, never the client, the code or the numbers.",
+		"now": "What I work on at VB Group",
+		"caseTitle": "The case: bookings in, invoices out",
+		"caseSub": "Integration between an events platform and an invoicing ERP.",
+		"caseText": "Bookings, attendees and fees came out of an events platform; an invoicing ERP needed simplified invoices, management expenses and VAT split the way an accountant expects. I built the layer between them, and to do it right I learned the accounting from scratch.",
+		"caseHold": "[Your words: the hardest mapping, the decision you made about it, what you rejected.]",
+		"diagramNote": "The diagram uses invented names and no real data.",
+		"before": "Before VB Group",
+		"beforeSub": "Where I learned the trade."
+	},
 	"about": {
 		"title": "Hi, I’m Brad.",
-		"description": "Who I am, what I know and how well, and the path so far.",
-		"lede": "Full-stack developer in Madrid. I like the parts nobody sees until they break.",
-		"stats": [
-			[
-				"3 mo",
-				"junior to full-stack"
-			],
-			[
-				"2",
-				"interns mentored into juniors"
-			]
-		],
-		"readStory": "Read my story",
-		"hideStory": "Hide my story",
-		"langs": [
-			"Spanish, native",
-			"English B2, TOEIC certified; worked in English in the Netherlands",
-			"EU citizen"
-		],
+		"lede": "Full-stack developer in Madrid. I like the parts nobody sees until they break. I build and maintain software in production, and I care most about data models, integrations and the standards that keep a growing team’s code in shape.",
+		"security": "I trained in offensive security, and it changed how I write and review code: I read my own endpoints the way an attacker would.",
 		"knowTitle": "What I know, and how well",
-		"knowLabel": "How I use it",
-		"levels": {
-			"daily": {
-				"label": "In production",
-				"text": "What I have shipped to production at work, week after week."
-			},
-			"own": {
-				"label": "In my own projects",
-				"text": "What I chose on purpose for reservas and casino_online, to learn it properly."
-			},
-			"before": {
-				"label": "Used before or taught",
-				"text": "Real experience, but not what I have run in production. I say so up front."
-			}
-		},
-		"notes": {
-			"TypeScript": "Strict, no any",
-			"React": "With Vite",
-			"Node.js": "Express APIs",
-			"REST APIs": "Design and integration",
-			"MongoDB": "Schemas from scratch",
-			"Cosmos DB": "NoSQL modelling, SQL API",
-			"Azure Storage": "Files and blobs",
-			"GitHub Actions": "CI I set up",
-			"Docker": "Local and CI",
-			"Jest": "Unit tests",
-			"ESLint": "Architecture as rules",
-			"Husky, Commitlint": "Pre-merge checks",
-			"Fastify": "reservas API",
-			"PostgreSQL": "Locks and constraints",
-			"Drizzle": "Migrations",
-			"Zod": "Shared contracts",
-			"Vitest": "Unit and integration",
-			"Testcontainers": "Real database in tests",
-			"Playwright": "End to end",
-			"Angular 19": "casino_online",
-			"Firebase": "Rules as the server",
-			"Vercel": "Deploys",
-			"Java": "Taught at university level",
-			"Python": "Test automation, ADB",
-			"PHP": "Internal tools",
-			"MySQL": "Small schemas, ER design",
-			"Power BI": "Analytical SQL",
-			"Android Studio": "Mobile"
-		},
-		"pathTitle": "The path so far",
-		"pathLabel": "Path",
-		"path": {
-			"dam": {
-				"when": "2021 to 2023",
-				"short": "DAM degree",
-				"title": "Multiplatform application development (DAM)",
-				"text": "Where I started: Java, databases, desktop and mobile apps."
-			},
-			"daw": {
-				"when": "2023 to 2025",
-				"short": "DAW degree",
-				"title": "Web application development (DAW)",
-				"text": "Final project: casino_online."
-			},
-			"tutor": {
-				"when": "2023 to 2025",
-				"short": "Programming tutor",
-				"title": "Private programming tutor",
-				"text": "Java, Python and programming fundamentals for university students, self-employed and remote."
-			},
-			"delogica": {
-				"when": "2024",
-				"short": "Junior at DELOGICA",
-				"title": "Junior Developer, DELOGICA",
-				"text": "Scrum team. Test automation for Android TV with Python and ADB, web automation scripts and process automation."
-			},
-			"mrgates": {
-				"when": "2025",
-				"short": "Intern at MrGates",
-				"title": "Intern Developer, MrGates",
-				"text": "Internal full-stack tools in PHP and JavaScript, with small relational schemas taken from ER diagram to MySQL."
-			},
-			"vbjunior": {
-				"when": "Sept 2025",
-				"short": "Junior web developer",
-				"title": "Junior Web Developer, VB Group",
-				"text": "React and Vite in front, Node.js and Express behind, REST APIs and deployments on Azure. Promoted to full stack after three months."
-			},
-			"vbfull": {
-				"when": "Dec 2025",
-				"short": "Full stack at VB Group",
-				"title": "Full Stack Developer, VB Group",
-				"text": "Integrations, a multi-tenant events platform, the engineering standard and CI the team works on, onboarding the people who joined, and two interns mentored into junior developers."
-			}
-		},
-		"howTitle": "How I work",
-		"principles": [
+		"knowLede": "Kept apart on purpose: what I run in production, what I chose for my own projects, and what I used before or taught.",
+		"prod": "In production",
+		"own": "In my own projects",
+		"before": "Used before or taught"
+	},
+	"cases": {
+		"problem": "The problem",
+		"problemSub": "Two requests, one slot, a few milliseconds apart.",
+		"problemText": "Both requests read that the slot is free, both insert, and the court is sold twice. Reading, checking and inserting is exactly the code that fails under load.",
+		"problemHold": "[In your words: why you picked this problem, and what you wanted to prove.]",
+		"fix": "The fix, run it",
+		"fixSub": "The race from the test suite, in your browser.",
+		"decisions": "Decisions",
+		"decisionsSub": "Each has a record in docs/adr, with what I rejected.",
+		"d1t": "PostgreSQL decides who gets the court",
+		"d1w": "Production uses an EXCLUDE constraint on court and time range. It keeps working even if someone adds another route that inserts bookings tomorrow. Pessimistic and optimistic versions exist too, and pass the same tests.",
+		"d1r": "checking only in the application, SERIALIZABLE for every transaction, an in-memory mutex that cannot see other Vercel instances.",
+		"d2t": "Opaque cookie sessions, not JWT",
+		"d2w": "A random 32-byte token in an HttpOnly __Host- cookie, stored hashed. Logout and sign out everywhere revoke instantly. CSRF is covered by SameSite=Lax plus an Origin check.",
+		"d2r": "JWT in localStorage, readable by any XSS, and JWT in a cookie, which still cannot be revoked before it expires.",
+		"d3t": "One Zod contract, mappers at every border",
+		"d3w": "The same schemas validate requests on the server and responses on the client. Changing a field touches three places, and nothing compiles until they agree.",
+		"d3r": "hand-written types on each side that drift apart silently.",
+		"result": "The result",
+		"resultSub": "Three strategies, the same fifteen tests, a real database.",
+		"learned": "What I learned",
+		"learnedHold1": "[One line: the lesson, in your words.]",
+		"learnedHold2": "[The bug that surprised you, and what you would do the same way in a team.]",
+		"longVersion": "Read the long version, part 1",
+		"casinoWhat": "What it does",
+		"casinoText": "Blackjack, roulette and slots with play money. There is no backend of my own: Firestore security rules decide what each player can read and write, so a player cannot change their own balance or another player’s game.",
+		"casinoHold": "[What you learned building it, in your words.]",
+		"diagramProblem": [
 			[
-				"Decisions before code",
-				"Short decision records: the problem, the options, why this one."
+				"Request A",
+				"reads: free"
 			],
 			[
-				"Rules the tools enforce",
-				"If a convention matters, a linter or a CI check holds it, not a wiki page."
+				"Request B",
+				"reads: free"
 			],
 			[
-				"Test against the real thing",
-				"Concurrency against a real database, flows in a real browser."
-			],
-			[
-				"AI-assisted, human-owned",
-				"I design and decide; AI helps implement. Nothing merges without review and green tests."
+				"Both insert",
+				"sold twice"
 			]
 		],
-		"trainingTitle": "Training",
-		"training": [
+		"diagramProblemA": "Two requests read the slot as free and both insert",
+		"diagramFix": [
 			[
-				"2024 to 2026",
-				"Professional Master’s in Cybersecurity Management and Offensive Security",
-				"EIP International Business School"
+				"Browser",
+				"Book"
 			],
 			[
-				"2026",
-				"Certified Cyber Security Professional",
-				"ISMS Forum and CSC Cyber Security Centre"
+				"Fastify API",
+				"session, schema, key"
 			],
 			[
-				"2026",
-				"Introduction to Financial Accounting",
-				"IESE Business School"
-			],
-			[
-				"2025",
-				"IT Specialist, Network Security",
-				"Certiport"
-			],
-			[
-				"2025",
-				"Leadership",
-				"Harvard Business Impact"
+				"PostgreSQL",
+				"EXCLUDE decides"
 			]
-		]
+		],
+		"diagramFixA": "Browser to Fastify API to PostgreSQL, where the EXCLUDE constraint decides",
+		"diagramCasino": [
+			[
+				"Angular app",
+				"the player"
+			],
+			[
+				"Firestore rules",
+				"who may write what"
+			],
+			[
+				"Firestore",
+				"balances, games"
+			]
+		],
+		"diagramCasinoA": "The Angular app goes through Firestore security rules before reaching the data"
+	},
+	"writing": {
+		"title": "Writing",
+		"lede": "A four-part series on what it took to make Reservas hold up. Each part has a live demo and links to the code behind every claim.",
+		"part": "Part {n}",
+		"p1": "50 requests, one winner",
+		"p1d": "Three ways to stop double bookings in PostgreSQL.",
+		"p2": "Sessions: opaque cookies, revoked instantly",
+		"p3": "Idempotency: a retry that never books twice",
+		"p4": "[Brad’s fourth topic]",
+		"seriesCrumb": "The Reservas series, part {n} of 4"
 	}
 }

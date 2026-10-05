@@ -1,0 +1,33 @@
+---
+import T from '../../components/T.astro';
+import { getArticles } from '../../lib/content';
+import Base from '../../layouts/Base.astro';
+
+const published = new Set((await getArticles('en')).map((a) => a.slug));
+const parts = [
+	{ n: 1, title: 'writing.p1', text: 'writing.p1d', slug: '50-requests-one-winner' },
+	{ n: 2, title: 'writing.p2' },
+	{ n: 3, title: 'writing.p3' },
+	{ n: 4, title: 'writing.p4' },
+] as const;
+---
+
+<Base current="writing" titleKey="meta.writingTitle">
+	<section class="wrap case-hero">
+		<T k="writing.title" as="h1" class="disp h-xl load" />
+		<T k="writing.lede" as="p" class="lede" />
+	</section>
+	<section class="wrap" style="padding-bottom:6rem">
+		<ul class="series">
+			{
+				parts.map((p) =>
+					'slug' in p && published.has(p.slug) ? (
+						<li><a href={`/writing/${p.slug}/`}><T k="writing.part" vars={{ n: p.n }} class="p" /><span><T k={p.title} as="b" class="disp h-m" /><br /><T k={p.text} class="muted" /></span></a></li>
+					) : (
+						<li><span class="soon"><T k="writing.part" vars={{ n: p.n }} class="p" /><T k={p.title} /></span></li>
+					),
+				)
+			}
+		</ul>
+	</section>
+</Base>

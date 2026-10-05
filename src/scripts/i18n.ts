@@ -1,0 +1,44 @@
+// Swaps every [data-i18n] text for the visitor's language on the same route, keeps <html lang>
+// right, remembers the choice, and tells the React islands through the shared store.
+import { flat, fmt, type Lang } from '../i18n';
+import { $lang, setLang } from '../i18n/store';
+
+const dicts: Record<Lang, Record<string, string>> = { en: flat('en'), es: flat('es') };
+const root = document.documentElement;
+
+export function apply(lang: Lang) {
+	const d = dicts[lang];
+	document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => {
+		const text = d[el.dataset.i18n!];
+		if (text == null) return;
+		const vars = el.dataset.i18nVars ? JSON.parse(el.dataset.i18nVars) : undefined;
+		const next = fmt(text, vars);
+		if (el.textContent !== next) el.textContent = next;
+	});
+	// Attributes: data-i18n-attr="aria-label:ui.writeMe;alt:projects.reservas.alt"
+	document.querySelectorAll<HTMLElement>('[data-i18n-attr]').forEach((el) => {
+		el.dataset.i18nAttr!.split(';').forEach((pair) => {
+			const [attr, key] = pair.split(':');
+			if (d[key] != null) el.setAttribute(attr, d[key]);
+		});
+	});
+	root.lang = lang;
+	root.dataset.lang = lang;
+	if (d['meta.title'] && document.body.dataset.titleKey) document.title = d[document.body.dataset.titleKey] ?? document.title;
+	setLang(lang);
+	window.dispatchEvent(new CustomEvent('langchange', { detail: lang }));
+}
+
+const initial = (root.dataset.lang === 'es' ? 'es' : 'en') as Lang;
+apply(initial);
+
+document.querySelectorAll<HTMLButtonElement>('[data-lang-toggle]').forEach((b) =>
+	b.addEventListener('click', () => {
+		const next: Lang = $lang.get() === 'es' ? 'en' : 'es';
+		try { localStorage.setItem('lang', next); } catch {}
+		apply(next);
+	}),
+);
+
+// Other scripts change a data-i18n key (a button label, a note) and ask for a fresh pass.
+window.addEventListener('relabel', () => apply($lang.get()));

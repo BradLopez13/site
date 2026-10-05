@@ -3,7 +3,7 @@
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
-import { defineConfig, fontProviders } from 'astro/config';
+import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,8 +13,8 @@ export default defineConfig({
 		: 'http://localhost:4321',
 	integrations: [
 		mdx(),
-		// hreflang pairs for /x and /es/x in the sitemap.
-		sitemap({ i18n: { defaultLocale: 'en', locales: { en: 'en-GB', es: 'es-ES' } } }),
+		// One route per page: the language switches in place, so the sitemap lists each page once.
+		sitemap(),
 		react(),
 	],
 	vite: {
@@ -23,31 +23,4 @@ export default defineConfig({
 	markdown: {
 		shikiConfig: { theme: 'vitesse-dark' },
 	},
-	// Downloaded at build time and served from the site itself: no request to Google from the browser.
-	fonts: [
-		{
-			provider: fontProviders.google(),
-			name: 'Unbounded',
-			cssVariable: '--font-display',
-			weights: [600, 800, 900],
-			subsets: ['latin'],
-			fallbacks: ['system-ui', 'sans-serif'],
-		},
-		{
-			provider: fontProviders.google(),
-			name: 'Figtree',
-			cssVariable: '--font-body',
-			weights: [400, 600, 700],
-			subsets: ['latin'],
-			fallbacks: ['system-ui', 'sans-serif'],
-		},
-		{
-			provider: fontProviders.google(),
-			name: 'JetBrains Mono',
-			cssVariable: '--font-mono',
-			weights: [400, 700],
-			subsets: ['latin'],
-			fallbacks: ['ui-monospace', 'monospace'],
-		},
-	],
 });

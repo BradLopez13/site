@@ -37,3 +37,36 @@ export const langFromUrl = (url: URL): Lang => (/^\/es(\/|$)/.test(url.pathname)
 /** getStaticPaths for pages under src/pages/[...lang]: English at the root, Spanish under /es. */
 export const langPaths = () => [{ params: { lang: undefined } }, { params: { lang: 'es' } }];
 export const langParam = (lang: Lang) => (lang === defaultLang ? undefined : lang);
+
+/* ---------- One route, two dictionaries ----------
+   The page is rendered once, in English. Every translatable text carries its key (data-i18n),
+   and the client swaps it for the visitor's language; React islands read the same store. */
+
+type Leaves<T, P extends string = ''> = {
+	[K in keyof T & string]: T[K] extends string ? `${P}${K}` : T[K] extends readonly unknown[] ? never : Leaves<T[K], `${P}${K}.`>;
+}[keyof T & string];
+
+/** Every text key in the dictionaries, as a dotted path: 'home.title', 'ui.writeMe'. */
+export type Key = Leaves<Dict>;
+
+/** Reads a dotted path from a dictionary. */
+export function pick(d: unknown, path: string): unknown {
+	return path.split('.').reduce<unknown>((o, k) => (o && typeof o === 'object' ? (o as Record<string, unknown>)[k] : undefined), d);
+}
+
+/** Text for a key in a language; falls back to English, then to the key itself. */
+export function t(key: Key, lang: Lang = defaultLang, vars?: Record<string, string | number>): string {
+	const v = pick(dicts[lang], key) ?? pick(dicts.en, key);
+	return fmt(typeof v === 'string' ? v : key, vars);
+}
+
+/** Flat key → text map of one language, for the client that swaps texts. */
+export function flat(lang: Lang): Record<string, string> {
+	const out: Record<string, string> = {};
+	const walk = (o: unknown, p: string) => {
+		if (typeof o === 'string') out[p] = o;
+		else if (o && typeof o === 'object') for (const [k, v] of Object.entries(o)) walk(v, p ? `${p}.${k}` : k);
+	};
+	walk(dicts[lang], '');
+	return out;
+}

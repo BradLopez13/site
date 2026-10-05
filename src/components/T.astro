@@ -1,0 +1,15 @@
+---
+// A translatable text: rendered in English, swapped on the client from the same dictionaries.
+// <T k="home.title" />, or as another element: <T k="home.title" as="h1" class="disp" />.
+import { t, type Key } from '../i18n';
+
+interface Props {
+	k: Key;
+	as?: string;
+	vars?: Record<string, string | number>;
+	[attr: string]: unknown;
+}
+const { k, as: Tag = 'span', vars, ...rest } = Astro.props;
+---
+
+<Tag data-i18n={k} data-i18n-vars={vars ? JSON.stringify(vars) : undefined} {...rest}>{t(k, 'en', vars)}</Tag>
