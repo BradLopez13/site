@@ -29,7 +29,7 @@ If the first request is still running, the second gets `IDEMPOTENCIA_EN_CURSO`. 
 The key is associated with the user and a hash of the request body. Reusing it with different data returns a 422, `IDEMPOTENCIA_CONFLICTO`. Changing the court or time is no longer a repeat of the same request.
 
 <div class="wide" id="game">
-  <IdempotencyLab client:visible lang="en" />
+  <IdempotencyLab client:idle lang="en" />
 </div>
 
 ## The 503 I do not store

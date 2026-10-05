@@ -6,9 +6,14 @@ import { $lang, setLang } from '../i18n/store';
 const dicts: Record<Lang, Record<string, string>> = { en: flat('en'), es: flat('es') };
 const root = document.documentElement;
 
+// Once an island has hydrated, React renders its words from the shared store; touching its nodes here
+// would detach the text React holds on to.
+const owned = (el: Element) => !!el.closest('astro-island:not([ssr])');
+
 export function apply(lang: Lang) {
 	const d = dicts[lang];
 	document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => {
+		if (owned(el)) return;
 		const text = d[el.dataset.i18n!];
 		if (text == null) return;
 		const vars = el.dataset.i18nVars ? JSON.parse(el.dataset.i18nVars) : undefined;
@@ -17,6 +22,7 @@ export function apply(lang: Lang) {
 	});
 	// Attributes: data-i18n-attr="aria-label:ui.writeMe;alt:projects.reservas.alt"
 	document.querySelectorAll<HTMLElement>('[data-i18n-attr]').forEach((el) => {
+		if (owned(el)) return;
 		el.dataset.i18nAttr!.split(';').forEach((pair) => {
 			const [attr, key] = pair.split(':');
 			if (d[key] != null) el.setAttribute(attr, d[key]);

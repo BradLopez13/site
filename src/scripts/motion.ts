@@ -28,6 +28,8 @@ $$<HTMLButtonElement>('[data-theme-toggle]').forEach((b) =>
 	}),
 );
 setTheme(root.dataset.theme || 'auto');
+// The label key changed with the theme; translate it now instead of waiting for the first click.
+window.dispatchEvent(new CustomEvent('relabel'));
 
 /* ---------- The headline under load: one span per letter, the sentence kept for screen readers ---------- */
 function splitLoad(h: HTMLElement) {

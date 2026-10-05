@@ -29,7 +29,7 @@ Si la primera petición todavía está en curso, la segunda recibe `IDEMPOTENCIA
 La clave se asocia al usuario y a un hash del cuerpo de la petición. Si se reutiliza con datos distintos, el servidor devuelve un 422, `IDEMPOTENCIA_CONFLICTO`. Cambiar la pista o el horario ya no es repetir la misma petición.
 
 <div class="wide" id="juego">
-  <IdempotencyLab client:visible lang="es" />
+  <IdempotencyLab client:idle lang="es" />
 </div>
 
 ## El 503 que no guardo

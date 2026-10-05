@@ -189,8 +189,8 @@
 			"alt": "Mesa de blackjack de Casino Online: la banca muestra un as y el jugador tiene 10 y 7",
 			"altCase": "Partida de blackjack en Casino Online",
 			"liveTitle": "Casino Online, la app en vivo",
-			"note": "El proyecto final de mi ciclo, 2025. Solo dinero ficticio.",
-			"noteCase": "Solo dinero ficticio. El inicio de sesión se abre en su propia pestaña.",
+			"note": "El proyecto final de mi ciclo, 2025. Solo dinero ficticio; para jugar, crea una cuenta gratis.",
+			"noteCase": "Solo dinero ficticio. Para jugar hace falta crear una cuenta gratis; el inicio de sesión se abre en su propia pestaña.",
 			"text": "Un casino con dinero ficticio cuyo único servidor son sus reglas de seguridad. Firestore decide qué puede leer y escribir cada jugador, y los tests cubren esas reglas.",
 			"role": "Proyecto final del ciclo, en solitario",
 			"tagline": "Un casino cuyo único servidor son sus reglas de seguridad.",
@@ -589,7 +589,7 @@
 			"commitOk": "válido",
 			"commitBad": "no válido",
 			"pass": "Pasan todas las comprobaciones. El cambio puede ir a revisión.",
-			"fail": "Fallan {n} de 4 comprobaciones: {list}.",
+			"fail": "Comprobaciones con fallo: {n} de 4. {list}.",
 			"note": "Una simulación: los límites son de ejemplo, no la configuración real de mi equipo."
 		}
 	}

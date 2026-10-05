@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 // Shared frame for the article mini games: a title, the controls, the browser and the server side by side
 // with a request travelling between them, and a short log of what just happened.
@@ -25,8 +25,13 @@ export function Lab(props: {
 	note: string;
 }) {
 	const { title, mode, controls, left, right, pulse, tone, log, logTitle, empty, note } = props;
+	// Rendered disabled on the server; every control comes alive once the island has hydrated,
+	// so a click never lands on a button that cannot answer yet.
+	const [ready, setReady] = useState(false);
+	useEffect(() => setReady(true), []);
 	return (
-		<figure className="lab dark">
+		<figure className="lab dark" aria-busy={!ready}>
+			<fieldset className="lab-fieldset" disabled={!ready}>
 			<div className="lab-head">
 				<p className="lab-title">{title}</p>
 				{mode && <div className="lab-mode">{mode}</div>}
@@ -54,6 +59,7 @@ export function Lab(props: {
 					)}
 				</ol>
 			</div>
+			</fieldset>
 			<figcaption className="lab-note">{note}</figcaption>
 		</figure>
 	);

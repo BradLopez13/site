@@ -23,7 +23,7 @@ import reservasShot from '../assets/shots/reservas-home.jpg';
 		<div class="hero-meta" data-after-load>
 			<T k="home.byline" as="p" class="m-0 font-semibold text-[1.15rem]" />
 			<T k="home.lede" as="p" class="lede m-0" />
-			<p class="muted m-0 text-[0.95rem]">React, TypeScript, Node.js, Express, Azure</p>
+			<p class="hero-stack muted m-0 text-[0.95rem]">React, TypeScript, Node.js, Express, Azure</p>
 			<div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-2">
 				<a class="btn btn-ink" href={`mailto:${LINKS.email}`}><T k="ui.writeMe" /></a>
 				<span class="links"><a href={LINKS.github}>GitHub</a><a href={LINKS.linkedin}>LinkedIn</a></span>
@@ -77,7 +77,7 @@ import reservasShot from '../assets/shots/reservas-home.jpg';
 				<T k="home.workTitle" as="h2" class="disp h-l" data-split />
 				<T k="home.workLede" as="p" class="lede muted m-0" />
 			</div>
-			<WorkThemes client:visible prefix="home" caseHref="/my-work/#integration" />
+			<WorkThemes client:idle prefix="home" caseHref="/my-work/#integration" />
 		</div>
 	</section>
 

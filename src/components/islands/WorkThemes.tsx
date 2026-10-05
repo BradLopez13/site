@@ -58,7 +58,7 @@ export default function WorkThemes({ prefix = 'home', level = 3, caseHref }: { p
 
 	return (
 		<div className="themes">
-			<div className="theme-list" role="tablist" aria-label={tr('themes.label')}>
+			<div className="theme-list" role="tablist" aria-label={tr('themes.label')} data-i18n-attr="aria-label:themes.label">
 				{ids.map((t, i) => (
 					<button
 						key={t}
@@ -75,19 +75,23 @@ export default function WorkThemes({ prefix = 'home', level = 3, caseHref }: { p
 						onClick={() => setSel(i)}
 						onKeyDown={(e) => onKey(e, i)}
 					>
-						<span className="t">{tr(`themes.${t}.t` as Key)}</span>
-						<span className="k">{tr(`themes.${t}.k` as Key)}</span>
+						<span className="t" data-i18n={`themes.${t}.t`}>
+							{tr(`themes.${t}.t` as Key)}
+						</span>
+						<span className="k" data-i18n={`themes.${t}.k`}>
+							{tr(`themes.${t}.k` as Key)}
+						</span>
 					</button>
 				))}
 			</div>
 			<div ref={panel} className="theme-panel" role="tabpanel" id={`${prefix}-panel`} aria-labelledby={`${prefix}-tab-${id}`}>
-				<H className="disp h-s text-[clamp(1.5rem,2.4vw,2.1rem)]">
+				<H className="disp h-s text-[clamp(1.5rem,2.4vw,2.1rem)]" data-i18n={k('h')}>
 					{tr(k('h'))}
 				</H>
-				<p className="muted mt-4 mb-0">
+				<p className="muted mt-4 mb-0" data-i18n={k('d')}>
 					{tr(k('d'))}
 				</p>
-				<Chain nodes={nodes} label={tr(k('a'))} me={mine[id]} />
+				<Chain nodes={nodes} label={tr(k('a'))} labelKey={k('a')} keyBase={`themes.${id}.n`} me={mine[id]} />
 				<ul className="pills">
 					{stacks[id].map((s) => (
 						<li key={s}>{s}</li>
@@ -96,7 +100,7 @@ export default function WorkThemes({ prefix = 'home', level = 3, caseHref }: { p
 				{id === 'integration' && caseHref && (
 					<p className="mt-6 mb-0">
 						<a className="btn btn-line btn-sm" href={caseHref}>
-							<span>{tr('ui.readCase')}</span>
+							<span data-i18n="ui.readCase">{tr('ui.readCase')}</span>
 						</a>
 					</p>
 				)}

@@ -194,6 +194,8 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .btn-accent { background: var(--accent); color: var(--accent-fg); }
 .btn-accent::before { background: var(--fg); }
 .btn-accent:hover, .btn-accent:focus-visible { color: var(--bg); }
+.btn:disabled { cursor: progress; opacity: 0.6; }
+.btn:disabled::before { transform: scaleY(0); }
 .btn-sm { min-height: 2.75rem; padding: 0 1rem; font-size: 0.94rem; }
 @media (prefers-reduced-motion: reduce) { .btn::before { transition: none; } .btn:active > span { transform: none; } }
 .links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: center; font-weight: 600; }
@@ -210,7 +212,8 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .hero-photo img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 20%; border-radius: 1.25rem; }
 @media (max-width: 60em) {
 	.hero { grid-template-columns: 1fr; grid-template-areas: "title" "photo" "meta"; }
-	.hero-photo { width: min(72%, 22rem); }
+	.hero-photo { width: min(52%, 16rem); }
+	.hero-stack { order: 1; }
 }
 
 /* Live window: a deployed app behind a poster; the iframe loads only when asked */
@@ -220,6 +223,14 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .live-bar .dots i { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: #4a4a55; }
 .live-bar .url { flex: 1; min-width: 0; padding: 0.3rem 0.7rem; border-radius: 0.4rem; background: var(--code-1); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .live-bar a { color: #fff; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem; min-height: 2.75rem; margin-block: -0.6rem; padding-inline: 0.3rem; }
+/* Narrow screens: the address takes its own row, so "back to the screenshot" and "Open" are never cut off */
+@media (max-width: 30em) {
+	.live-bar { flex-wrap: wrap; row-gap: 0.4rem; }
+	.live-bar .dots { display: none; }
+	.live-bar .url { flex-basis: 100%; }
+	.live-bar .live-back { margin-block: 0; }
+	.live-bar a { margin-block: 0; margin-left: auto; }
+}
 .live-view { position: relative; aspect-ratio: 16 / 10; background: var(--code-1); }
 .live-view img, .live-view iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; object-position: top; }
 .live-view .load-btn { position: absolute; left: 50%; bottom: 1.25rem; translate: -50% 0; }

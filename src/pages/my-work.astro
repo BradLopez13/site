@@ -16,7 +16,7 @@ import Base from '../layouts/Base.astro';
 				<T k="work.lede" as="p" class="lede muted m-0" />
 			</div>
 			<T k="work.now" as="h2" class="disp h-m mb-8" />
-			<WorkThemes client:visible prefix="vb" level={3} />
+			<WorkThemes client:idle prefix="vb" level={3} />
 		</div>
 	</section>
 	<section id="integration" class="wrap case-block">
@@ -27,7 +27,7 @@ import Base from '../layouts/Base.astro';
 		<div class="prose">
 			<T k="work.caseText" as="p" />
 			<T k="work.caseHold" as="p" />
-			<Chain nodes={pick(en, 'themes.integration.n') as string[][]} label={en.themes.integration.a} me={[1]} keyBase="themes.integration.n" draw />
+			<Chain nodes={pick(en, 'themes.integration.n') as string[][]} label={en.themes.integration.a} labelKey="themes.integration.a" me={[1]} keyBase="themes.integration.n" draw />
 			<T k="work.diagramNote" as="p" class="muted mt-6 text-[0.95rem]" />
 		</div>
 	</section>

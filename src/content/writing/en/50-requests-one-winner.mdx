@@ -34,7 +34,7 @@ Ana asks, and the database says the slot is free. Luis asks before Ana has saved
 Booking one slot after another does not reveal that race. That is why I wrote a test with fifty simultaneous requests for the same slot: exactly one booking must be saved, and the other forty-nine requests must get `PISTA_OCUPADA`.
 
 <div class="wide" id="demo">
-  <RaceDemo client:visible lang="en" />
+  <RaceDemo client:idle lang="en" />
 </div>
 
 ## Locking the court: the pessimistic strategy

@@ -10,6 +10,7 @@ const strategies: Strategy[] = ['lock', 'retry', 'refuse'];
 export default function RaceDemo({ lang, slot = 'Pádel 1, 19:30' }: { lang: Lang; slot?: string }) {
 	const t = dict(lang).race;
 	const [strategy, setStrategy] = useState<Strategy>('refuse');
+	const [ready, setReady] = useState(false);
 	const track = useRef<HTMLDivElement>(null);
 	// Only decides how many lanes fit; the lane distance itself comes from CSS container units,
 	// so the track is right from the first paint, before hydration.
@@ -18,6 +19,7 @@ export default function RaceDemo({ lang, slot = 'Pádel 1, 19:30' }: { lang: Lan
 	useEffect(() => {
 		const el = track.current;
 		if (!el) return;
+		setReady(true);
 		const ro = new ResizeObserver(([e]) => setWidth(e.contentRect.width));
 		ro.observe(el);
 		return () => ro.disconnect();
@@ -35,7 +37,7 @@ export default function RaceDemo({ lang, slot = 'Pádel 1, 19:30' }: { lang: Lan
 			<div className="race-head">
 				<div className="seg" role="group" aria-label={t.label}>
 					{strategies.map((s) => (
-						<button key={s} type="button" aria-pressed={s === strategy} onClick={() => setStrategy(s)}>
+						<button key={s} type="button" aria-pressed={s === strategy} onClick={() => setStrategy(s)} disabled={!ready}>
 							{t[s].label}
 						</button>
 					))}

@@ -1,10 +1,11 @@
 // A left-to-right chain diagram: each node is [title, detail]; `me` marks the steps that are Brad's own.
 // Used by the work tabs (React) and rendered statically from Astro pages, where data-i18n keys keep its words translatable.
-export default function Chain({ nodes, label, me = [], keyBase, draw }: { nodes: string[][]; label: string; me?: number[]; keyBase?: string; draw?: boolean }) {
+export default function Chain({ nodes, label, labelKey, me = [], keyBase, draw }: { nodes: string[][]; label: string; labelKey?: string; me?: number[]; keyBase?: string; draw?: boolean }) {
+	const labelAttr = labelKey ? `aria-label:${labelKey}` : undefined;
 	const w = 640, gap = 36, nw = (w - gap * (nodes.length - 1)) / nodes.length, h = 104;
 	return (
 		<>
-		<svg className="diagram" viewBox={`-4 0 ${w + 8} ${h}`} role="img" aria-label={label} data-draw={draw ? '' : undefined}>
+		<svg className="diagram" viewBox={`-4 0 ${w + 8} ${h}`} role="img" aria-label={label} data-i18n-attr={labelAttr} data-draw={draw ? '' : undefined}>
 			{nodes.slice(0, -1).map((_, i) => {
 				const x = i * (nw + gap);
 				return <path key={`w${i}`} className="wire" strokeWidth={2} d={`M${x + nw + 2} ${h / 2} H${x + nw + gap - 2}`} />;
@@ -24,7 +25,7 @@ export default function Chain({ nodes, label, me = [], keyBase, draw }: { nodes:
 				);
 			})}
 		</svg>
-		<ol className="chain-list" aria-label={label}>
+		<ol className="chain-list" aria-label={label} data-i18n-attr={labelAttr}>
 			{nodes.map(([t, s], i) => (
 				<li key={i} className={me.includes(i) ? 'me' : undefined}>
 					<b data-i18n={keyBase ? `${keyBase}.${i}.0` : undefined}>{t}</b>

@@ -1,5 +1,5 @@
 import { createTimeline } from 'animejs';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LINKS } from '../../consts';
 import { useT } from '../../i18n/store';
 
@@ -13,6 +13,9 @@ export default function Race() {
 	const grid = useRef<HTMLDivElement>(null);
 	const [runs, setRuns] = useState(0);
 	const [done, setDone] = useState(false);
+	// The server renders the button disabled; it works once the island has hydrated.
+	const [ready, setReady] = useState(false);
+	useEffect(() => setReady(true), []);
 
 	function run() {
 		const dots = Array.from(grid.current!.children) as HTMLElement[];
@@ -38,20 +41,22 @@ export default function Race() {
 
 	return (
 		<div className="race-box">
-			<div ref={grid} className={done ? 'race done' : 'race'} role="img" aria-label={done ? tr('race.ariaDone') : tr('race.aria')}>
+			<div ref={grid} className={done ? 'race done' : 'race'} role="img" aria-label={done ? tr('race.ariaDone') : tr('race.aria')} data-i18n-attr={done ? undefined : 'aria-label:race.aria'}>
 				{Array.from({ length: 50 }, (_, i) => (
 					<i key={i} className={i === WINNER ? 'win' : undefined} />
 				))}
 			</div>
 			<div className="flex flex-col gap-[0.8rem]">
-				<b>{tr('race.people')}</b>
+				<b data-i18n="race.people">{tr('race.people')}</b>
 				<span className="mono muted text-[0.9rem]" aria-live="polite">
-					{done ? '1 × 201 Created, 49 × 409 PISTA_OCUPADA' : tr('race.ready')}
+					{done ? '1 × 201 Created, 49 × 409 PISTA_OCUPADA' : <span data-i18n="race.ready">{tr('race.ready')}</span>}
 				</span>
-				<button className="btn btn-ink" type="button" onClick={run}>
-					<span>{runs ? tr('race.again') : tr('race.run')}</span>
+				<button className="btn btn-ink" type="button" onClick={run} disabled={!ready}>
+					<span data-i18n={runs ? undefined : 'race.run'}>{runs ? tr('race.again') : tr('race.run')}</span>
 				</button>
-				<a href={LINKS.raceTest}>{tr('race.test')}</a>
+				<a href={LINKS.raceTest} data-i18n="race.test">
+					{tr('race.test')}
+				</a>
 			</div>
 		</div>
 	);

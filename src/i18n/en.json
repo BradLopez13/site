@@ -189,8 +189,8 @@
 			"alt": "Casino Online blackjack table: the dealer shows an ace, the player holds 10 and 7",
 			"altCase": "Casino Online blackjack game",
 			"liveTitle": "Casino Online, the live app",
-			"note": "My degree’s final project, 2025. Play money only.",
-			"noteCase": "Play money only. Sign-in opens in its own tab.",
+			"note": "My degree’s final project, 2025. Play money only; to play, create a free account.",
+			"noteCase": "Play money only. To play, create a free account; sign-in opens in its own tab.",
 			"text": "A play-money casino whose only server is its security rules. Firestore decides what each player can read and write, and tests cover the rules.",
 			"role": "Final degree project, on my own",
 			"tagline": "A casino whose only server is its security rules.",
@@ -589,7 +589,7 @@
 			"commitOk": "valid",
 			"commitBad": "invalid",
 			"pass": "Every check passes. The change can go to review.",
-			"fail": "{n} of 4 checks fail: {list}.",
+			"fail": "Checks failing: {n} of 4. {list}.",
 			"note": "A simulation: the limits are examples, not my team’s real configuration."
 		}
 	}

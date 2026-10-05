@@ -32,14 +32,14 @@ const decisions = [1, 2, 3] as const;
 		<div class="prose">
 			<T k="cases.problemHold" as="p" />
 			<T k="cases.problemText" as="p" />
-			<div class="max-w-[40rem]"><Chain nodes={en.cases.diagramProblem} label={en.cases.diagramProblemA} me={[2]} keyBase="cases.diagramProblem" draw /></div>
+			<div class="max-w-[40rem]"><Chain nodes={en.cases.diagramProblem} label={en.cases.diagramProblemA} labelKey="cases.diagramProblemA" me={[2]} keyBase="cases.diagramProblem" draw /></div>
 		</div>
 	</section>
 	<section class="wrap case-block">
 		<div><T k="cases.fix" as="h2" class="disp h-m" data-split /><T k="cases.fixSub" as="p" class="muted" /></div>
 		<div>
-			<Race client:visible />
-			<div class="mt-10"><Chain nodes={en.cases.diagramFix} label={en.cases.diagramFixA} me={[2]} keyBase="cases.diagramFix" draw /></div>
+			<Race client:idle />
+			<div class="mt-10"><Chain nodes={en.cases.diagramFix} label={en.cases.diagramFixA} labelKey="cases.diagramFixA" me={[2]} keyBase="cases.diagramFix" draw /></div>
 		</div>
 	</section>
 	<section class="wrap case-block">
