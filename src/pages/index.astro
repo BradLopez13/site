@@ -30,10 +30,10 @@ const parts = [
 			<Image src={brad} alt="Brad López" widths={[400, 700, 1000]} sizes="(min-width: 60em) 28rem, 72vw" loading="eager" fetchpriority="high" />
 		</figure>
 		<div class="hero-meta" data-after-load>
-			<T k="home.byline" as="p" style="margin:0;font-weight:600;font-size:1.15rem" />
-			<T k="home.lede" as="p" class="lede" style="margin:0" />
-			<p class="muted" style="margin:0;font-size:.95rem">React, TypeScript, Node.js, Express, Azure</p>
-			<div class="hero-ctas">
+			<T k="home.byline" as="p" class="m-0 font-semibold text-[1.15rem]" />
+			<T k="home.lede" as="p" class="lede m-0" />
+			<p class="muted m-0 text-[0.95rem]">React, TypeScript, Node.js, Express, Azure</p>
+			<div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-2">
 				<a class="btn btn-ink" href={`mailto:${LINKS.email}`}><T k="ui.writeMe" /></a>
 				<span class="links"><a href={LINKS.github}>GitHub</a><a href={LINKS.linkedin}>LinkedIn</a></span>
 			</div>
@@ -41,39 +41,39 @@ const parts = [
 	</section>
 
 	<!-- What he built on his own: live, usable in the page -->
-	<section id="mine" class="section" style="padding-top:clamp(2rem,4vw,3rem)">
+	<section id="mine" class="section pt-[clamp(2rem,4vw,3rem)]">
 		<div class="wrap">
 			<div class="head">
 				<T k="home.mineTitle" as="h2" class="disp h-l" data-split />
-				<T k="home.mineLede" as="p" class="lede muted" style="margin:0" />
+				<T k="home.mineLede" as="p" class="lede muted m-0" />
 			</div>
-			<article class="project">
+			<article class="grid grid-cols-1 gap-y-8 gap-x-[clamp(2rem,5vw,4.5rem)] items-start *:min-w-0 xl:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
 				<div>
 					<LiveWindow url={LINKS.reservasDemo} name="Reservas" shot={reservasShot} altKey="projects.reservas.alt" titleKey="projects.reservas.liveTitle" noteKey="projects.reservas.note" noteOnKey="ui.liveOn" />
 				</div>
 				<div>
 					<h3 class="disp h-m">Reservas</h3>
-					<T k="projects.reservas.text" as="p" style="font-size:1.15rem;margin:1rem 0 0" />
-					<dl class="facts"><T k="ui.role" as="dt" /><T k="projects.reservas.role" as="dd" /><T k="ui.stack" as="dt" /><dd>Fastify, PostgreSQL, Drizzle, Zod, React, Playwright</dd></dl>
+					<T k="projects.reservas.text" as="p" class="text-[1.15rem] mt-4 mb-0" />
+					<dl class="my-5 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 text-[0.97rem] [&_dt]:text-soft [&_dd]:m-0"><T k="ui.role" as="dt" /><T k="projects.reservas.role" as="dd" /><T k="ui.stack" as="dt" /><dd>Fastify, PostgreSQL, Drizzle, Zod, React, Playwright</dd></dl>
 					<p class="links"><a class="btn btn-ink btn-sm" href="/work/reservas/"><T k="ui.readCase" /></a><a href={LINKS.reservasRepo}><T k="ui.code" /></a></p>
 				</div>
 			</article>
-			<article class="project flip" style="margin-top:clamp(4rem,8vw,7rem)">
-				<div>
+			<article class="grid grid-cols-1 gap-y-8 gap-x-[clamp(2rem,5vw,4.5rem)] items-start *:min-w-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.45fr)] mt-[clamp(4rem,8vw,7rem)]">
+				<div class="xl:order-2">
 					<LiveWindow url={LINKS.casinoDemo} name="Casino Online" shot={casinoShot} altKey="projects.casino.alt" titleKey="projects.casino.liveTitle" noteKey="projects.casino.note" />
 				</div>
 				<div>
 					<h3 class="disp h-m">Casino Online</h3>
-					<T k="projects.casino.text" as="p" style="font-size:1.15rem;margin:1rem 0 0" />
-					<dl class="facts"><T k="ui.role" as="dt" /><T k="projects.casino.role" as="dd" /><T k="ui.stack" as="dt" /><dd>Angular 19, Firebase, Firestore rules</dd></dl>
+					<T k="projects.casino.text" as="p" class="text-[1.15rem] mt-4 mb-0" />
+					<dl class="my-5 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 text-[0.97rem] [&_dt]:text-soft [&_dd]:m-0"><T k="ui.role" as="dt" /><T k="projects.casino.role" as="dd" /><T k="ui.stack" as="dt" /><dd>Angular 19, Firebase, Firestore rules</dd></dl>
 					<p class="links"><a class="btn btn-ink btn-sm" href="/work/casino-online/"><T k="ui.readCase" /></a><a href={LINKS.casinoRepo}><T k="ui.code" /></a></p>
 				</div>
 			</article>
-			<div class="two" style="margin-top:clamp(4rem,8vw,6rem);padding-top:2rem;border-top:0.0625rem solid var(--line)">
+			<div class="grid grid-cols-1 xl:grid-cols-2 gap-x-[clamp(2rem,5vw,5rem)] gap-y-12 *:min-w-0 mt-[clamp(4rem,8vw,6rem)] pt-8 rule-t">
 				<div><T k="home.casaTitle" as="h3" class="disp h-m" /></div>
 				<div>
-					<T k="home.casaText" as="p" style="margin:0;font-size:1.1rem" />
-					<p class="links" style="margin-top:.75rem"><a href="https://github.com/BradLopez13/casa"><T k="ui.followCode" /></a></p>
+					<T k="home.casaText" as="p" class="m-0 text-[1.1rem]" />
+					<p class="links mt-3"><a href="https://github.com/BradLopez13/casa"><T k="ui.followCode" /></a></p>
 				</div>
 			</div>
 		</div>
@@ -84,7 +84,7 @@ const parts = [
 		<div class="wrap">
 			<div class="head">
 				<T k="home.workTitle" as="h2" class="disp h-l" data-split />
-				<T k="home.workLede" as="p" class="lede muted" style="margin:0" />
+				<T k="home.workLede" as="p" class="lede muted m-0" />
 			</div>
 			<WorkThemes client:visible prefix="home" caseHref="/my-work/#integration" />
 		</div>
@@ -97,19 +97,19 @@ const parts = [
 		</div>
 	</section>
 
-	<section class="section" style="padding-top:0">
-		<div class="wrap block" style="border-top:0;padding-top:0">
+	<section class="section pt-0">
+		<div class="wrap case-block [border-top:none] pt-0">
 			<div><T k="home.expTitle" as="h2" class="disp h-m" data-split /></div>
 			<Experience which="experience" />
 		</div>
-		<div class="wrap" style="margin-top:2rem"><a class="btn btn-line" href="/about/"><T k="ui.moreAboutMe" /></a></div>
+		<div class="wrap mt-8"><a class="btn btn-line" href="/about/"><T k="ui.moreAboutMe" /></a></div>
 	</section>
 
-	<section class="section" style="padding-top:0">
-		<div class="wrap two">
+	<section class="section pt-0">
+		<div class="wrap grid grid-cols-1 xl:grid-cols-2 gap-x-[clamp(2rem,5vw,5rem)] gap-y-12 *:min-w-0">
 			<div>
 				<T k="home.writingTitle" as="h2" class="disp h-m" data-split />
-				<T k="home.writingLede" as="p" class="muted" style="margin:1rem 0 0;max-width:40ch" />
+				<T k="home.writingLede" as="p" class="muted mt-4 mb-0 max-w-[40ch]" />
 			</div>
 			<ul class="series">
 				{

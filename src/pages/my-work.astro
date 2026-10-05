@@ -9,17 +9,17 @@ import Base from '../layouts/Base.astro';
 
 <Base current="work" titleKey="meta.workTitle">
 	<!-- What he works on now, then the case he can tell, then the rest of his history -->
-	<section class="band" style="padding-block:clamp(3rem,7vw,6rem) clamp(4rem,8vw,7rem)">
+	<section class="band pt-[clamp(3rem,7vw,6rem)] pb-[clamp(4rem,8vw,7rem)]">
 		<div class="wrap">
 			<div class="head">
 				<T k="work.title" as="h1" class="disp h-xl load" />
-				<T k="work.lede" as="p" class="lede muted" style="margin:0" />
+				<T k="work.lede" as="p" class="lede muted m-0" />
 			</div>
-			<T k="work.now" as="h2" class="disp h-m" style="margin-bottom:2rem" />
+			<T k="work.now" as="h2" class="disp h-m mb-8" />
 			<WorkThemes client:visible prefix="vb" level={3} />
 		</div>
 	</section>
-	<section id="integration" class="wrap block">
+	<section id="integration" class="wrap case-block">
 		<div>
 			<T k="work.caseTitle" as="h2" class="disp h-m" data-split />
 			<T k="work.caseSub" as="p" class="muted" />
@@ -28,10 +28,10 @@ import Base from '../layouts/Base.astro';
 			<T k="work.caseText" as="p" />
 			<p><T k="work.caseHold" class="placeholder" /></p>
 			<Chain nodes={pick(en, 'themes.integration.n') as string[][]} label={en.themes.integration.a} me={[1]} keyBase="themes.integration.n" draw />
-			<T k="work.diagramNote" as="p" class="muted" style="margin-top:1.5rem;font-size:.95rem" />
+			<T k="work.diagramNote" as="p" class="muted mt-6 text-[0.95rem]" />
 		</div>
 	</section>
-	<section class="wrap block">
+	<section class="wrap case-block">
 		<div>
 			<T k="work.before" as="h2" class="disp h-m" data-split />
 			<T k="work.beforeSub" as="p" class="muted" />

@@ -37,7 +37,7 @@ const modeClass = mode === 'rot' ? 't-rot' : mode === 'blur' ? 't-blur' : '';
 ---
 
 <Tag id={id} class:list={['split', modeClass, className]}>
-	<span class="sr-only">{text}</span>
+	<span class="visually-hidden">{text}</span>
 	<span aria-hidden="true">
 		{
 			mode === 'chars'

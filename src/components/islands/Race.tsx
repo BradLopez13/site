@@ -43,9 +43,9 @@ export default function Race() {
 					<i key={i} className={i === WINNER ? 'win' : undefined} />
 				))}
 			</div>
-			<div style={{ display: 'flex', flexDirection: 'column', gap: '.8rem' }}>
+			<div className="flex flex-col gap-[0.8rem]">
 				<b>{tr('race.people')}</b>
-				<span className="mono muted" style={{ fontSize: '.9rem' }} aria-live="polite">
+				<span className="mono muted text-[0.9rem]" aria-live="polite">
 					{done ? '1 × 201 Created, 49 × 409 PISTA_OCUPADA' : tr('race.ready')}
 				</span>
 				<button className="btn btn-ink" type="button" onClick={run}>

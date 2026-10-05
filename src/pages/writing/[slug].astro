@@ -22,18 +22,18 @@ const part = series.find((s) => s.slug === article.slug)?.part ?? 1;
 ---
 
 <Base current="writing" title={`${article.data.title} · Brad López`}>
-	<article class="wrap" style="padding-block:clamp(2.5rem,6vw,5rem)">
+	<article class="wrap py-[clamp(2.5rem,6vw,5rem)]">
 		<a class="crumb" href="/writing/"><T k="writing.seriesCrumb" vars={{ n: part }} /></a>
 		<div lang="en" data-only={Es ? 'en' : undefined}>
-			<h1 class="disp h-l" style="max-width:18ch">{article.data.title}</h1>
-			<p class="lede" style="margin-top:1rem">{article.data.description}</p>
+			<h1 class="disp h-l max-w-[18ch]">{article.data.title}</h1>
+			<p class="lede mt-4">{article.data.description}</p>
 			<div class="article prose-legacy"><Content /></div>
 		</div>
 		{
 			Es && translation && (
 				<div lang="es" data-only="es">
-					<h1 class="disp h-l" style="max-width:18ch">{translation.data.title}</h1>
-					<p class="lede" style="margin-top:1rem">{translation.data.description}</p>
+					<h1 class="disp h-l max-w-[18ch]">{translation.data.title}</h1>
+					<p class="lede mt-4">{translation.data.description}</p>
 					<div class="article prose-legacy"><Es /></div>
 				</div>
 			)

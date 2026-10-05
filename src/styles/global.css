@@ -2,6 +2,55 @@
    The page ground for what Brad built on his own (open, live), the band for his professional work (private, explained).
    One accent for what you can act on and for the thing that holds. Light, dark and system themes share every token. */
 
+/* Tailwind v4: theme and utilities only. Preflight stays out: the reset below is this site's own and keeps px out of the build. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+/* Words in prose that would otherwise become px utilities */
+@source not inline("border blur");
+
+/* The tokens Tailwind generates utilities from. Colours point at the runtime variables, so light, dark and auto keep working. */
+@theme {
+	--color-*: initial;
+	--breakpoint-*: initial;
+	--breakpoint-xs: 30em;
+	--breakpoint-sm: 36em;
+	--breakpoint-md: 40em;
+	--breakpoint-lg: 48em;
+	--breakpoint-nav: 56em;
+	--breakpoint-xl: 60em;
+	--font-display: Anybody, "Anybody Fallback", sans-serif;
+	--font-body: Geist, "Geist Fallback", system-ui, sans-serif;
+	--font-mono: "Geist Mono", ui-monospace, monospace;
+}
+@theme inline {
+	--color-bg: var(--bg);
+	--color-bg-2: var(--bg-2);
+	--color-surface: var(--surface);
+	--color-fg: var(--fg);
+	--color-soft: var(--soft);
+	--color-line: var(--line);
+	--color-accent: var(--accent);
+	--color-band-line: var(--band-line);
+	--ease-out: var(--out);
+	--ease-spring: var(--spring);
+}
+
+/* Patterns repeated across pages */
+@utility wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+@utility section { padding-block: clamp(4rem, 9vw, 8rem); }
+@utility head { display: flex; flex-direction: column; gap: 1rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+@utility case-hero { padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4rem); display: flex; flex-direction: column; gap: 1.5rem; }
+@utility case-block {
+	display: grid; grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); gap: 1.5rem clamp(2rem, 5vw, 5rem);
+	padding-block: clamp(3rem, 6vw, 5rem); border-top: 0.0625rem solid var(--line);
+	& > * { min-width: 0; }
+	@media (width < 60em) { grid-template-columns: 1fr; }
+}
+@utility rule-t { border-top: 0.0625rem solid var(--line); }
+@utility rule-t-fg { border-top: 0.0625rem solid var(--fg); }
+@utility rule-t-band { border-top: 0.0625rem solid var(--band-line); }
+
 @view-transition { navigation: auto; }
 
 /* Fonts served from the site itself; fallbacks sized so the swap barely moves the text */
@@ -61,6 +110,7 @@
 	}
 }
 
+@layer base {
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--text); font-size: 1.0625rem; line-height: 1.55; overflow-x: clip; transition: background-color 0.3s, color 0.3s; }
@@ -70,11 +120,12 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 0.0
 :focus-visible { outline: 0.125rem solid var(--accent); outline-offset: 0.1875rem; border-radius: 0.25rem; }
 .band :focus-visible { outline-color: var(--band-accent); }
 
-.wrap { max-width: var(--max); margin: 0 auto; padding-inline: var(--gutter); }
 .mono { font-family: "Geist Mono", ui-monospace, monospace; }
 .skip { position: absolute; left: 1rem; top: -4rem; z-index: 10; padding: 0.75rem 1rem; background: var(--fg); color: var(--bg); border-radius: 0.5rem; }
 .skip:focus { top: 1rem; }
+}
 
+@layer components {
 /* Display face: Anybody, held at one width so the page never reflows; deformation is transform only */
 .disp { font-family: var(--display); font-variation-settings: "wdth" 112, "wght" 820; letter-spacing: -0.02em; line-height: 0.92; margin: 0; }
 .h-xl { font-size: clamp(2.3rem, 8.2vw, 8.5rem); }
@@ -125,7 +176,7 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 /* Every custom control keeps a visible focus ring; all: unset would otherwise remove it */
 .theme-btn:focus-visible, .menu-btn:focus-visible, .theme:focus-visible, button.lang:focus-visible, .live-back:focus-visible { outline: 0.125rem solid var(--accent); outline-offset: 0.125rem; }
 .band .theme:focus-visible { outline-color: var(--band-accent); }
-.sr-only { position: absolute; width: 0.0625rem; height: 0.0625rem; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.visually-hidden { position: absolute; width: 0.0625rem; height: 0.0625rem; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* Buttons, "under load": the accent rises inside like a gauge filling, and the label squashes when pressed */
 .btn { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; min-height: 3.25rem; padding: 0 1.35rem; border-radius: 0.5rem; border: 0; background: var(--btn-bg); color: var(--btn-fg); font-family: var(--display); font-variation-settings: "wdth" 108, "wght" 700; font-size: 1rem; letter-spacing: -0.005em; line-height: 1; text-decoration: none; white-space: nowrap; cursor: pointer; transition: color 0.3s var(--out), box-shadow 0.3s; }
@@ -149,9 +200,7 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .links a { display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem; min-height: 2.75rem; min-width: 2.75rem; }
 
 /* Sections and their two tracks */
-.section { padding-block: clamp(4rem, 9vw, 8rem); }
 .band { background: var(--band); color: var(--band-fg); border-block: 0.0625rem solid var(--band-line); }
-.head { display: flex; flex-direction: column; gap: 1rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
 
 /* Hero */
 .hero { padding-block: clamp(2rem, 5vw, 4rem) clamp(4rem, 8vw, 6.5rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, clamp(18rem, 30vw, 28rem)); grid-template-areas: "title photo" "meta photo"; gap: clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 5vw, 4.5rem); align-items: end; }
@@ -159,7 +208,6 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .hero-meta { grid-area: meta; display: flex; flex-direction: column; gap: 1rem; padding-top: 1.5rem; border-top: 0.0625rem solid var(--fg); }
 .hero-photo { grid-area: photo; margin: 0; }
 .hero-photo img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 20%; border-radius: 1.25rem; }
-.hero-ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; margin-top: 0.5rem; }
 @media (max-width: 60em) {
 	.hero { grid-template-columns: 1fr; grid-template-areas: "title" "photo" "meta"; }
 	.hero-photo { width: min(72%, 22rem); }
@@ -178,14 +226,6 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .live-note { margin: 0.75rem 0 0; font-size: 0.9rem; }
 .live.is-live img, .live.is-live .load-btn { display: none; }
 
-/* Projects of his own */
-.project { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 2rem clamp(2rem, 5vw, 4.5rem); align-items: start; }
-.project.flip { grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr); }
-.project.flip > :first-child { order: 2; }
-.facts { margin: 1.25rem 0; display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 1.25rem; font-size: 0.97rem; }
-.facts dt { color: var(--soft); }
-.facts dd { margin: 0; }
-@media (max-width: 60em) { .project, .project.flip { grid-template-columns: 1fr; } .project.flip > :first-child { order: 0; } }
 
 /* The race: fifty requests, one slot */
 .race { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 0.55rem; padding: 1.5rem; border-radius: 1rem; background: var(--bg-2); }
@@ -233,10 +273,6 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .path li { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; padding: 1.1rem 0; border-top: 0.0625rem solid var(--line); transition: opacity 0.35s var(--out); }
 .path:hover li:not(:hover) { opacity: 0.4; }
 .path .y { color: var(--soft); font-size: 0.95rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem clamp(2rem, 5vw, 5rem); }
-.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem 3rem; }
-@media (max-width: 60em) { .two { grid-template-columns: 1fr; } }
-@media (max-width: 48em) { .three { grid-template-columns: 1fr; } }
 .series { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
 .series a, .series .soon { display: grid; grid-template-columns: 6rem 1fr; gap: 1rem; padding: 1.25rem 0; text-decoration: none; border-top: 0.0625rem solid var(--line); }
 .series .p { font-size: 0.95rem; font-weight: 600; color: var(--soft); padding-top: 0.3rem; }
@@ -247,17 +283,9 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 /* Footer */
 .foot { padding-block: clamp(4rem, 8vw, 6rem); }
 .foot .mail { font-family: var(--display); font-variation-settings: "wdth" 104, "wght" 800; font-size: clamp(1.4rem, 4.4vw, 4.25rem); letter-spacing: -0.02em; line-height: 1; overflow-wrap: break-word; text-decoration-color: var(--band-accent); text-decoration-thickness: 0.06em; text-underline-offset: 0.15em; }
-.foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 0.0625rem solid var(--band-line); }
 
 /* Case pages */
-.case-hero { padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4rem); display: flex; flex-direction: column; gap: 1.5rem; }
 .crumb { font-weight: 600; font-size: 0.95rem; color: var(--soft); text-decoration: none; display: inline-flex; min-height: 2.75rem; align-items: center; }
-.case-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; padding-top: 1.5rem; border-top: 0.0625rem solid var(--fg); }
-.case-facts dt { font-size: 0.9rem; color: var(--soft); }
-.case-facts dd { margin: 0.3rem 0 0; font-weight: 600; }
-@media (max-width: 48em) { .case-facts { grid-template-columns: 1fr; } }
-.block { display: grid; grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); gap: 1.5rem clamp(2rem, 5vw, 5rem); padding-block: clamp(3rem, 6vw, 5rem); border-top: 0.0625rem solid var(--line); }
-@media (max-width: 60em) { .block { grid-template-columns: 1fr; } }
 .prose p { margin: 0 0 1.1em; max-width: 38rem; }
 .placeholder { background: var(--hold-bg); color: var(--hold-fg); padding: 0.1em 0.3em; border-radius: 0.25em; }
 details.decision { border-radius: 0.9rem; background: var(--surface); box-shadow: inset 0 0 0 0.0625rem var(--line); margin-bottom: 0.75rem; }
@@ -280,13 +308,13 @@ details.decision .body p { max-width: 38rem; }
 .article { max-width: 46rem; }
 .article h2 { font-family: var(--display); font-variation-settings: "wdth" 104, "wght" 780; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; letter-spacing: -0.015em; margin: 3rem 0 1rem; }
 .article p { font-size: 1.15rem; line-height: 1.75; }
+.article pre.astro-code { margin: 1.5rem 0; padding: 1.25rem; border-radius: 1rem; font: 400 0.875rem/1.7 var(--font-mono); white-space: pre; overflow-x: auto; max-width: 100%; }
 .tldr { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 2rem 0; }
 .tldr div { padding: 1.1rem 1.25rem; border-radius: 0.9rem; background: var(--bg-2); }
 .tldr b { display: block; margin-bottom: 0.3rem; }
 @media (max-width: 48em) { .tldr { grid-template-columns: 1fr; } }
 
-/* Grid children may shrink below their content (long URLs, nowrap bars) instead of widening the page */
-.project > *, .two > *, .three > *, .themes > *, .block > *, .race-box > * { min-width: 0; }
+}
 
 /* Reduced motion: everything rests on its final state */
 @media (prefers-reduced-motion: reduce) {
@@ -333,6 +361,7 @@ main:focus { outline: none; }
 	--ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+@layer components {
 /* Live window states */
 .live-back { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; min-height: 2.75rem; margin-block: -0.6rem; padding-inline: 0.5rem; color: #fff; font-weight: 600; white-space: nowrap; }
 .live-back[hidden] { display: none; }
@@ -351,12 +380,5 @@ main:focus { outline: none; }
 .band .chain-list li.me::before { background: var(--band-accent); border-color: var(--band-accent); color: var(--band); }
 @media (max-width: 40em) { .diagram { display: none; } .chain-list { display: block; } }
 
-/* Footer navigation, the same four destinations as the header */
-.foot-nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; margin-top: 2rem; font-weight: 600; }
-.foot-nav a { display: inline-flex; align-items: center; min-height: 2.75rem; }
-
-/* Sizes that used to sit inline */
-.lede-xl { font-size: clamp(1.25rem, 2vw, 1.6rem); max-width: 34ch; }
-.h-panel { font-size: clamp(1.5rem, 2.4vw, 2.1rem); }
 .tag { display: inline-block; margin-left: 0.6rem; padding: 0.1rem 0.5rem; border-radius: 0.3rem; background: var(--bg-2); color: var(--soft); font-size: 0.875rem; font-weight: 600; vertical-align: middle; }
-.casino-title { font-size: clamp(2.2rem, 8vw, 8.5rem); }
+}
