@@ -1,0 +1,59 @@
+---
+title: 'De dos a seis: reglas de lint por tipo de archivo, sin eslint-disable'
+description: 'Cuando el equipo pasó de dos a seis personas, definí límites de ESLint según el tipo de archivo, dejamos de lado los eslint-disable y usamos commitlint para los commits.'
+pubDate: '2026-10-05'
+part: 5
+draft: false
+---
+
+import LintLab from '../../../components/islands/LintLab';
+
+## De dónde sale
+
+Este artículo sale de mi equipo, que en este tiempo ha pasado de dos personas a seis.
+
+Con dos personas, cómo se escribe el código se puede hablar en cada revisión. Con seis prefería que las normas estuvieran escritas y que las comprobara una herramienta, para que no dependieran de quién revisa.
+
+## Un límite para cada tipo de archivo
+
+No puse un límite único para todo el proyecto. Fui mirando los archivos uno a uno y definí límites según lo que es cada archivo: cuántas líneas puede tener y cuántas puede tener cada función.
+
+En el backend, que es Express, separé hooks, services, repositories y models. En el frontend la división es parecida: componentes, hooks y la capa de API. Un model y un service no crecen igual, así que no tenía sentido medirlos con el mismo número.
+
+ESLint permite aplicar reglas distintas según la ruta del archivo. Con eso, la carpeta donde vive un archivo decide qué límites se le aplican.
+
+```js
+// eslint.config.js: un ejemplo, los números no son los de mi equipo
+export default [
+  {
+    files: ['src/services/**/*.ts'],
+    rules: {
+      'max-lines': ['error', { max: 250, skipBlankLines: true, skipComments: true }],
+      'max-lines-per-function': ['error', { max: 50 }],
+    },
+  },
+  {
+    files: ['src/models/**/*.ts'],
+    rules: {
+      'max-lines': ['error', { max: 150, skipBlankLines: true, skipComments: true }],
+      'max-lines-per-function': ['error', { max: 30 }],
+    },
+  },
+];
+```
+
+## Sin eslint-disable
+
+Evitamos los `eslint-disable`. Un comentario así deja pasar una excepción que nadie más ha decidido. Si una regla no encaja con un tipo de archivo, prefiero cambiar la regla para ese tipo y que el cambio pase por revisión como cualquier otro.
+
+## Los commits también tienen formato
+
+Para los mensajes de commit usamos commitlint. Todos siguen el mismo formato, y el historial se lee igual lo haya escrito quien lo haya escrito.
+
+<div class="wide" id="juego">
+  <LintLab client:visible lang="es" />
+</div>
+
+## Dónde estamos
+
+Ahora somos seis y todo el mundo sigue esos estándares. Como los comprueban ESLint y commitlint, no dependen de que alguien se acuerde.

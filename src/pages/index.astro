@@ -1,25 +1,16 @@
 ---
 import { Image } from 'astro:assets';
+import ArticleList from '../components/ArticleList.astro';
 import Experience from '../components/Experience.astro';
 import HowIWork from '../components/HowIWork.astro';
 import LiveWindow from '../components/LiveWindow.astro';
 import T from '../components/T.astro';
 import WorkThemes from '../components/islands/WorkThemes';
 import { LINKS } from '../consts';
-import { getArticles } from '../lib/content';
 import Base from '../layouts/Base.astro';
 import brad from '../assets/brad.jpg';
 import casinoShot from '../assets/shots/casino-table.webp';
 import reservasShot from '../assets/shots/reservas-home.jpg';
-
-// Only link to articles that exist in this build: drafts stay out of production.
-const published = new Set((await getArticles('en')).map((a) => a.slug));
-const parts = [
-	{ n: 1, title: 'writing.p1', text: 'writing.p1d', slug: '50-requests-one-winner' },
-	{ n: 2, title: 'writing.p2', text: 'writing.p2d', slug: 'opaque-session-cookies' },
-	{ n: 3, title: 'writing.p3', text: 'writing.p3d', slug: 'idempotent-booking-retries' },
-	{ n: 4, title: 'writing.p4', text: 'writing.p4d', slug: 'rate-limiting-behind-a-proxy' },
-] as const;
 ---
 
 <Base>
@@ -111,17 +102,7 @@ const parts = [
 				<T k="home.writingTitle" as="h2" class="disp h-m" data-split />
 				<T k="home.writingLede" as="p" class="muted mt-4 mb-0 max-w-[40ch]" />
 			</div>
-			<ul class="series">
-				{
-					parts.map((p) =>
-						published.has(p.slug) ? (
-							<li><a href={`/writing/${p.slug}/`}><T k="writing.part" vars={{ n: p.n }} class="p" /><span><T k={p.title} as="b" class="disp h-s" /><br /><T k={p.text} class="muted" /></span></a></li>
-						) : (
-							<li><span class="soon"><T k="writing.part" vars={{ n: p.n }} class="p" /><span><T k={p.title} /><T k="ui.soon" class="tag" /></span></span></li>
-						),
-					)
-				}
-			</ul>
+			<ArticleList size="h-s" />
 		</div>
 	</section>
 </Base>

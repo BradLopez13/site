@@ -4,7 +4,6 @@ import { render } from 'astro:content';
 import '../../styles/islands.css';
 import ArticleBody from '../../components/ArticleBody.astro';
 import T from '../../components/T.astro';
-import { series } from '../../data/series';
 import { getArticles } from '../../lib/content';
 import Base from '../../layouts/Base.astro';
 
@@ -20,12 +19,11 @@ const { article, translation } = Astro.props;
 const { Content, headings } = await render(article);
 const es = translation ? await render(translation) : null;
 const Es = es?.Content;
-const part = series.find((s) => s.slug === article.slug)?.part ?? 1;
 ---
 
 <Base current="writing" title={`${article.data.title} · Brad López`} titleEs={translation ? `${translation.data.title} · Brad López` : undefined}>
 	<article class="wrap py-[clamp(2.5rem,6vw,5rem)]">
-		<a class="crumb" href="/writing/"><T k="writing.seriesCrumb" vars={{ n: part }} /></a>
+		<a class="crumb" href="/writing/"><T k="writing.title" /></a>
 		<ArticleBody lang="en" only={Es ? 'en' : undefined} title={article.data.title} description={article.data.description} headings={headings} slug={article.slug}>
 			<Content />
 		</ArticleBody>

@@ -97,7 +97,6 @@
 		"longVersion": "The long version, part 1 of 4"
 	},
 	"article": {
-		"part": "Part {n} of {total} on reservas",
 		"updated": "updated",
 		"tryIt": "Now try it yourself",
 		"tryItTitle": "Race 49 bots for the last court against my API",
@@ -106,8 +105,8 @@
 		"noTime": "No time?",
 		"jump": "Jump to the race",
 		"contents": "In this article",
-		"series": "The series",
-		"repo": "The code on GitHub"
+		"repo": "The code on GitHub",
+		"more": "More writing"
 	},
 	"meta": {
 		"title": "Brad López, full-stack developer",
@@ -173,7 +172,7 @@
 		"expTitle": "Experience",
 		"eduTitle": "Education",
 		"writingTitle": "Writing",
-		"writingLede": "A four-part series on what it took to make Reservas hold up, each with a live demo and the code behind it."
+		"writingLede": "Things I have run into while building software, with the code behind them and a demo you can play."
 	},
 	"projects": {
 		"reservas": {
@@ -446,8 +445,7 @@
 	},
 	"writing": {
 		"title": "Writing",
-		"lede": "A four-part series on what it took to make Reservas hold up. Each part has a demo you can play and the code behind every claim.",
-		"part": "Part {n}",
+		"lede": "Things I have run into while building software, written down with the code behind them and a demo you can play. Most come from Reservas for now; more will come from my team and from whatever I build next.",
 		"p1": "50 requests, one winner",
 		"p1d": "Three ways to prevent double bookings in PostgreSQL.",
 		"p2": "Sessions: opaque cookies you can revoke immediately",
@@ -456,7 +454,12 @@
 		"p3d": "One key per attempt, so a lost response never books twice.",
 		"p4": "Login rate limiting behind a proxy: which IP are you counting?",
 		"p4d": "How a proxy can turn a per-IP limit into a per-email one, and the fix.",
-		"seriesCrumb": "The Reservas series, part {n} of 4"
+		"p5": "From two to six: lint rules by file type, without eslint-disable",
+		"p5d": "How we kept one way of writing code while the team grew from two people to six.",
+		"from": {
+			"reservas": "From Reservas",
+			"team": "From my team"
+		}
 	},
 	"labs": {
 		"reset": "Start again",
@@ -551,6 +554,43 @@
 			"anaOk": "Ana: 200. Her email counters are cleared; the IP counters are not.",
 			"sprayBlocked": "Attacker: {refused} of the 25 attempts refused with 429 once the IP counter passed 20.",
 			"sprayFree": "Attacker: 25 accounts tried, none refused. This version has no per-IP counter."
+		},
+		"lint": {
+			"title": "Does this change pass?",
+			"change": "Your change",
+			"tools": "ESLint and commitlint",
+			"backend": "Backend, Express",
+			"frontend": "Frontend",
+			"kinds": {
+				"hook": "hook",
+				"service": "service",
+				"repository": "repository",
+				"model": "model",
+				"component": "component",
+				"api": "API"
+			},
+			"lines": "Lines in the file",
+			"fnLines": "Longest function",
+			"disable": "Add an eslint-disable",
+			"commit": "Commit message",
+			"presets": [
+				"fixes",
+				"fix(bookings): round amounts to two decimals",
+				"Feat: New view."
+			],
+			"run": "Run the checks",
+			"ruleLines": "max-lines for a {kind}",
+			"ruleFn": "max-lines-per-function for a {kind}",
+			"ruleDisable": "no eslint-disable",
+			"ruleCommit": "commitlint: type(scope): subject",
+			"of": "{n} of {max}",
+			"found": "found",
+			"clean": "none",
+			"commitOk": "valid",
+			"commitBad": "invalid",
+			"pass": "Every check passes. The change can go to review.",
+			"fail": "{n} of 4 checks fail: {list}.",
+			"note": "A simulation: the limits are examples, not my team’s real configuration."
 		}
 	}
 }

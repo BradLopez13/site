@@ -1,0 +1,59 @@
+---
+title: 'From two to six: lint rules by file type, without eslint-disable'
+description: 'When the team grew from two people to six, I set ESLint limits by kind of file, we stopped using eslint-disable, and commitlint keeps the commit messages consistent.'
+pubDate: '2026-10-05'
+part: 5
+draft: false
+---
+
+import LintLab from '../../../components/islands/LintLab';
+
+## Where this comes from
+
+This one comes from my team, which has grown from two people to six.
+
+With two people, how we write code can be settled in each review. With six, I wanted the rules written down and checked by a tool, so they would not depend on who is reviewing.
+
+## A limit for each kind of file
+
+I did not set one limit for the whole project. I went through the files one by one and set limits by what each file is: how many lines it can have, and how many each of its functions can have.
+
+On the backend, which is Express, I separated hooks, services, repositories and models. The frontend is split in a similar way: components, hooks and the API layer. A model and a service do not grow the same way, so measuring them with the same number made no sense.
+
+ESLint can apply different rules depending on a file's path. That way, the folder a file lives in decides which limits apply to it.
+
+```js
+// eslint.config.js: an example, these are not my team's numbers
+export default [
+  {
+    files: ['src/services/**/*.ts'],
+    rules: {
+      'max-lines': ['error', { max: 250, skipBlankLines: true, skipComments: true }],
+      'max-lines-per-function': ['error', { max: 50 }],
+    },
+  },
+  {
+    files: ['src/models/**/*.ts'],
+    rules: {
+      'max-lines': ['error', { max: 150, skipBlankLines: true, skipComments: true }],
+      'max-lines-per-function': ['error', { max: 30 }],
+    },
+  },
+];
+```
+
+## No eslint-disable
+
+We avoid `eslint-disable`. A comment like that lets through an exception nobody else decided on. If a rule does not fit a kind of file, I would rather change the rule for that kind and let the change go through review like any other.
+
+## Commits have a format too
+
+We use commitlint for commit messages. They all follow the same format, so the history reads the same whoever wrote it.
+
+<div class="wide" id="game">
+  <LintLab client:visible lang="en" />
+</div>
+
+## Where we are
+
+There are six of us now, and everyone follows these standards. Since ESLint and commitlint check them, they do not depend on anyone remembering.

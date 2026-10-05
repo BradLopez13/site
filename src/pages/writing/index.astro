@@ -1,15 +1,7 @@
 ---
+import ArticleList from '../../components/ArticleList.astro';
 import T from '../../components/T.astro';
-import { getArticles } from '../../lib/content';
 import Base from '../../layouts/Base.astro';
-
-const published = new Set((await getArticles('en')).map((a) => a.slug));
-const parts = [
-	{ n: 1, title: 'writing.p1', text: 'writing.p1d', slug: '50-requests-one-winner' },
-	{ n: 2, title: 'writing.p2', text: 'writing.p2d', slug: 'opaque-session-cookies' },
-	{ n: 3, title: 'writing.p3', text: 'writing.p3d', slug: 'idempotent-booking-retries' },
-	{ n: 4, title: 'writing.p4', text: 'writing.p4d', slug: 'rate-limiting-behind-a-proxy' },
-] as const;
 ---
 
 <Base current="writing" titleKey="meta.writingTitle">
@@ -18,16 +10,6 @@ const parts = [
 		<T k="writing.lede" as="p" class="lede" />
 	</section>
 	<section class="wrap pb-24">
-		<ul class="series">
-			{
-				parts.map((p) =>
-					published.has(p.slug) ? (
-						<li><a href={`/writing/${p.slug}/`}><T k="writing.part" vars={{ n: p.n }} class="p" /><span><T k={p.title} as="b" class="disp h-m" /><br /><T k={p.text} class="muted" /></span></a></li>
-					) : (
-						<li><span class="soon"><T k="writing.part" vars={{ n: p.n }} class="p" /><span><T k={p.title} /><T k="ui.soon" class="tag" /></span></span></li>
-					),
-				)
-			}
-		</ul>
+		<ArticleList size="h-m" />
 	</section>
 </Base>

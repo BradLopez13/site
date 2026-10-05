@@ -3,8 +3,8 @@
 // so the page uses its width while every line stays readable.
 import type { MarkdownHeading } from 'astro';
 import { LINKS } from '../consts';
-import { dict, fmt, type Lang } from '../i18n';
-import { series } from '../data/series';
+import { articles } from '../data/articles';
+import { dict, type Lang } from '../i18n';
 
 interface Props {
 	lang: Lang;
@@ -17,7 +17,8 @@ interface Props {
 const { lang, title, description, headings, slug, only } = Astro.props;
 const d = dict(lang);
 const sections = headings.filter((h) => h.depth === 2);
-const titles = [d.writing.p1, d.writing.p2, d.writing.p3, d.writing.p4];
+// Only Reservas is public code; what comes from the team links nowhere.
+const fromReservas = articles.find((x) => x.slug === slug)?.from === 'reservas';
 ---
 
 <div lang={lang} data-only={only}>
@@ -31,23 +32,22 @@ const titles = [d.writing.p1, d.writing.p2, d.writing.p3, d.writing.p4];
 			<ol class="toc-list">
 				{sections.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
 			</ol>
-			<a class="toc-repo" href={LINKS.reservasRepo}>{d.article.repo}</a>
+			{fromReservas && <a class="toc-repo" href={LINKS.reservasRepo}>{d.article.repo}</a>}
 		</aside>
 		<div class="article">
 			<slot />
-			<nav class="series-nav" aria-label={d.article.series}>
-				<h2 class="disp h-s">{d.article.series}</h2>
+			<nav class="series-nav" aria-label={d.article.more}>
+				<h2 class="disp h-s">{d.article.more}</h2>
 				<ol class="toc-list toc-series">
 					{
-						series.map((s, i) =>
-							s.slug === slug ? (
-								<li><a href={`/writing/${s.slug}/`} aria-current="page"><span class="n">{fmt(d.writing.part, { n: s.part })}</span>{titles[i]}</a></li>
-							) : s.slug ? (
-								<li><a href={`/writing/${s.slug}/`}><span class="n">{fmt(d.writing.part, { n: s.part })}</span>{titles[i]}</a></li>
-							) : (
-								<li><span><span class="n">{fmt(d.writing.part, { n: s.part })}</span>{titles[i]}</span></li>
-							),
-						)
+						articles.map((x) => (
+							<li>
+								<a href={`/writing/${x.slug}/`} aria-current={x.slug === slug ? 'page' : undefined}>
+									<span class="n">{d.writing.from[x.from]}</span>
+									{d.writing[x.key]}
+								</a>
+							</li>
+						))
 					}
 				</ol>
 			</nav>

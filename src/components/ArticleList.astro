@@ -1,0 +1,30 @@
+---
+// The articles that exist in this build, each with where Brad ran into it. Shared by the home and Writing.
+import { articles } from '../data/articles';
+import { getArticles } from '../lib/content';
+import T from './T.astro';
+
+interface Props {
+	size?: 'h-s' | 'h-m';
+}
+const { size = 'h-m' } = Astro.props;
+const published = new Set((await getArticles('en')).map((a) => a.slug));
+const list = articles.filter((a) => published.has(a.slug));
+---
+
+<ul class="series">
+	{
+		list.map((a) => (
+			<li>
+				<a href={`/writing/${a.slug}/`}>
+					<T k={`writing.from.${a.from}`} class="p" />
+					<span>
+						<T k={`writing.${a.key}`} as="b" class={`disp ${size}`} />
+						<br />
+						<T k={`writing.${a.key}d`} class="muted" />
+					</span>
+				</a>
+			</li>
+		))
+	}
+</ul>
