@@ -2,6 +2,7 @@
 // One route per article: both language versions render, and only the visitor's language shows.
 import { render } from 'astro:content';
 import '../../styles/islands.css';
+import ArticleBody from '../../components/ArticleBody.astro';
 import T from '../../components/T.astro';
 import { series } from '../../data/series';
 import { getArticles } from '../../lib/content';
@@ -16,26 +17,23 @@ export async function getStaticPaths() {
 }
 
 const { article, translation } = Astro.props;
-const { Content } = await render(article);
-const Es = translation ? (await render(translation)).Content : null;
+const { Content, headings } = await render(article);
+const es = translation ? await render(translation) : null;
+const Es = es?.Content;
 const part = series.find((s) => s.slug === article.slug)?.part ?? 1;
 ---
 
 <Base current="writing" title={`${article.data.title} · Brad López`} titleEs={translation ? `${translation.data.title} · Brad López` : undefined}>
 	<article class="wrap py-[clamp(2.5rem,6vw,5rem)]">
 		<a class="crumb" href="/writing/"><T k="writing.seriesCrumb" vars={{ n: part }} /></a>
-		<div lang="en" data-only={Es ? 'en' : undefined}>
-			<h1 class="disp h-l max-w-[18ch]">{article.data.title}</h1>
-			<p class="lede mt-4">{article.data.description}</p>
-			<div class="article prose-legacy"><Content /></div>
-		</div>
+		<ArticleBody lang="en" only={Es ? 'en' : undefined} title={article.data.title} description={article.data.description} headings={headings} slug={article.slug}>
+			<Content />
+		</ArticleBody>
 		{
-			Es && translation && (
-				<div lang="es" data-only="es">
-					<h1 class="disp h-l max-w-[18ch]">{translation.data.title}</h1>
-					<p class="lede mt-4">{translation.data.description}</p>
-					<div class="article prose-legacy"><Es /></div>
-				</div>
+			Es && translation && es && (
+				<ArticleBody lang="es" only="es" title={translation.data.title} description={translation.data.description} headings={es.headings} slug={article.slug}>
+					<Es />
+				</ArticleBody>
 			)
 		}
 	</article>

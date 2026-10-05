@@ -305,7 +305,29 @@ details.decision .body p { max-width: 38rem; }
 .terminal .ok { color: #9aa6ff; }
 
 /* Article */
-.article { max-width: 46rem; }
+/* Article: the index of sections beside the text on wide screens; text keeps a readable measure,
+   the summary, the demo and the code take the whole column */
+.article-head { max-width: 56rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+.article-head h1 { max-width: 20ch; }
+.article-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.article { min-width: 0; }
+.article > p, .article > ul, .article > ol, .article > h2, .article > blockquote { max-width: 44rem; }
+.toc { display: none; }
+@media (min-width: 64em) {
+	.article-grid { grid-template-columns: 14rem minmax(0, 1fr); column-gap: clamp(3rem, 5vw, 5.5rem); }
+	.toc { display: flex; flex-direction: column; gap: 0.75rem; position: sticky; top: 6.5rem; align-self: start; max-height: calc(100dvh - 8rem); overflow-y: auto; padding-top: 2rem; }
+}
+.toc-title { margin: 0; font-size: 0.875rem; font-weight: 700; }
+.toc-list { list-style: none; margin: 0 0 1.25rem; padding: 0; border-left: 0.0625rem solid var(--line); }
+.toc-list a, .toc-list > li > span { display: block; margin-left: -0.0625rem; padding: 0.4rem 0 0.4rem 0.9rem; border-left: 0.125rem solid transparent; font-size: 0.9rem; line-height: 1.35; color: var(--soft); text-decoration: none; transition: color 0.2s, border-color 0.2s; }
+.toc-list a:hover { color: var(--fg); }
+.toc-list a[aria-current] { color: var(--fg); border-left-color: var(--accent); font-weight: 600; }
+.series-nav { max-width: 44rem; margin-top: clamp(3rem, 6vw, 5rem); padding-top: 2rem; border-top: 0.0625rem solid var(--line); }
+.series-nav h2 { margin-bottom: 1rem; }
+.toc-series a, .toc-series > li > span { font-size: 1rem; padding-block: 0.6rem; }
+.toc-series .n { display: block; font-size: 0.875rem; font-weight: 600; color: var(--soft); }
+.toc-series > li > span { opacity: 0.7; }
+.toc-repo { display: inline-flex; align-items: center; min-height: 2.75rem; font-size: 0.9rem; font-weight: 600; }
 .article h2 { font-family: var(--display); font-variation-settings: "wdth" 104, "wght" 780; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; letter-spacing: -0.015em; margin: 3rem 0 1rem; }
 .article p { font-size: 1.15rem; line-height: 1.75; }
 .article pre.astro-code { margin: 1.5rem 0; padding: 1.25rem; border-radius: 1rem; font: 400 0.875rem/1.7 var(--font-mono); white-space: pre; overflow-x: auto; max-width: 100%; }

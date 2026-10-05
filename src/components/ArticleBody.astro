@@ -1,0 +1,56 @@
+---
+// One language version of an article: an index of its sections beside the text on wide screens,
+// so the page uses its width while every line stays readable.
+import type { MarkdownHeading } from 'astro';
+import { LINKS } from '../consts';
+import { dict, fmt, type Lang } from '../i18n';
+import { series } from '../data/series';
+
+interface Props {
+	lang: Lang;
+	title: string;
+	description: string;
+	headings: MarkdownHeading[];
+	slug: string;
+	only?: Lang;
+}
+const { lang, title, description, headings, slug, only } = Astro.props;
+const d = dict(lang);
+const sections = headings.filter((h) => h.depth === 2);
+const titles = [d.writing.p1, d.writing.p2, d.writing.p3, d.writing.p4];
+---
+
+<div lang={lang} data-only={only}>
+	<header class="article-head">
+		<h1 class="disp h-l">{title}</h1>
+		<p class="lede mt-4">{description}</p>
+	</header>
+	<div class="article-grid">
+		<aside class="toc" aria-label={d.article.contents}>
+			<p class="toc-title">{d.article.contents}</p>
+			<ol class="toc-list">
+				{sections.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+			</ol>
+			<a class="toc-repo" href={LINKS.reservasRepo}>{d.article.repo}</a>
+		</aside>
+		<div class="article">
+			<slot />
+			<nav class="series-nav" aria-label={d.article.series}>
+				<h2 class="disp h-s">{d.article.series}</h2>
+				<ol class="toc-list toc-series">
+					{
+						series.map((s, i) =>
+							s.slug === slug ? (
+								<li><a href={`/writing/${s.slug}/`} aria-current="page"><span class="n">{fmt(d.writing.part, { n: s.part })}</span>{titles[i]}</a></li>
+							) : s.slug ? (
+								<li><a href={`/writing/${s.slug}/`}><span class="n">{fmt(d.writing.part, { n: s.part })}</span>{titles[i]}</a></li>
+							) : (
+								<li><span><span class="n">{fmt(d.writing.part, { n: s.part })}</span>{titles[i]}</span></li>
+							),
+						)
+					}
+				</ol>
+			</nav>
+		</div>
+	</div>
+</div>

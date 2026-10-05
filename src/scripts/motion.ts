@@ -231,3 +231,19 @@ $$<HTMLButtonElement>('[data-copy]').forEach((b) => {
 		setTimeout(() => { label.dataset.i18n = key; window.dispatchEvent(new CustomEvent('relabel')); }, 1800);
 	});
 });
+
+// Article index: marks the last section whose heading has passed the top third of the screen
+document.querySelectorAll<HTMLElement>('.toc').forEach((toc) => {
+	const links = [...toc.querySelectorAll<HTMLAnchorElement>('.toc-list a')];
+	const heads = links.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))));
+	let queued = false;
+	const mark = () => {
+		queued = false;
+		if (!toc.offsetParent) return;
+		let current = -1;
+		heads.forEach((h, i) => { if (h && h.getBoundingClientRect().top < innerHeight * 0.33) current = i; });
+		links.forEach((a, i) => (i === current ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+	};
+	addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(mark); } }, { passive: true });
+	mark();
+});

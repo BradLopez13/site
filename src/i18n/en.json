@@ -104,7 +104,10 @@
 		"next": "Next in the series, coming soon",
 		"inBrief": "In 30 seconds",
 		"noTime": "No time?",
-		"jump": "Jump to the race"
+		"jump": "Jump to the race",
+		"contents": "In this article",
+		"series": "The series",
+		"repo": "The code on GitHub"
 	},
 	"meta": {
 		"title": "Brad López, full-stack developer",
