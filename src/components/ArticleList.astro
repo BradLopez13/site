@@ -18,11 +18,8 @@ const list = articles.filter((a) => published.has(a.slug));
 			<li>
 				<a href={`/writing/${a.slug}/`}>
 					<T k={`writing.from.${a.from}`} class="p" />
-					<span>
-						<T k={`writing.${a.key}`} as="b" class={`disp ${size}`} />
-						<br />
-						<T k={`writing.${a.key}d`} class="muted" />
-					</span>
+					<T k={`writing.${a.key}`} as="b" class={`disp ${size}`} />
+					<T k={`writing.${a.key}d`} class="muted d" />
 				</a>
 			</li>
 		))

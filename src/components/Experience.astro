@@ -4,13 +4,15 @@ import T from './T.astro';
 
 interface Props {
 	which: 'experience' | 'education';
+	/** Full-width rows: year, role, what he did. The narrow two-column About keeps the stacked rows. */
+	wide?: boolean;
 }
-const { which } = Astro.props;
+const { which, wide } = Astro.props;
 ---
 
 {
 	which === 'experience' ? (
-		<ol class="path">
+		<ol class:list={['path', { 'path-wide': wide }]}>
 			<li><T k="exp.since" class="y" /><span><T k="exp.vbT" as="b" /> <T k="exp.vbD" /></span></li>
 			<li><span class="y">2025</span><span><T k="exp.mgT" as="b" /> <T k="exp.mgD" /></span></li>
 			<li><span class="y">2024</span><span><T k="exp.dlT" as="b" /> <T k="exp.dlD" /></span></li>

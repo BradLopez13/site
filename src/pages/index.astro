@@ -89,18 +89,18 @@ import reservasShot from '../assets/shots/reservas-home.jpg';
 	</section>
 
 	<section class="section pt-0">
-		<div class="wrap case-block [border-top:none] pt-0">
-			<div><T k="home.expTitle" as="h2" class="disp h-m" data-split /></div>
-			<Experience which="experience" />
+		<div class="wrap">
+			<div class="head"><T k="home.expTitle" as="h2" class="disp h-l" data-split /></div>
+			<Experience which="experience" wide />
+			<div class="mt-8"><a class="btn btn-line" href="/about/"><T k="ui.moreAboutMe" /></a></div>
 		</div>
-		<div class="wrap mt-8"><a class="btn btn-line" href="/about/"><T k="ui.moreAboutMe" /></a></div>
 	</section>
 
 	<section class="section pt-0">
-		<div class="wrap grid grid-cols-1 xl:grid-cols-2 gap-x-[clamp(2rem,5vw,5rem)] gap-y-12 *:min-w-0">
-			<div>
-				<T k="home.writingTitle" as="h2" class="disp h-m" data-split />
-				<T k="home.writingLede" as="p" class="muted mt-4 mb-0 max-w-[40ch]" />
+		<div class="wrap">
+			<div class="head">
+				<T k="home.writingTitle" as="h2" class="disp h-l" data-split />
+				<T k="home.writingLede" as="p" class="lede muted m-0" />
 			</div>
 			<ArticleList size="h-s" />
 		</div>

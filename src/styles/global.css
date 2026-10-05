@@ -290,6 +290,20 @@ button.lang { border: 0; background: none; font-family: inherit; cursor: pointer
 .series .soon { color: var(--soft); }
 .series a > *, .series .soon > * { min-width: 0; overflow-wrap: anywhere; }
 @media (max-width: 30em) { .series a, .series .soon { grid-template-columns: 4.25rem 1fr; } }
+.series a > .d { grid-column: 2; }
+/* The row you point at stays, the rest step back, as in Experience */
+.series li { transition: opacity 0.35s var(--out); }
+.series:hover li:not(:hover), .series:focus-within li:not(:focus-within) { opacity: 0.4; }
+.path:focus-within li:not(:focus-within) { opacity: 0.4; }
+/* Wide rows on the home: where it comes from, what it is, what it says; the same three columns in both lists */
+@media (min-width: 60em) {
+	.path-wide li, .series a { grid-template-columns: 10rem minmax(0, 1.15fr) minmax(0, 1fr); column-gap: clamp(2rem, 4vw, 4.5rem); align-items: baseline; }
+	.path-wide li > span:last-child { display: contents; }
+	.path-wide li { padding-block: 1.4rem; }
+	.path-wide li b { font-family: var(--display); font-variation-settings: "wdth" 104, "wght" 720; font-size: clamp(1.15rem, 1.5vw, 1.4rem); line-height: 1.2; }
+	.path-wide li > span:last-child > span { color: var(--soft); }
+	.series a > .d { grid-column: auto; }
+}
 
 /* Footer */
 .foot { padding-block: clamp(4rem, 8vw, 6rem); }
