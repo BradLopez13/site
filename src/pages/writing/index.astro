@@ -24,7 +24,7 @@ const parts = [
 					'slug' in p && published.has(p.slug) ? (
 						<li><a href={`/writing/${p.slug}/`}><T k="writing.part" vars={{ n: p.n }} class="p" /><span><T k={p.title} as="b" class="disp h-m" /><br /><T k={p.text} class="muted" /></span></a></li>
 					) : (
-						<li><span class="soon"><T k="writing.part" vars={{ n: p.n }} class="p" /><T k={p.title} /></span></li>
+						<li><span class="soon"><T k="writing.part" vars={{ n: p.n }} class="p" /><span><T k={p.title} /><T k="ui.soon" class="tag" /></span></span></li>
 					),
 				)
 			}

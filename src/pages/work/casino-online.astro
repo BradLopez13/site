@@ -11,8 +11,8 @@ import shot from '../../assets/shots/casino-blackjack.webp';
 <Base current="projects" title="Casino Online · Brad López">
 	<section class="wrap case-hero">
 		<a class="crumb" href="/#mine"><T k="ui.myProjects" /></a>
-		<h1 class="disp h-xl load" style="font-size:clamp(2.2rem,8vw,8.5rem)">Casino Online</h1>
-		<T k="projects.casino.tagline" as="p" class="lede" style="font-size:clamp(1.25rem,2vw,1.6rem);max-width:34ch" />
+		<h1 class="disp h-xl load casino-title">Casino Online</h1>
+		<T k="projects.casino.tagline" as="p" class="lede lede-xl" />
 		<dl class="case-facts">
 			<div><T k="ui.role" as="dt" /><T k="projects.casino.roleCase" as="dd" /></div>
 			<div><T k="ui.when" as="dt" /><dd>2025</dd></div>
@@ -20,7 +20,7 @@ import shot from '../../assets/shots/casino-blackjack.webp';
 		</dl>
 	</section>
 	<section class="wrap">
-		<LiveWindow url={LINKS.casinoDemo} shot={shot} altKey="projects.casino.altCase" titleKey="projects.casino.liveTitle" noteKey="projects.casino.noteCase" />
+		<LiveWindow url={LINKS.casinoDemo} name="Casino Online" shot={shot} altKey="projects.casino.altCase" titleKey="projects.casino.liveTitle" noteKey="projects.casino.noteCase" />
 	</section>
 	<section class="wrap block" style="margin-top:3rem">
 		<div><T k="cases.casinoWhat" as="h2" class="disp h-m" data-split /></div>

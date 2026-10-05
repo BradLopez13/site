@@ -22,17 +22,17 @@ const parts = [
 ] as const;
 ---
 
-<Base current="projects">
+<Base>
 	<!-- Who he is first, in his own words; the work follows as evidence -->
 	<section class="wrap hero">
-		<T k="home.title" as="h1" class="disp h-xl load" />
-		<div class="hero-row" data-after-load>
-			<Image src={brad} alt="Brad López" widths={[300, 600]} sizes="(min-width: 60em) 17rem, 6.5rem" loading="eager" fetchpriority="high" />
-			<div style="display:flex;flex-direction:column;gap:.9rem">
-				<T k="home.byline" as="p" style="margin:0;font-weight:600;font-size:1.15rem" />
-				<T k="home.lede" as="p" class="lede" style="margin:0" />
-				<p class="muted" style="margin:0;font-size:.95rem">React, TypeScript, Node.js, Express, Azure</p>
-			</div>
+		<T k="home.title" as="h1" class="disp load" />
+		<figure class="hero-photo" data-after-load>
+			<Image src={brad} alt="Brad López" widths={[400, 700, 1000]} sizes="(min-width: 60em) 28rem, 72vw" loading="eager" fetchpriority="high" />
+		</figure>
+		<div class="hero-meta" data-after-load>
+			<T k="home.byline" as="p" style="margin:0;font-weight:600;font-size:1.15rem" />
+			<T k="home.lede" as="p" class="lede" style="margin:0" />
+			<p class="muted" style="margin:0;font-size:.95rem">React, TypeScript, Node.js, Express, Azure</p>
 			<div class="hero-ctas">
 				<a class="btn btn-ink" href={`mailto:${LINKS.email}`}><T k="ui.writeMe" /></a>
 				<span class="links"><a href={LINKS.github}>GitHub</a><a href={LINKS.linkedin}>LinkedIn</a></span>
@@ -49,7 +49,7 @@ const parts = [
 			</div>
 			<article class="project">
 				<div>
-					<LiveWindow url={LINKS.reservasDemo} shot={reservasShot} altKey="projects.reservas.alt" titleKey="projects.reservas.liveTitle" noteKey="projects.reservas.note" noteOnKey="ui.liveOn" />
+					<LiveWindow url={LINKS.reservasDemo} name="Reservas" shot={reservasShot} altKey="projects.reservas.alt" titleKey="projects.reservas.liveTitle" noteKey="projects.reservas.note" noteOnKey="ui.liveOn" />
 				</div>
 				<div>
 					<h3 class="disp h-m">Reservas</h3>
@@ -60,7 +60,7 @@ const parts = [
 			</article>
 			<article class="project flip" style="margin-top:clamp(4rem,8vw,7rem)">
 				<div>
-					<LiveWindow url={LINKS.casinoDemo} shot={casinoShot} altKey="projects.casino.alt" titleKey="projects.casino.liveTitle" noteKey="projects.casino.note" />
+					<LiveWindow url={LINKS.casinoDemo} name="Casino Online" shot={casinoShot} altKey="projects.casino.alt" titleKey="projects.casino.liveTitle" noteKey="projects.casino.note" />
 				</div>
 				<div>
 					<h3 class="disp h-m">Casino Online</h3>
@@ -98,9 +98,9 @@ const parts = [
 	</section>
 
 	<section class="section" style="padding-top:0">
-		<div class="wrap two">
-			<div><T k="home.expTitle" as="h2" class="disp h-m" data-split /><div style="margin-top:1.5rem"><Experience which="experience" /></div></div>
-			<div><T k="home.eduTitle" as="h2" class="disp h-m" data-split /><div style="margin-top:1.5rem"><Experience which="education" /></div></div>
+		<div class="wrap block" style="border-top:0;padding-top:0">
+			<div><T k="home.expTitle" as="h2" class="disp h-m" data-split /></div>
+			<Experience which="experience" />
 		</div>
 		<div class="wrap" style="margin-top:2rem"><a class="btn btn-line" href="/about/"><T k="ui.moreAboutMe" /></a></div>
 	</section>
@@ -117,7 +117,7 @@ const parts = [
 						'slug' in p && published.has(p.slug) ? (
 							<li><a href={`/writing/${p.slug}/`}><T k="writing.part" vars={{ n: p.n }} class="p" /><span><T k={p.title} as="b" class="disp h-s" /><br /><T k={p.text} class="muted" /></span></a></li>
 						) : (
-							<li><span class="soon"><T k="writing.part" vars={{ n: p.n }} class="p" /><T k={p.title} /></span></li>
+							<li><span class="soon"><T k="writing.part" vars={{ n: p.n }} class="p" /><span><T k={p.title} /><T k="ui.soon" class="tag" /></span></span></li>
 						),
 					)
 				}

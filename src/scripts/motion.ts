@@ -110,13 +110,17 @@ if (!reduce) {
 	const variants = ['up', 'rot', 'blur'];
 	const io = new IntersectionObserver(
 		(entries) => entries.forEach((en) => {
-			if (!en.isIntersecting) return;
-			io.unobserve(en.target);
 			const el = en.target as HTMLElement;
+			if (!en.isIntersecting) {
+				// Passed by a jump to an anchor: show it as it ends, without the entrance.
+				if (en.boundingClientRect.bottom < 0) { io.unobserve(el); restTitle(el); }
+				return;
+			}
+			io.unobserve(el);
 			if (el.hasAttribute('data-split')) enterTitle(el);
 			else drawDiagram(el);
 		}),
-		{ rootMargin: '0% 0% -12% 0%' },
+		{ rootMargin: '0% 0% 10% 0%' },
 	);
 	titles.forEach((h, i) => {
 		h.dataset.v = variants[i % variants.length];
@@ -125,34 +129,93 @@ if (!reduce) {
 	});
 	$$('svg.diagram[data-draw]').forEach((d) => io.observe(d));
 
+	function restTitle(h: HTMLElement) {
+		$$('.wi', h).forEach((w) => { w.style.removeProperty('transform'); w.style.removeProperty('opacity'); w.style.removeProperty('filter'); });
+		$$('.node, .wire', h).forEach((n) => { n.style.removeProperty('opacity'); });
+	}
+
 	function enterTitle(h: HTMLElement) {
 		const w = $$('.wi', h);
-		if (h.dataset.v === 'rot') animate(w, { y: ['110%', '0%'], rotate: [7, 0], duration: 1000, delay: stagger(55), ease: 'outQuart' });
+		if (h.dataset.v === 'rot') animate(w, { y: ['110%', '0%'], rotate: [7, 0], duration: 800, delay: stagger(45), ease: 'outQuart' });
 		else if (h.dataset.v === 'blur') {
 			w.forEach((e) => (e.style.transform = 'none'));
-			animate(w, { opacity: [0, 1], filter: ['blur(0.625rem)', 'blur(0rem)'], y: ['1.125rem', '0rem'], duration: 900, delay: stagger(70), ease: 'outQuart' });
-		} else animate(w, { y: ['110%', '0%'], duration: 900, delay: stagger(40), ease: 'outExpo' });
+			animate(w, { opacity: [0, 1], filter: ['blur(0.625rem)', 'blur(0rem)'], y: ['1.125rem', '0rem'], duration: 700, delay: stagger(55), ease: 'outQuart' });
+		} else animate(w, { y: ['110%', '0%'], duration: 700, delay: stagger(35), ease: 'outExpo' });
 	}
 }
 
 /* ---------- Live windows: the deployed app replaces its poster only when the visitor asks ---------- */
 $$('[data-live]').forEach((box) => {
 	const btn = box.querySelector<HTMLButtonElement>('.load-btn');
+	const back = box.querySelector<HTMLButtonElement>('.live-back');
+	const status = box.querySelector<HTMLElement>('.live-status');
+	const note = box.nextElementSibling as HTMLElement | null;
+	const noteKey = note?.dataset.i18n;
+	let timer = 0;
+	const show = (which: 'loading' | 'fail' | null) => {
+		if (!status) return;
+		status.hidden = which === null;
+		status.querySelector<HTMLElement>('[data-loading]')!.hidden = which !== 'loading';
+		status.querySelector<HTMLElement>('[data-fail]')!.hidden = which !== 'fail';
+	};
 	btn?.addEventListener('click', () => {
 		const f = document.createElement('iframe');
 		f.src = box.dataset.live!;
 		f.title = box.dataset.title || 'Live app';
 		f.setAttribute('referrerpolicy', 'no-referrer');
+		show('loading');
+		// The deployed app answers in a few seconds; past fifteen, say so and point to its own tab.
+		timer = window.setTimeout(() => show('fail'), 15000);
+		f.addEventListener('load', () => {
+			window.clearTimeout(timer);
+			show(null);
+			if (!reduce) animate(f, { opacity: [0, 1], scale: [0.985, 1], duration: 600, ease: 'outQuart' });
+		});
 		box.querySelector('.live-view')!.append(f);
 		box.classList.add('is-live');
-		const note = box.nextElementSibling as HTMLElement | null;
+		if (back) back.hidden = false;
 		if (note?.dataset.on) {
 			note.dataset.i18n = note.dataset.on;
 			window.dispatchEvent(new CustomEvent('relabel'));
 		}
-		if (!reduce) animate(f, { opacity: [0, 1], scale: [0.985, 1], duration: 600, ease: 'outQuart' });
 		f.focus();
 	});
+	back?.addEventListener('click', () => {
+		window.clearTimeout(timer);
+		box.querySelector('iframe')?.remove();
+		box.classList.remove('is-live');
+		show(null);
+		back.hidden = true;
+		if (note && noteKey) {
+			note.dataset.i18n = noteKey;
+			window.dispatchEvent(new CustomEvent('relabel'));
+		}
+		btn?.focus();
+	});
+});
+
+/* ---------- Menu on small screens: opens under the header, closes on Escape, outside tap or a link ---------- */
+$$<HTMLButtonElement>('[data-menu]').forEach((b) => {
+	const menu = document.getElementById(b.getAttribute('aria-controls')!)!;
+	const set = (open: boolean) => {
+		b.setAttribute('aria-expanded', String(open));
+		b.dataset.i18nAttr = `aria-label:${open ? 'ui.closeMenu' : 'ui.menu'}`;
+		menu.hidden = !open;
+		window.dispatchEvent(new CustomEvent('relabel'));
+		if (open) {
+			menu.querySelector<HTMLElement>('a')?.focus();
+			if (!reduce) animate(menu, { opacity: [0, 1], y: ['-0.5rem', '0rem'], duration: 300, ease: 'outQuart' });
+		}
+	};
+	b.addEventListener('click', () => set(b.getAttribute('aria-expanded') !== 'true'));
+	menu.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) set(false); });
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && !menu.hidden) { set(false); b.focus(); }
+	});
+	document.addEventListener('click', (e) => {
+		if (!menu.hidden && !menu.contains(e.target as Node) && !b.contains(e.target as Node)) set(false);
+	});
+	window.matchMedia('(min-width: 56em)').addEventListener('change', (m) => { if (m.matches) set(false); });
 });
 
 /* ---------- Copy email, only where the clipboard is reachable ---------- */

@@ -122,7 +122,7 @@
 		"open": "Abrir",
 		"useLive": "Úsala aquí, en vivo",
 		"liveOn": "Esta es la app desplegada. Aquí se puede navegar; para iniciar sesión y reservar, ábrela en su propia pestaña.",
-		"role": "Papel",
+		"role": "Rol",
 		"stack": "Stack",
 		"kind": "Tipo",
 		"when": "Cuándo",
@@ -137,7 +137,13 @@
 		"themeLight": "Tema: claro. Cambiar a oscuro",
 		"themeDark": "Tema: oscuro. Usar el del sistema",
 		"rejected": "Descartado:",
-		"soon": "Próximamente"
+		"soon": "Próximamente",
+		"menu": "Menú",
+		"closeMenu": "Cerrar menú",
+		"loadingLive": "Cargando la app en vivo…",
+		"liveFail": "La app en vivo está tardando demasiado. Ábrela en su propia pestaña.",
+		"backToShot": "Volver a la captura",
+		"footerNav": "Sitio"
 	},
 	"nav": {
 		"projects": "Mis proyectos",
@@ -157,7 +163,7 @@
 		"mineTitle": "Lo que he construido por mi cuenta.",
 		"mineLede": "Proyectos abiertos, desplegados y funcionando. Úsalos aquí mismo o ábrelos en su propia pestaña.",
 		"casaTitle": "Casa, en construcción",
-		"casaText": "Tareas del hogar y lista de la compra compartidas, con Expo y Supabase. Ahora estoy metido en la seguridad de la base de datos: qué roles pueden ejecutar qué, con tests que fallan si alguien lo amplía.",
+		"casaText": "Tareas del hogar y lista de la compra compartidas, con Expo y Supabase. La parte más interesante es la seguridad de la base de datos: qué roles pueden ejecutar qué, con tests que fallan si alguien lo amplía.",
 		"workTitle": "Mi trabajo.",
 		"workLede": "Desde 2025 soy desarrollador full‑stack en VB Group. Es trabajo privado, así que sin código, clientes ni cifras: el problema, lo que hice y su forma.",
 		"howTitle": "Cómo trabajo.",
@@ -172,7 +178,7 @@
 			"altCase": "Página de una pista en Reservas con la tira de días y las franjas",
 			"liveTitle": "Reservas, la app en vivo",
 			"note": "Carga la app desplegada solo cuando la pides, para que esta página siga siendo rápida. Reserva pistas de pádel en Madrid.",
-			"text": "Reservas de pistas en Madrid que nunca venden la misma franja dos veces. La hice para descubrir qué pasa cuando cincuenta personas reservan la misma pista en el mismo segundo, y para demostrar la solución.",
+			"text": "Una app de reservas de pistas en Madrid que nunca vende la misma franja dos veces. La hice para descubrir qué pasa cuando cincuenta personas reservan la misma pista en el mismo segundo, y para demostrar la solución.",
 			"role": "Todo: diseño, API, web, tests y despliegue",
 			"tagline": "Cincuenta personas, una pista, el mismo segundo. Hecha para descubrir qué pasa y demostrarlo.",
 			"kind": "Proyecto propio, de código abierto"

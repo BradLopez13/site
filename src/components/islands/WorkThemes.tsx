@@ -81,7 +81,7 @@ export default function WorkThemes({ prefix = 'home', level = 3, caseHref }: { p
 				))}
 			</div>
 			<div ref={panel} className="theme-panel" role="tabpanel" id={`${prefix}-panel`} aria-labelledby={`${prefix}-tab-${id}`}>
-				<H className="disp h-s" style={{ fontSize: 'clamp(1.5rem,2.4vw,2.1rem)' }}>
+				<H className="disp h-s h-panel">
 					{tr(k('h'))}
 				</H>
 				<p className="muted" style={{ margin: '1rem 0 0' }}>

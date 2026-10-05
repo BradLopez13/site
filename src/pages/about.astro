@@ -10,13 +10,13 @@ import brad from '../assets/brad.jpg';
 
 <Base current="about" titleKey="meta.aboutTitle" footerKey="footer.leadAbout">
 	<section class="wrap hero">
-		<T k="about.title" as="h1" class="disp h-xl load" />
-		<div class="hero-row" data-after-load>
-			<Image src={brad} alt="Brad López" widths={[300, 600]} sizes="(min-width: 60em) 17rem, 6.5rem" loading="eager" />
-			<div style="display:flex;flex-direction:column;gap:.9rem">
-				<T k="about.lede" as="p" class="lede" style="margin:0;max-width:52ch" />
-				<T k="about.security" as="p" class="lede muted" style="margin:0;max-width:52ch" />
-			</div>
+		<T k="about.title" as="h1" class="disp load" />
+		<figure class="hero-photo" data-after-load>
+			<Image src={brad} alt="Brad López" widths={[400, 700, 1000]} sizes="(min-width: 60em) 28rem, 72vw" loading="eager" />
+		</figure>
+		<div class="hero-meta" data-after-load>
+			<T k="about.lede" as="p" class="lede" style="margin:0;max-width:52ch" />
+			<T k="about.security" as="p" class="lede muted" style="margin:0;max-width:52ch" />
 			<div class="hero-ctas"><a class="btn btn-ink" href={`mailto:${LINKS.email}`}><T k="ui.writeMe" /></a></div>
 		</div>
 	</section>

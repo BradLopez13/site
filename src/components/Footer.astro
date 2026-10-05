@@ -7,12 +7,19 @@ interface Props {
 	leadKey?: Key;
 }
 const { leadKey = 'footer.lead' } = Astro.props;
+const [user, domain] = LINKS.email.split('@');
 ---
 
 <footer class="band foot">
 	<div class="wrap">
 		<T k={leadKey} as="p" class="muted" style="margin:0 0 1.25rem;font-size:1.15rem;max-width:44ch" />
-		<a class="mail" href={`mailto:${LINKS.email}`}>{LINKS.email.split("@")[0]}@<wbr />{LINKS.email.split("@")[1]}</a>
+		<a class="mail" href={`mailto:${LINKS.email}`}>{user}@<wbr />{domain}</a>
+		<nav class="foot-nav" data-i18n-attr="aria-label:ui.footerNav" aria-label="Site">
+			<T k="nav.projects" as="a" href="/#mine" />
+			<T k="nav.work" as="a" href="/my-work/" />
+			<T k="nav.about" as="a" href="/about/" />
+			<T k="nav.writing" as="a" href="/writing/" />
+		</nav>
 		<div class="foot-row">
 			<T k="footer.place" class="muted" />
 			<span class="links">

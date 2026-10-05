@@ -137,7 +137,13 @@
 		"themeLight": "Theme: light. Switch to dark",
 		"themeDark": "Theme: dark. Switch to system",
 		"rejected": "Rejected:",
-		"soon": "Coming"
+		"soon": "Coming",
+		"menu": "Menu",
+		"closeMenu": "Close menu",
+		"loadingLive": "Loading the live app…",
+		"liveFail": "The live app is taking too long. Open it in its own tab instead.",
+		"backToShot": "Back to the screenshot",
+		"footerNav": "Site"
 	},
 	"nav": {
 		"projects": "My projects",
@@ -157,7 +163,7 @@
 		"mineTitle": "Things I built on my own.",
 		"mineLede": "Open projects, deployed and running. Use them right here, or open them in their own tab.",
 		"casaTitle": "Casa, in progress",
-		"casaText": "Shared household tasks and a shopping list, in Expo and Supabase. The part I’m deep in is the database’s security: which roles may run what, with tests that fail if anyone widens it.",
+		"casaText": "Shared household tasks and a shopping list, in Expo and Supabase. The interesting part is the database’s security: which roles may run what, with tests that fail if anyone widens it.",
 		"workTitle": "My work.",
 		"workLede": "Since 2025 I’m a full‑stack developer at VB Group. It’s private work, so no code, clients or figures: the problem, what I did, and its shape.",
 		"howTitle": "How I work.",

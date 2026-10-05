@@ -1,5 +1,6 @@
 import { createTimeline } from 'animejs';
 import { useRef, useState } from 'react';
+import { LINKS } from '../../consts';
 import { useT } from '../../i18n/store';
 
 // The race from the Reservas test suite: fifty requests leave at once, the database lets one through.
@@ -50,7 +51,7 @@ export default function Race() {
 				<button className="btn btn-ink" type="button" onClick={run}>
 					<span>{runs ? tr('race.again') : tr('race.run')}</span>
 				</button>
-				<a href="https://github.com/BradLopez13/reservas">{tr('race.test')}</a>
+				<a href={LINKS.raceTest}>{tr('race.test')}</a>
 			</div>
 		</div>
 	);
