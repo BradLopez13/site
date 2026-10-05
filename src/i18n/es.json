@@ -1,21 +1,23 @@
 {
 	"meta": {
-		"description": "Desarrollador full-stack en Madrid. Backends que aguantan la carga, con las decisiones por escrito.",
+		"description": "Desarrollador full-stack en Madrid. React, TypeScript, Node.js y Azure, pensando en cómo puede romperse.",
 		"otherLang": "English",
-		"otherLangLabel": "Read in English"
+		"otherLangLabel": "EN, read in English",
+		"role": "Desarrollador full-stack"
 	},
 	"nav": {
 		"main": "Principal",
 		"menu": "Menú",
 		"work": "Trabajo",
 		"writing": "Artículos",
-		"about": "Sobre mí",
-		"play": "Compite con mi API"
+		"about": "Sobre mí"
 	},
 	"footer": {
-		"lead": "¿Quieres hablar de backend o full-stack, o discutir sobre bloqueos? Contesto todos los correos.",
-		"leadAbout": "¿Quieres hablar de backend, full-stack o de cómo funciona algo de aquí? Escríbeme.",
-		"place": "Madrid, España. Ciudadano de la UE."
+		"lead": "¿Alguna pregunta sobre lo que hay aquí, o te apetece hablar de desarrollo? Contesto todos los correos.",
+		"leadAbout": "¿Quieres preguntar cómo funciona algo de aquí, o discutirlo? Escríbeme.",
+		"place": "Madrid, España. Ciudadano de la UE.",
+		"copy": "Copiar correo",
+		"copied": "Copiado"
 	},
 	"common": {
 		"readStory": "Leer la historia",
@@ -39,15 +41,21 @@
 		"liveOn": "Es la app desplegada. Aquí puedes navegar; para iniciar sesión y reservar, ábrela en otra pestaña.",
 		"liveTitle": "{host}, la app en vivo",
 		"rss": "Seguir por RSS",
-		"writeMe": "Escríbeme"
+		"writeMe": "Escríbeme",
+		"skip": "Saltar al contenido",
+		"openApp": "Abrir la app"
 	},
 	"home": {
-		"title": "Cincuenta peticiones. Una reserva. Siempre.",
-		"lede": "Soy Brad, desarrollador full-stack en VB Group, en Madrid. Construyo software que sigue siendo correcto cuando todo el mundo pulsa a la vez. Todo lo que ves aquí es real: mis pantallas, mi código, mi API.",
-		"ctaPlay": "Compite con mi API",
+		"title": "Escribo código pensando en cómo puede romperse.",
+		"byline": "Brad López, desarrollador full‑stack en Madrid",
+		"lede": "Escribí el estándar de ingeniería y la CI de mi equipo cuando éramos dos, y aguantó mientras el equipo crecía. Un máster en seguridad ofensiva me enseñó a leer mi propio código como lo haría un atacante.",
+		"seeWork": "Ver mi trabajo",
+		"profilesLabel": "En otros sitios",
+		"cv": "CV (PDF)",
+		"pause": "Pausar la animación",
 		"photoAlt": "Brad López",
 		"liveTitle": "Desplegados y funcionando. Ábrelos.",
-		"liveLede": "Cambia de pantalla o abre la app de verdad.",
+		"liveLede": "Dos apps que hice y desplegué: reservas de pistas y mi proyecto final de grado.",
 		"screensLabel": "Pantallas de reservas",
 		"screens": {
 			"courts": {
@@ -64,59 +72,71 @@
 			}
 		},
 		"phoneAlt": "reservas en un móvil",
-		"reservasDesc": "Reservas de pistas en Madrid que nunca venden la misma franja dos veces, aunque cincuenta personas lo intenten a la vez.",
+		"reservasDesc": "Reservas de pistas en Madrid que nunca venden la misma franja dos veces.",
 		"casinoDesc": "El proyecto final de mi ciclo: un casino con dinero ficticio donde las reglas de seguridad de Firestore hacen de servidor.",
-		"casinoAlt": "Pantalla de inicio de sesión de casino_online",
-		"backendTitle": "Una reserva, de punta a punta.",
-		"backendLede": "Elige una parada. Código real, fichero real.",
-		"workTitle": "El trabajo que no puedo enseñar.",
-		"workLede": "Sin código, clientes ni cifras: los problemas, explicados. Elige uno.",
-		"everyDay": "En el día a día",
-		"everything": "Todo lo que sé, y a qué nivel",
+		"casinoAlt": "Mesa de blackjack de casino_online: la banca muestra un as y el jugador tiene 10 y 7 con 50 fichas en juego",
+		"backendTitle": "Sigue una petición por el código.",
+		"backendLede": "Código real, fichero real, en el commit del que sale.",
+		"workTitle": "Problemas que he resuelto en el trabajo.",
+		"workLede": "Sin código, clientes ni cifras: los problemas, explicados.",
+		"everyDay": "Stack principal",
+		"everything": "Trayectoria y formación, en Sobre mí",
 		"playTitle": "Compite con mi API.",
-		"playLede": "Tú y 49 bots, una sola pista. Envía tu reserva y descubre por qué reenviarla es seguro.",
+		"playLede": "Reserva una pista, pierde la respuesta por el camino y reintenta. Verás por qué el reintento nunca reserva dos veces.",
 		"howOpen": "Cómo funciona",
 		"howClose": "Ocultar las reglas",
 		"howRules": "Todo el mundo quiere {court} a las {time} y solo gana la primera inserción. Después reenvía con la misma Idempotency-Key: mi API devuelve la respuesta guardada en lugar de volver a intentarlo, así que un reintento nunca reserva dos veces.",
 		"howSim": "Es una simulación en tu navegador con la forma real de la petición y la respuesta. Nunca toca la base de datos de la demo.",
 		"writingTitle": "Artículos",
 		"writingLede": "Una serie de cuatro partes sobre lo que hizo falta para que reservas aguante, cada una con una demo en vivo y el commit que la respalda.",
-		"facts": [
-			"Dos años en producción",
-			"Ciudadano de la UE"
-		],
-		"factsLabel": "En resumen",
-		"raceCaption": "El test de la carrera de reservas: 50 reservas por la última franja libre en el mismo instante. Solo entra una."
+		"raceCaption": "El test de la carrera, del repositorio de reservas.",
+		"raceWin": "1 × 201 Created",
+		"raceLose": "49 × 409 PISTA_OCUPADA",
+		"raceProof": "Ver el test (debed11)",
+		"raceTitle": "Cincuenta peticiones. Una reserva. Siempre.",
+		"raceStart": "50 personas pulsan Reservar en el mismo instante",
+		"raceWall": "La base de datos",
+		"raceGets": "1 se queda la pista",
+		"raceWinGloss": "reservada",
+		"raceLoseGloss": "les dice que está ocupada",
+		"raceSr": "Animación del test: 50 peticiones de reserva para la misma pista llegan en el mismo instante. La base de datos deja pasar una y rechaza las otras 49."
 	},
 	"backend": {
 		"label": "Paradas",
 		"steps": {
 			"http": {
 				"label": "HTTP",
+				"ask": "¿Quién pide?",
 				"title": "Llega la petición",
-				"text": "Solo reservan los usuarios con sesión. La sesión es una cookie opaca que se comprueba antes de ejecutar el handler."
+				"text": "Solo reservan las personas con sesión. La sesión es una cookie opaca que se comprueba antes de ejecutar el handler."
 			},
 			"contract": {
 				"label": "Contrato",
+				"ask": "¿Es válida?",
 				"title": "Un esquema, los dos lados",
-				"text": "El mismo esquema de Zod valida este cuerpo en el servidor y tipa el formulario en el cliente."
+				"text": "El navegador y el servidor están de acuerdo en cómo es una reserva: un esquema de Zod valida este cuerpo en el servidor y tipa el formulario en el navegador."
 			},
 			"idempotency": {
 				"label": "Idempotencia",
+				"ask": "¿Enviada dos veces?",
 				"title": "Un reintento no reserva dos veces",
-				"text": "Una petición repetida con la misma clave y el mismo cuerpo recibe la respuesta guardada en lugar de ejecutarse otra vez."
+				"text": "Si el móvil envía la misma reserva dos veces, la segunda recibe la primera respuesta. Se guardan la clave y un hash del cuerpo; una repetición devuelve la respuesta guardada en lugar de ejecutarse otra vez."
 			},
 			"repository": {
 				"label": "Repositorio",
+				"ask": "¿Pista ocupada?",
 				"title": "Traducir la base de datos",
-				"text": "La inserción funciona o PostgreSQL la rechaza con 23P01, que se convierte en un error de dominio: la pista está ocupada."
+				"text": "Cuando la pista está ocupada, la base de datos dice que no y la app lo convierte en una respuesta clara: PostgreSQL rechaza la inserción con 23P01, que se convierte en un 409, pista ocupada."
 			},
 			"postgres": {
 				"label": "PostgreSQL",
+				"ask": "¿Quién decide?",
 				"title": "Decide la base de datos",
-				"text": "Dos reservas confirmadas de la misma pista no pueden solaparse en el tiempo. Inserte desde la ruta que inserte mañana, se sigue cumpliendo."
+				"text": "La regla vive en la propia base de datos: dos reservas confirmadas de la misma pista no pueden solaparse en el tiempo. Inserte desde la ruta que inserte mañana, se sigue cumpliendo."
 			}
-		}
+		},
+		"commitLabel": "en {commit}",
+		"codeLabel": "Código de {file}"
 	},
 	"job": {
 		"label": "Temas de trabajo",
@@ -134,13 +154,13 @@
 				"tag": "Ingeniería",
 				"title": "Un estándar que impone el linter",
 				"headline": "Un estándar de código que nadie tiene que recordar",
-				"text": "No había convenciones. Escribí una arquitectura por capas como reglas de lint, con límites de tamaño por capa, límites de complejidad y sin any, además de la estrategia de ramas, la CI, Husky, Commitlint y las comprobaciones antes de fusionar. Lo escribí para dos desarrolladores; hoy trabajan seis sobre él."
+				"text": "No había convenciones. Escribí una arquitectura por capas como reglas de lint, con límites de tamaño por capa, límites de complejidad y sin any, además de la estrategia de ramas, la CI, Husky, Commitlint y las comprobaciones antes de fusionar. Lo escribí cuando éramos dos desarrolladores, y aguantó mientras el equipo crecía."
 			},
 			"product": {
 				"tag": "Producto",
 				"title": "Una plataforma de eventos multiempresa",
 				"headline": "Una plataforma, cada empresa con la suya",
-				"text": "Permisos por rol, temas por empresa y departamento, itinerarios, presupuestos y módulos de costes basados en fórmulas. En producción y creciendo."
+				"text": "Permisos por rol, temas por empresa y departamento, itinerarios, presupuestos y módulos de costes basados en fórmulas. Llevada a producción."
 			},
 			"cloud": {
 				"tag": "Nube",
@@ -150,7 +170,7 @@
 			},
 			"people": {
 				"tag": "Personas",
-				"title": "Dos becarios, hoy juniors",
+				"title": "Dos becarios, formados hasta junior",
 				"headline": "De becario a desarrollador junior",
 				"text": "Incorporación, reparto de tareas, revisiones de código y resolución de incidencias, día a día, hasta que los dos pudieron trabajar solos sobre el estándar del equipo."
 			}
@@ -233,29 +253,41 @@
 	},
 	"work": {
 		"title": "Trabajo",
-		"lede": "Proyectos abiertos que puedes probar, y problemas de mi trabajo, contados sin el código.",
-		"atJob": "En mi trabajo",
+		"lede": "Proyectos abiertos que puedes probar, y problemas de mi trabajo profesional, contados sin el código.",
+		"atJob": "Trabajo profesional",
 		"atJobLede": "Trabajo privado. Sin clientes, sin cifras, sin pantallas.",
-		"casesLabel": "Casos"
+		"casesLabel": "Casos",
+		"demo": "Abrir la demo",
+		"code": "Código"
 	},
 	"game": {
-		"requests": "Peticiones enviadas",
+		"requests": "Peticiones a mi API",
 		"booked": "Reservas hechas",
-		"step2": "La respuesta se perdió por el camino. Envía exactamente la misma petición otra vez.",
 		"sendNew": "Enviar la reserva",
-		"sendSame": "Reenviar la misma petición",
-		"again": "Otra carrera con clave nueva",
+		"sendSame": "Reintentar con la misma clave",
 		"reset": "Empezar de cero",
-		"empty": "Aún no hay respuesta. Otros 49 bots también quieren {court} a las {time}.",
+		"empty": "Aún no hay respuesta. Tu petición es una de las 50 que quieren {court} a las {time}.",
 		"lose": "Has llegado en el puesto {rank} de 50. Alguien se quedó la pista antes.",
 		"win": "Primer puesto de 50. La pista es tuya.",
-		"replayLose": "Misma clave, misma respuesta, servida desde el almacén de idempotencia. No se ha ejecutado nada dos veces.",
+		"replayLose": "Misma clave, mismo 201, servido desde el almacén de idempotencia. Quien ganó sigue teniendo una reserva, no dos.",
 		"replayWin": "Misma clave, mismo 201. Sigue habiendo una sola reserva: el reintento se respondió desde el almacén de idempotencia.",
 		"lesson": "Eso es lo que importa: un reintento nunca reserva dos veces.",
 		"arrival": "Orden de llegada de las 50 peticiones",
 		"you": "Tú",
 		"winner": "Ganadora",
-		"fromStore": "desde el almacén de idempotencia"
+		"fromStore": "desde el almacén de idempotencia",
+		"esNote": "",
+		"keyHint": "Una clave por intento de reserva, para que el servidor reconozca un reintento.",
+		"utcNote": "Las horas viajan en UTC: {utc} son las {time} en Madrid.",
+		"step2Win": "Imagina que ese 201 nunca llegó a tu móvil: la conexión se cortó a la vuelta. Tu app reintenta con la misma clave.",
+		"step2Lose": "Ahora piensa en quien ganó. Imagina que su 201 nunca llegó al móvil: la conexión se cortó a la vuelta. Su app reintenta con la misma clave.",
+		"retryNew": "Reintentar con una clave nueva",
+		"newKeyWin": "Una clave nueva parece una reserva nueva. La pista ya está ocupada, por tu propia reserva, así que a tu móvil le dicen que falló cuando funcionó.",
+		"newKeyLose": "Una clave nueva parece una reserva nueva. La pista ya está ocupada, por la propia reserva ganadora, así que a ese móvil le dicen que falló cuando funcionó.",
+		"afterNew": "Ahora reintenta con la clave original.",
+		"tryNew": "Prueba con una clave nueva",
+		"reqLabel": "Cuerpo de la petición",
+		"resLabel": "Cuerpo de la respuesta"
 	},
 	"race": {
 		"label": "Estrategia",
@@ -337,31 +369,27 @@
 		"lede": "Desarrollador full-stack en Madrid. Me gustan las partes que nadie ve hasta que se rompen.",
 		"stats": [
 			[
-				"2 años",
-				"en producción"
-			],
-			[
 				"3 meses",
 				"de junior a full-stack"
 			],
 			[
-				"De 2 a 6",
-				"devs sobre mi estándar"
+				"2",
+				"becarios formados hasta junior"
 			]
 		],
 		"readStory": "Leer mi historia",
 		"hideStory": "Ocultar mi historia",
 		"langs": [
 			"Español, nativo",
-			"Inglés B2, certificado TOEIC",
+			"Inglés B2, certificado TOEIC; trabajé en inglés en Países Bajos",
 			"Ciudadano de la UE"
 		],
 		"knowTitle": "Lo que sé, y a qué nivel",
 		"knowLabel": "Cómo lo uso",
 		"levels": {
 			"daily": {
-				"label": "En el trabajo, a diario",
-				"text": "Lo que llevo a producción en mi trabajo, semana tras semana."
+				"label": "En producción",
+				"text": "Lo que he llevado a producción en el trabajo, semana tras semana."
 			},
 			"own": {
 				"label": "En mis proyectos",
@@ -369,7 +397,7 @@
 			},
 			"before": {
 				"label": "Usado antes o enseñado",
-				"text": "Experiencia real, pero no es lo que uso hoy en producción. Lo digo desde el principio."
+				"text": "Experiencia real, pero no lo he tenido en producción. Lo digo desde el principio."
 			}
 		},
 		"notes": {
@@ -413,9 +441,15 @@
 			},
 			"daw": {
 				"when": "2023 a 2025",
-				"short": "Ciclo de DAW y clases",
+				"short": "Ciclo de DAW",
 				"title": "Desarrollo de Aplicaciones Web (DAW)",
-				"text": "Proyecto final: casino_online. A la vez, profesor particular de Java y Python para universitarios."
+				"text": "Proyecto final: casino_online."
+			},
+			"tutor": {
+				"when": "2023 a 2025",
+				"short": "Profesor de programación",
+				"title": "Profesor particular de programación",
+				"text": "Java, Python y fundamentos de programación para universitarios, como autónomo y en remoto."
 			},
 			"delogica": {
 				"when": "2024",
@@ -429,11 +463,17 @@
 				"title": "Desarrollador en prácticas, MrGates",
 				"text": "Herramientas internas full-stack en PHP y JavaScript, con esquemas relacionales pequeños llevados del diagrama ER a MySQL."
 			},
-			"now": {
-				"when": "2025 a hoy",
-				"short": "Full-stack en VB Group",
-				"title": "Full Stack Developer and Engineering Support, VB Group",
-				"text": "Madrid. Integraciones, una plataforma de eventos multiempresa, el estándar de ingeniería y la CI del equipo, y la mentoría de dos becarios hasta convertirse en juniors."
+			"vbjunior": {
+				"when": "Sept. 2025",
+				"short": "Desarrollador web junior",
+				"title": "Desarrollador web junior, VB Group",
+				"text": "React y Vite delante, Node.js y Express detrás, APIs REST y despliegues en Azure. Ascendido a full stack a los tres meses."
+			},
+			"vbfull": {
+				"when": "Dic. 2025",
+				"short": "Full stack en VB Group",
+				"title": "Full Stack Developer, VB Group",
+				"text": "Integraciones, una plataforma de eventos multiempresa, el estándar de ingeniería y la CI con los que trabaja el equipo, la incorporación de quienes fueron llegando y dos becarios formados hasta junior."
 			}
 		},
 		"howTitle": "Cómo trabajo",
@@ -459,23 +499,23 @@
 		"training": [
 			[
 				"2024 a 2026",
-				"Posgrado en Dirección de Ciberseguridad y Seguridad Ofensiva",
+				"Máster Profesional en Dirección de Ciberseguridad y Seguridad Ofensiva",
 				"EIP International Business School"
 			],
 			[
 				"2026",
 				"Certified Cyber Security Professional",
-				"ISMS Forum"
-			],
-			[
-				"2025",
-				"IT Specialist, Network Security",
-				"Certiport"
+				"ISMS Forum y CSC Cyber Security Centre"
 			],
 			[
 				"2026",
 				"Introducción a la Contabilidad Financiera",
 				"IESE Business School"
+			],
+			[
+				"2025",
+				"IT Specialist, Network Security",
+				"Certiport"
 			],
 			[
 				"2025",

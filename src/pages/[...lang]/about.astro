@@ -98,7 +98,7 @@ const training = t.training.map(([when, title, who], i) => ({ when, title, who, 
 	}
 	.about-stats {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
 		gap: 0.625rem;
 		max-width: 40rem;
 	}

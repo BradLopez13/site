@@ -1,21 +1,23 @@
 {
 	"meta": {
-		"description": "Full-stack developer in Madrid. Backends that hold under load, with the decisions written down.",
+		"description": "Full-stack developer in Madrid. React, TypeScript, Node.js and Azure, built thinking about how it breaks.",
 		"otherLang": "Español",
-		"otherLangLabel": "Leer en español"
+		"otherLangLabel": "ES, leer en español",
+		"role": "Full-stack developer"
 	},
 	"nav": {
 		"main": "Main",
 		"menu": "Menu",
 		"work": "Work",
 		"writing": "Writing",
-		"about": "About",
-		"play": "Race my API"
+		"about": "About"
 	},
 	"footer": {
-		"lead": "Want to talk backend or full-stack work, or argue about locks? I answer every email.",
-		"leadAbout": "Want to talk backend, full-stack or how something here works? Write to me.",
-		"place": "Madrid, Spain. EU citizen."
+		"lead": "A question about anything here, or just want to talk shop? I answer every email.",
+		"leadAbout": "Want to ask how something here works, or argue about it? Write to me.",
+		"place": "Madrid, Spain. EU citizen.",
+		"copy": "Copy email",
+		"copied": "Copied"
 	},
 	"common": {
 		"readStory": "Read the story",
@@ -39,84 +41,102 @@
 		"liveOn": "This is the deployed app. Browsing works here; to sign in and book, open it in a new tab.",
 		"liveTitle": "{host}, the live app",
 		"rss": "Follow by RSS",
-		"writeMe": "Write to me"
+		"writeMe": "Write to me",
+		"skip": "Skip to content",
+		"openApp": "Open the app"
 	},
 	"home": {
-		"title": "Fifty requests. One booking. Every time.",
-		"lede": "I’m Brad, full-stack developer at VB Group in Madrid. I build software that stays correct when everyone clicks at once. Everything here is real: my screens, my code, my API.",
-		"ctaPlay": "Race my API",
+		"title": "I build software thinking about how it breaks.",
+		"byline": "Brad López, full‑stack developer in Madrid",
+		"lede": "I wrote my team’s engineering standard and CI when we were two developers, and it held as the team grew. A master’s in offensive security taught me to read my own code the way an attacker would.",
+		"seeWork": "See my work",
+		"profilesLabel": "Elsewhere",
+		"cv": "CV (PDF)",
+		"pause": "Pause motion",
 		"photoAlt": "Brad López",
 		"liveTitle": "Deployed and running. Open them.",
-		"liveLede": "Switch screens, or open the real app.",
+		"liveLede": "Two apps I built and deployed: court bookings, and my degree’s final project.",
 		"screensLabel": "reservas screens",
 		"screens": {
 			"courts": {
 				"label": "Courts",
-				"alt": "reservas home page with the court list"
+				"alt": "reservas home page with the court list (the app’s interface is in Spanish)"
 			},
 			"day": {
 				"label": "Book a slot",
-				"alt": "reservas court page with the day strip and time slots"
+				"alt": "reservas court page with the day strip and time slots (in Spanish)"
 			},
 			"grid": {
 				"label": "Court grid",
-				"alt": "reservas grid of courts with the next free hour"
+				"alt": "reservas grid of courts with the next free hour (in Spanish)"
 			}
 		},
 		"phoneAlt": "reservas on a phone",
-		"reservasDesc": "Court bookings in Madrid that never sell the same slot twice, even when fifty people try at the same moment.",
+		"reservasDesc": "Court bookings in Madrid that never sell the same slot twice.",
 		"casinoDesc": "My degree’s final project: a play-money casino where Firestore security rules do the server’s job.",
-		"casinoAlt": "casino_online sign-in screen",
-		"backendTitle": "One booking, end to end.",
-		"backendLede": "Pick a stop. Real code, real file.",
-		"workTitle": "Work I can’t show.",
-		"workLede": "No code, clients or numbers: the problems, explained. Pick one.",
-		"everyDay": "Every day at work",
-		"everything": "Everything I know, and how well",
+		"casinoAlt": "casino_online blackjack table: the dealer shows an ace, the player holds 10 and 7 with 50 chips in play",
+		"backendTitle": "Follow one request through the code.",
+		"backendLede": "Real code, real file, at the commit it comes from.",
+		"workTitle": "Problems I solved at work.",
+		"workLede": "No code, clients or numbers: the problems, explained.",
+		"everyDay": "Main stack",
+		"everything": "My path and training, on About",
 		"playTitle": "Race my API.",
-		"playLede": "You and 49 bots, one court. Send your booking, then find out why sending it twice is safe.",
+		"playLede": "Book a court, lose the reply on the way back, then retry. See why the retry never books twice.",
 		"howOpen": "How it works",
 		"howClose": "Hide the rules",
 		"howRules": "Everyone wants {court} at {time} and only the first insert wins. Then resend with the same Idempotency-Key: my API returns the stored response instead of trying again, so a retry never books twice.",
 		"howSim": "A simulation in your browser with the real request and response shapes. It never touches the live database.",
 		"writingTitle": "Writing",
 		"writingLede": "A four-part series on what it took to make reservas hold up, each with a live demo and the commit behind it.",
-		"facts": [
-			"Two years in production",
-			"EU citizen"
-		],
-		"factsLabel": "At a glance",
-		"raceCaption": "The reservas race test: 50 bookings for the last free slot at the same moment. Exactly one gets in."
+		"raceCaption": "The race test from the reservas repository.",
+		"raceWin": "1 × 201 Created",
+		"raceLose": "49 × 409 PISTA_OCUPADA",
+		"raceProof": "See the test (debed11)",
+		"raceTitle": "Fifty requests. One booking. Every time.",
+		"raceStart": "50 people press Book at the same moment",
+		"raceWall": "The database",
+		"raceGets": "1 gets the court",
+		"raceWinGloss": "booked",
+		"raceLoseGloss": "“court taken”, in the API’s Spanish",
+		"raceSr": "Animation of the test: 50 booking requests for the same court arrive at the same moment. The database lets one through and refuses the other 49."
 	},
 	"backend": {
 		"label": "Stops",
 		"steps": {
 			"http": {
 				"label": "HTTP",
+				"ask": "Who is asking?",
 				"title": "The request arrives",
-				"text": "Only signed-in users can book. The session is an opaque cookie, checked before the handler runs."
+				"text": "Only signed-in people can book. The session is an opaque cookie, checked before the handler runs."
 			},
 			"contract": {
 				"label": "Contract",
+				"ask": "Is it valid?",
 				"title": "One schema, both ends",
-				"text": "The same Zod schema validates this body on the server and types the form on the client."
+				"text": "The browser and the server agree on what a booking looks like: one Zod schema validates this body on the server and types the form in the browser."
 			},
 			"idempotency": {
 				"label": "Idempotency",
+				"ask": "Sent twice?",
 				"title": "Retries do not book twice",
-				"text": "A repeated request with the same key and body gets the stored response instead of running again."
+				"text": "If the phone sends the same booking twice, the second one gets the first answer back. The key and a hash of the body are stored; a repeat returns the stored response instead of running again."
 			},
 			"repository": {
 				"label": "Repository",
+				"ask": "Court taken?",
 				"title": "Translate the database",
-				"text": "The insert either works or PostgreSQL refuses it with 23P01, which becomes a domain error: the court is taken."
+				"text": "When the court is taken, the database says no and the app turns that into a clear answer: PostgreSQL refuses the insert with 23P01, which becomes a 409, the court is taken."
 			},
 			"postgres": {
 				"label": "PostgreSQL",
+				"ask": "Who decides?",
 				"title": "The database decides",
-				"text": "No two confirmed bookings for the same court may overlap in time. Whatever route inserts tomorrow, this still holds."
+				"text": "The rule lives in the database itself: no two confirmed bookings for the same court may overlap in time. Whatever route inserts tomorrow, it still holds."
 			}
-		}
+		},
+		"commitLabel": "at {commit}",
+		"codeLabel": "Code from {file}"
 	},
 	"job": {
 		"label": "Work themes",
@@ -134,13 +154,13 @@
 				"tag": "Engineering",
 				"title": "A standard the linter enforces",
 				"headline": "A code standard nobody has to remember",
-				"text": "There were no conventions. I wrote a layered architecture as lint rules, with size limits per layer, complexity limits and no any, plus the branching strategy, CI, Husky, Commitlint and pre-merge checks. Written for two developers; six work on it today."
+				"text": "There were no conventions. I wrote a layered architecture as lint rules, with size limits per layer, complexity limits and no any, plus the branching strategy, CI, Husky, Commitlint and pre-merge checks. I wrote it when we were two developers, and it held as the team grew."
 			},
 			"product": {
 				"tag": "Product",
 				"title": "A multi-tenant events platform",
 				"headline": "One platform, every company its own",
-				"text": "Role-based permissions, theming per company and department, itineraries, budgets and cost modules driven by formulas. In production and growing."
+				"text": "Role-based permissions, theming per company and department, itineraries, budgets and cost modules driven by formulas. Shipped to production."
 			},
 			"cloud": {
 				"tag": "Cloud",
@@ -150,7 +170,7 @@
 			},
 			"people": {
 				"tag": "People",
-				"title": "Two interns, now juniors",
+				"title": "Two interns, mentored into juniors",
 				"headline": "From intern to junior developer",
 				"text": "Onboarding, task breakdown, code reviews and incident resolution, day to day, until both could work on their own on top of the team’s standard."
 			}
@@ -233,29 +253,41 @@
 	},
 	"work": {
 		"title": "Work",
-		"lede": "Open projects you can click through, and problems from my job, told without the code.",
-		"atJob": "At my job",
+		"lede": "Open projects you can click through, and problems from my professional work, told without the code.",
+		"atJob": "Professional work",
 		"atJobLede": "Private work. No clients, no figures, no screens.",
-		"casesLabel": "Cases"
+		"casesLabel": "Cases",
+		"demo": "Open the demo",
+		"code": "Code"
 	},
 	"game": {
-		"requests": "Requests sent",
+		"requests": "Requests to my API",
 		"booked": "Bookings made",
-		"step2": "The reply got lost on the way back. Send the exact same request again.",
 		"sendNew": "Send the booking",
-		"sendSame": "Resend the same request",
-		"again": "Race again with a new key",
+		"sendSame": "Retry with the same key",
 		"reset": "Start over",
-		"empty": "No response yet. 49 bots also want {court} at {time}.",
+		"empty": "No response yet. Your request is one of 50 for {court} at {time}.",
 		"lose": "You arrived {rank} of 50. Someone got the court first.",
 		"win": "You arrived first of 50. The court is yours.",
-		"replayLose": "Same key, same answer, served from the idempotency store. Nothing ran twice.",
+		"replayLose": "Same key, same 201, served from the idempotency store. The winner still has one booking, not two.",
 		"replayWin": "Same key, same 201. Still one booking: the retry was answered from the idempotency store.",
 		"lesson": "That is the part that matters: a retry never books twice.",
 		"arrival": "Arrival order of the 50 requests",
 		"you": "You",
 		"winner": "Winner",
-		"fromStore": "from the idempotency store"
+		"fromStore": "from the idempotency store",
+		"esNote": "My API answers in Spanish: “that slot is already booked”.",
+		"keyHint": "One key per booking attempt, so the server can recognise a retry.",
+		"utcNote": "Times travel in UTC: {utc} is {time} in Madrid.",
+		"step2Win": "Suppose that 201 never reached your phone: the connection dropped on the way back. Your app retries with the same key.",
+		"step2Lose": "Now take the winner. Suppose its 201 never reached the phone: the connection dropped on the way back. Its app retries with the same key.",
+		"retryNew": "Retry with a new key",
+		"newKeyWin": "A new key looks like a new booking. The court is already taken, by your own booking, so your phone is told it failed when it worked.",
+		"newKeyLose": "A new key looks like a new booking. The court is already taken, by the winner’s own booking, so the winner’s phone is told it failed when it worked.",
+		"afterNew": "Now retry with the original key.",
+		"tryNew": "Try a new key instead",
+		"reqLabel": "Request body",
+		"resLabel": "Response body"
 	},
 	"race": {
 		"label": "Strategy",
@@ -337,31 +369,27 @@
 		"lede": "Full-stack developer in Madrid. I like the parts nobody sees until they break.",
 		"stats": [
 			[
-				"2 yrs",
-				"in production"
-			],
-			[
 				"3 mo",
 				"junior to full-stack"
 			],
 			[
-				"2 to 6",
-				"devs on my standard"
+				"2",
+				"interns mentored into juniors"
 			]
 		],
 		"readStory": "Read my story",
 		"hideStory": "Hide my story",
 		"langs": [
 			"Spanish, native",
-			"English B2, TOEIC certified",
+			"English B2, TOEIC certified; worked in English in the Netherlands",
 			"EU citizen"
 		],
 		"knowTitle": "What I know, and how well",
 		"knowLabel": "How I use it",
 		"levels": {
 			"daily": {
-				"label": "Every day at work",
-				"text": "What I ship to production at my job, week after week."
+				"label": "In production",
+				"text": "What I have shipped to production at work, week after week."
 			},
 			"own": {
 				"label": "In my own projects",
@@ -369,7 +397,7 @@
 			},
 			"before": {
 				"label": "Used before or taught",
-				"text": "Real experience, but not what I use in production today. I say so up front."
+				"text": "Real experience, but not what I have run in production. I say so up front."
 			}
 		},
 		"notes": {
@@ -413,9 +441,15 @@
 			},
 			"daw": {
 				"when": "2023 to 2025",
-				"short": "DAW degree and tutoring",
+				"short": "DAW degree",
 				"title": "Web application development (DAW)",
-				"text": "Final project: casino_online. At the same time, private tutor in Java and Python for university students."
+				"text": "Final project: casino_online."
+			},
+			"tutor": {
+				"when": "2023 to 2025",
+				"short": "Programming tutor",
+				"title": "Private programming tutor",
+				"text": "Java, Python and programming fundamentals for university students, self-employed and remote."
 			},
 			"delogica": {
 				"when": "2024",
@@ -429,11 +463,17 @@
 				"title": "Intern Developer, MrGates",
 				"text": "Internal full-stack tools in PHP and JavaScript, with small relational schemas taken from ER diagram to MySQL."
 			},
-			"now": {
-				"when": "2025 to today",
-				"short": "Full-stack at VB Group",
-				"title": "Full Stack Developer and Engineering Support, VB Group",
-				"text": "Madrid. Integrations, a multi-tenant events platform, the team’s engineering standard and CI, and mentoring two interns into junior developers."
+			"vbjunior": {
+				"when": "Sept 2025",
+				"short": "Junior web developer",
+				"title": "Junior Web Developer, VB Group",
+				"text": "React and Vite in front, Node.js and Express behind, REST APIs and deployments on Azure. Promoted to full stack after three months."
+			},
+			"vbfull": {
+				"when": "Dec 2025",
+				"short": "Full stack at VB Group",
+				"title": "Full Stack Developer, VB Group",
+				"text": "Integrations, a multi-tenant events platform, the engineering standard and CI the team works on, onboarding the people who joined, and two interns mentored into junior developers."
 			}
 		},
 		"howTitle": "How I work",
@@ -459,23 +499,23 @@
 		"training": [
 			[
 				"2024 to 2026",
-				"Postgraduate in Cybersecurity and Offensive Security",
+				"Professional Master’s in Cybersecurity Management and Offensive Security",
 				"EIP International Business School"
 			],
 			[
 				"2026",
 				"Certified Cyber Security Professional",
-				"ISMS Forum"
-			],
-			[
-				"2025",
-				"IT Specialist, Network Security",
-				"Certiport"
+				"ISMS Forum and CSC Cyber Security Centre"
 			],
 			[
 				"2026",
 				"Introduction to Financial Accounting",
 				"IESE Business School"
+			],
+			[
+				"2025",
+				"IT Specialist, Network Security",
+				"Certiport"
 			],
 			[
 				"2025",

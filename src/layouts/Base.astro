@@ -18,16 +18,19 @@ const { title, description = dict(lang).meta.description, footerLead } = Astro.p
 <!doctype html>
 <html lang={lang}>
 	<head>
-		<BaseHead title={title ? `${title} · ${SITE_TITLE}` : SITE_TITLE} description={description} />
+		<BaseHead title={title ? `${title} · ${SITE_TITLE}` : `${SITE_TITLE} · ${dict(lang).meta.role}`} description={description} />
 	</head>
 	<body>
+		<a class="skip" href="#main">{dict(lang).common.skip}</a>
 		<Header />
-		<main>
+		<main id="main" tabindex="-1">
 			<slot />
 		</main>
 		<Footer lead={footerLead} />
 		<script>
-			// Plays each entrance once, when its block scrolls into view.
+			// Plays each entrance once, as its block is about to scroll into view: the margin reaches 10%
+			// below the fold, so a tall block (the race panel) has started before the visitor arrives
+			// and a fast scroll never lands on an empty band.
 			const selector = '[data-a], [data-stagger], .split, .drawx, .typelines, .stack3d';
 			if (document.documentElement.classList.contains('js')) {
 				const io = new IntersectionObserver(
@@ -39,7 +42,7 @@ const { title, description = dict(lang).meta.description, footerLead } = Astro.p
 							}
 						}
 					},
-					{ rootMargin: '0% 0% -10% 0%' },
+					{ rootMargin: '0% 0% 10% 0%', threshold: 0 },
 				);
 				document.querySelectorAll(selector).forEach((el) => io.observe(el));
 			}

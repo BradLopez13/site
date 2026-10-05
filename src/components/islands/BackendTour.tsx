@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { onTabKey } from './tabs';
 import { backendSteps } from '../../data/reservas';
-import { dict, type Lang } from '../../i18n';
+import { LINKS } from '../../consts';
+import { dict, fmt, type Lang } from '../../i18n';
 
 export default function BackendTour({ lang }: { lang: Lang }) {
 	const t = dict(lang).backend;
@@ -24,18 +25,41 @@ export default function BackendTour({ lang }: { lang: Lang }) {
 						aria-controls="tour-panel"
 						onClick={() => setStep(i)}
 					>
-						{t.steps[s.id].label}
+						{/* What the stop answers first, in plain words; the engineering name under it. */}
+						<span className="stop-ask">{t.steps[s.id].ask}</span>
+						<span className="stop-term">{t.steps[s.id].label}</span>
 					</button>
 				))}
 			</div>
-			<div id="tour-panel" role="tabpanel" className="tour-panel pop-in" key={step}>
+			<div id="tour-panel" role="tabpanel" aria-labelledby="tour-panel-title" className="tour-panel pop-in" key={step}>
 				<div className="stack">
-					<h3>{words.title}</h3>
+					<h3 id="tour-panel-title">{words.title}</h3>
 					<p>{words.text}</p>
 				</div>
 				<figure className="code">
-					<figcaption>{cur.file}</figcaption>
-					<pre>{cur.code}</pre>
+					{/* The file path, with a break chance after each slash so it wraps between folders, then
+					    the commit it is pinned to, linked to those lines on GitHub. */}
+					<figcaption>
+						<span>
+							{cur.file.split('/').map((part, i, all) => (
+								<span key={i}>
+									{part}
+									{i < all.length - 1 && (
+										<>
+											/<wbr />
+										</>
+									)}
+								</span>
+							))}
+						</span>
+						<a className="code-commit" href={`${LINKS.reservasRepo}/blob/${cur.commit}/${cur.file}#L${cur.lines[0]}${cur.lines[1] > cur.lines[0] ? `-L${cur.lines[1]}` : ''}`}>
+							{fmt(t.commitLabel, { commit: cur.commit })}
+						</a>
+					</figcaption>
+					{/* Long lines scroll sideways, so the block takes focus and a name: keyboards can scroll it too. */}
+					<pre tabIndex={0} role="region" aria-label={fmt(t.codeLabel, { file: cur.file })}>
+						{cur.code}
+					</pre>
 				</figure>
 			</div>
 		</div>

@@ -1,4 +1,4 @@
-// Work at my current job, told without code, clients or figures. The words live in
+// Professional work, told without code, clients or figures. The words live in
 // src/i18n/*.json under job.themes.<id>; this file keeps what does not change with the language.
 
 export type JobId = 'integration' | 'standards' | 'product' | 'cloud' | 'people';
@@ -13,7 +13,8 @@ export const jobThemes: { id: JobId; stack: string[]; hasCase?: boolean }[] = [
 
 export const caseSlug = 'invoicing-integration';
 
-export const stackDaily = ['TypeScript', 'React', 'Vite', 'Node.js', 'Express', 'REST APIs', 'MongoDB', 'Azure Cosmos DB', 'Azure Storage', 'GitHub Actions', 'Docker'];
+// The stack line on the home, in the order of his LinkedIn headline.
+export const stackMain = ['React', 'TypeScript', 'Node.js', 'Express', 'Azure'];
 
 // Illustrative lint rule names shown next to each layer in the standards diagram.
 export const layerRules = [
@@ -29,11 +30,13 @@ export const skills = {
 	before: ['Java', 'Python', 'PHP', 'MySQL', 'Power BI', 'Android Studio'],
 } as const;
 
-export const pathStops = ['dam', 'daw', 'delogica', 'mrgates', 'now'] as const;
+export const pathStops = ['dam', 'daw', 'tutor', 'delogica', 'mrgates', 'vbjunior', 'vbfull'] as const;
 export const pathTags: Record<(typeof pathStops)[number], string[]> = {
 	dam: ['Java', 'SQL', 'Android'],
-	daw: ['Angular', 'Firebase', 'Java', 'Python'],
+	daw: ['Angular', 'Firebase'],
+	tutor: ['Java', 'Python'],
 	delogica: ['Python', 'ADB', 'Scrum'],
 	mrgates: ['PHP', 'MySQL', 'Docker'],
-	now: ['TypeScript', 'React', 'Node.js', 'Azure'],
+	vbjunior: ['React', 'Vite', 'Node.js', 'Azure'],
+	vbfull: ['TypeScript', 'React', 'Node.js', 'Azure'],
 };

@@ -2,6 +2,10 @@
 import { Image } from 'astro:assets';
 import Split from '../../../components/Split.astro';
 import WorkBoard from '../../../components/islands/WorkBoard';
+import { caseSlug } from '../../../data/job';
+import { LINKS } from '../../../consts';
+import casinoShot from '../../../assets/shots/casino-blackjack.webp';
+import reservasShot from '../../../assets/shots/reservas-home.jpg';
 import Base from '../../../layouts/Base.astro';
 import { getWork } from '../../../lib/content';
 import { base, dict, langPaths, type Lang } from '../../../i18n';
@@ -11,6 +15,13 @@ const lang: Lang = Astro.params.lang === 'es' ? 'es' : 'en';
 const t = dict(lang).work;
 const work = await getWork(lang);
 const projects = work.flatMap((w) => (w.data.kind === 'project' ? [{ slug: w.slug, data: w.data }] : []));
+// While a project's case study is still a draft, it is listed anyway with its live demo and its
+// code, so this page never promises projects it does not show.
+const home = dict(lang).home;
+const pending = [
+	{ slug: 'reservas', name: 'reservas', desc: home.reservasDesc, shot: reservasShot, demo: LINKS.reservasDemo, repo: LINKS.reservasRepo },
+	{ slug: 'casino-online', name: 'casino_online', desc: home.casinoDesc, shot: casinoShot, demo: LINKS.casinoDemo, repo: LINKS.casinoRepo },
+].filter((p) => !projects.some((w) => w.slug === p.slug));
 ---
 
 <Base title={t.title} description={t.lede}>
@@ -20,7 +31,7 @@ const projects = work.flatMap((w) => (w.data.kind === 'project' ? [{ slug: w.slu
 	</section>
 
 	{
-		projects.length > 0 && (
+		projects.length + pending.length > 0 && (
 			<section class="panel-dark dark projects" data-stagger="up">
 				{projects.map(({ slug, data }) => (
 					<a href={`${base(lang)}/work/${slug}/`} class="project">
@@ -43,6 +54,30 @@ const projects = work.flatMap((w) => (w.data.kind === 'project' ? [{ slug: w.slu
 						<span class="muted">{data.tagline}</span>
 					</a>
 				))}
+				{pending.map((p) => (
+					<div class="project">
+						<div class="frame">
+							<div class="frame-bar">
+								<span class="frame-dots" aria-hidden="true">
+									<i />
+									<i />
+									<i />
+								</span>
+							</div>
+							<div class="project-shot">
+								<Image src={p.shot} alt="" width={900} />
+							</div>
+						</div>
+						<div class="project-name">
+							<span>{p.name}</span>
+						</div>
+						<span class="muted">{p.desc}</span>
+						<div class="row">
+							<a class="btn btn-light" href={p.demo}>{t.demo}</a>
+							<a class="btn btn-ghost" href={p.repo}>{t.code}</a>
+						</div>
+					</div>
+				))}
 			</section>
 		)
 	}
@@ -52,7 +87,7 @@ const projects = work.flatMap((w) => (w.data.kind === 'project' ? [{ slug: w.slu
 			<Split text={t.atJob} class="display-m" mode="rot" />
 			<p class="muted">{t.atJobLede}</p>
 		</div>
-		<WorkBoard client:visible lang={lang} />
+		<WorkBoard client:visible lang={lang} caseReady={work.some((w) => w.slug === caseSlug)} />
 	</section>
 </Base>
 

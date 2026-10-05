@@ -27,7 +27,9 @@
 	border: 0.125rem solid var(--line-on-ink);
 }
 .dark .seg-plain button[aria-selected='true'] {
-	border-color: var(--paper);
+	border-color: var(--violet);
+	background: var(--violet);
+	color: var(--white);
 }
 
 /* Browser frame extras */
@@ -129,7 +131,7 @@ html.js .pan {
 }
 .lane.refuse,
 .lane.lock {
-	animation: k-bounce 8s cubic-bezier(0.3, 0.7, 0.3, 1) var(--d) infinite;
+	animation: k-wall 8s cubic-bezier(0.3, 0.7, 0.3, 1) var(--d) infinite;
 }
 .lane.retry {
 	animation: k-retry 8s cubic-bezier(0.3, 0.7, 0.3, 1) var(--d) infinite;
@@ -166,7 +168,7 @@ html.js .pan {
 	text-align: right;
 	line-height: 1.2;
 }
-@keyframes k-bounce {
+@keyframes k-wall {
 	0% {
 		transform: translateX(0);
 		opacity: 0;
@@ -250,7 +252,7 @@ html.js .pan {
 	}
 	2%,
 	66% {
-		background: #8a5a12;
+		background: var(--warn-dim);
 	}
 	68%,
 	100% {
@@ -313,14 +315,40 @@ html.js .pan {
 	color: var(--ink);
 	font-weight: 700;
 	font-size: clamp(0.8125rem, 1.2vw, 1rem);
+	line-height: 1.2;
+}
+/* Two lines per stop: the plain question a non-engineer can follow, then the name an engineer knows. */
+.tour-line button > span {
+	display: block;
+}
+.stop-term {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--muted);
 }
 .tour-line button[aria-selected='true'] {
-	background: var(--ink);
-	color: var(--paper);
+	border-color: var(--violet);
+	background: var(--violet);
+	color: var(--white);
+}
+.tour-line button[aria-selected='true'] .stop-term {
+	color: var(--violet-mist);
 }
 .tour-panel {
 	display: grid;
 	gap: 1.5rem 2.5rem;
+}
+/* The commit in the code caption: a real link, 44px tall without making the caption taller. */
+.code-commit {
+	flex: none;
+	align-self: center;
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.75rem;
+	margin-block: -0.75rem;
+	font-weight: 700;
+	color: var(--violet-soft);
+	white-space: nowrap;
 }
 .tour-panel h3 {
 	font-size: clamp(1.375rem, 2.2vw, 1.875rem);
@@ -334,9 +362,8 @@ html.js .pan {
 @media (max-width: 40em) {
 	.tour-line {
 		display: flex;
-		overflow-x: auto;
+		flex-wrap: wrap;
 		gap: 0.5rem;
-		scrollbar-width: none;
 	}
 	.tour-rail,
 	.tour-packet {
@@ -347,21 +374,22 @@ html.js .pan {
 	}
 }
 
-/* Job tiles (home) */
+/* Job themes (home): compact rows, the title with its tag inline, three or two to a line; the
+   panel under them carries the substance. One line each, so the five choices read at a glance. */
 .tiles {
 	display: grid;
-	grid-template-columns: repeat(5, minmax(0, 1fr));
-	gap: 0.75rem;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+	gap: 0.5rem;
 }
 .tiles button {
 	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 0.875rem;
-	min-height: 10rem;
-	padding: 1.375rem;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.25rem 1rem;
+	min-height: 3.5rem;
+	padding: 0.75rem 1.125rem;
 	border: 0;
-	border-radius: 1.5rem;
+	border-radius: 1.125rem;
 	background: var(--white);
 	color: var(--ink);
 	text-align: left;
@@ -370,58 +398,56 @@ html.js .pan {
 .tiles button[aria-selected='true'] {
 	background: var(--violet);
 	color: var(--white);
-	transform: translateY(-0.375rem);
+}
+.tiles .tag {
+	flex: none;
+	font-weight: 600;
+	color: var(--muted);
 }
 .tiles button[aria-selected='true'] .tag {
-	color: var(--white);
-}
-.tiles .tag,
-.board-list .tag {
-	order: 1;
+	color: var(--violet-mist);
 }
 .tile-title {
 	font-family: var(--font-display);
 	font-weight: 800;
-	font-size: clamp(0.9375rem, 1.4vw, 1.25rem);
-	line-height: 1.25;
+	font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
+	line-height: 1.3;
 }
+.tile-headline {
+	font-size: clamp(1.25rem, 2vw, 1.625rem);
+	line-height: 1.2;
+	max-width: 28ch;
+}
+/* White like the work board, so the theme diagrams keep their fog and espresso boxes. */
 .tile-panel {
 	display: grid;
-	gap: 1.25rem 3rem;
+	gap: 1.75rem 3rem;
 	align-items: center;
 	padding: clamp(1.25rem, 3vw, 2.25rem) clamp(1.125rem, 3vw, 2.5rem);
 	border-radius: 1.75rem;
-	background: var(--ink);
-	color: var(--paper);
+	background: var(--white);
+	color: var(--ink);
+}
+/* Diagrams lay out by their own column's width. */
+.tile-diagram {
+	container-type: inline-size;
+	min-width: 0;
+}
+.tile-diagram .people {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .tile-text {
 	font-size: clamp(1rem, 1.5vw, 1.25rem);
 	max-width: 60ch;
 }
 .tile-panel .btn {
-	justify-self: start;
+	align-self: flex-start;
 }
 @media (min-width: 56.25em) {
 	.tile-panel {
-		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
 	}
 }
-@media (max-width: 56.25em) {
-	.tiles {
-		display: flex;
-		overflow-x: auto;
-		scroll-snap-type: x mandatory;
-		scrollbar-width: none;
-		margin-inline: calc(var(--gutter) * -1);
-		padding: 0.5rem var(--gutter);
-	}
-	.tiles button {
-		flex: 0 0 10.625rem;
-		min-height: 8.125rem;
-		scroll-snap-align: start;
-	}
-}
-
 /* Work board */
 .board {
 	display: grid;
@@ -452,11 +478,11 @@ html.js .pan {
 	text-align: left;
 }
 .board-list button[aria-selected='true'] {
-	background: var(--ink);
-	color: var(--paper);
+	background: var(--violet);
+	color: var(--white);
 }
 .board-list button[aria-selected='true'] .tag {
-	color: var(--muted-on-ink);
+	color: var(--white);
 }
 @media (max-width: 60em) {
 	.board-list {
@@ -465,6 +491,7 @@ html.js .pan {
 		scrollbar-width: none;
 		margin-inline: calc(var(--gutter) * -1);
 		padding-inline: var(--gutter);
+		scroll-padding-inline: var(--gutter);
 	}
 	.board-list button {
 		flex: 0 0 auto;
@@ -546,7 +573,9 @@ html.js .pan {
 	background-image: linear-gradient(180deg, var(--violet) 50%, transparent 50%);
 	background-size: 0.1875rem 0.75rem;
 	background-repeat: repeat-y;
-	animation: k-flow-v 0.8s linear infinite;
+	/* Six passes (under 5s) show the direction of travel, then the arrow rests: nothing on the
+	   page beside the text loops for good. Re-selecting a tile plays it again. */
+	animation: k-flow-v 0.8s linear 6;
 }
 @container (min-width: 40rem) {
 	.flowline .flow {
@@ -659,9 +688,11 @@ html.js .pan {
 	background: var(--ink);
 	color: var(--paper);
 }
-.tenant.green {
-	background: var(--ok);
-	color: var(--ok-ink);
+.tenant.light {
+	background: var(--fog);
+}
+.tenant.light i {
+	background: var(--white);
 }
 .tenant i {
 	padding: 0.25rem 0.625rem;
@@ -804,7 +835,7 @@ html.js .pan {
 	justify-content: space-between;
 	gap: 0.75rem;
 	padding-bottom: 0.5rem;
-	border-bottom: 0.0625rem solid #d8d2ce;
+	border-bottom: 0.0625rem solid var(--muted-on-ink);
 }
 .erp-mid dd {
 	margin: 0;
@@ -816,7 +847,7 @@ html.js .pan {
 .path {
 	position: relative;
 	display: grid;
-	grid-template-columns: repeat(5, minmax(0, 1fr));
+	grid-template-columns: repeat(7, minmax(0, 1fr));
 	gap: 0.75rem;
 }
 .path-rail {
@@ -849,7 +880,7 @@ html.js .pan {
 	border: 0.25rem solid var(--fog);
 	background: var(--ink);
 	position: relative;
-	transition: transform 0.25s var(--ease-back);
+	transition: transform 0.25s var(--ease-out); /* a state change, not a pop-in: no overshoot */
 }
 .path button[aria-selected='true'] .path-dot {
 	background: var(--violet);
@@ -868,7 +899,7 @@ html.js .pan {
 	font-size: clamp(1.25rem, 2vw, 1.5rem);
 }
 .path-panel p {
-	color: #e8e0db;
+	color: var(--muted-on-ink);
 }
 @media (min-width: 56.25em) {
 	.path-panel {
@@ -878,19 +909,35 @@ html.js .pan {
 		justify-content: flex-end;
 	}
 }
+/* One column: a vertical list, so every stop (the latest included) is in view without
+   scrolling sideways, and it reads the same before the island hydrates. */
 @media (max-width: 56.25em) {
 	.path {
 		display: flex;
-		overflow-x: auto;
-		scrollbar-width: none;
-		margin-inline: calc(var(--gutter) * -1);
-		padding-inline: var(--gutter);
+		flex-direction: column;
+		gap: 0.25rem;
 	}
 	.path button {
-		flex: 0 0 9.375rem;
+		flex-direction: row;
+		align-items: center;
+		gap: 0.875rem;
+		min-height: 3rem;
+	}
+	.path-dot {
+		flex: none;
+		margin-top: 0;
+	}
+	.path button .tag {
+		flex: none;
+		width: 6.5rem;
 	}
 	.path-rail {
-		display: none;
+		left: 0.5625rem;
+		right: auto;
+		top: 1.5rem;
+		bottom: 1.5rem;
+		width: 0.25rem;
+		height: auto;
 	}
 }
 
@@ -931,6 +978,14 @@ html.js .pan {
 	color: var(--muted-on-ink);
 }
 
+/* Code no longer wraps, so anything holding a pre must be allowed to shrink below its longest
+   line; the pre scrolls instead of widening the page. */
+.game,
+.tour-panel > *,
+.code {
+	min-width: 0;
+}
+
 /* Game */
 .game {
 	display: flex;
@@ -943,13 +998,16 @@ html.js .pan {
 	grid-template-columns: 1fr 1fr;
 	gap: 0.75rem;
 }
+/* The game sits on fog now, so the counters are white cards with espresso figures. */
 .game-score > div {
 	padding: 1.125rem;
 	border-radius: 1rem;
-	background: var(--violet-deep);
+	background: var(--white);
+	color: var(--ink);
 }
 .game-score dt {
 	font-size: 0.875rem;
+	color: var(--muted);
 }
 .game-score dd {
 	margin: 0.375rem 0 0;
@@ -964,7 +1022,7 @@ html.js .pan {
 	overflow: hidden;
 	font-family: var(--font-mono);
 	font-size: 0.875rem;
-	box-shadow: 0 2.5rem 5rem rgb(20 10 80 / 0.45);
+	box-shadow: 0 2.5rem 5rem rgb(46 33 28 / 0.3);
 }
 .game-req,
 .game-res {
@@ -974,24 +1032,37 @@ html.js .pan {
 	gap: 0.625rem;
 }
 .game-req {
-	border-bottom: 0.0625rem solid #4a3a33;
+	border-bottom: 0.0625rem solid var(--ink-2);
 }
+/* Code keeps its lines: on a narrow screen it scrolls sideways instead of splitting a UUID. */
 .game pre {
 	margin: 0;
 	color: var(--muted-on-ink);
-	white-space: pre-wrap;
-	overflow-wrap: anywhere;
+	white-space: pre;
+	overflow-x: auto;
 }
+/* The verb labels the request; it is not something to press, so it stays espresso. */
 .verb {
 	padding: 0.1875rem 0.5rem;
 	border-radius: 0.375rem;
-	background: var(--violet);
-	color: var(--white);
+	background: var(--ink-2);
+	border: 0.0625rem solid var(--line-on-ink);
+	color: var(--paper);
 	font-weight: 700;
+}
+.game-note {
+	font-family: var(--font-body);
+	font-size: 1rem;
+	line-height: 1.45;
+	color: var(--muted-on-ink);
 }
 .muted-mono {
 	color: var(--muted-on-ink);
-	overflow-wrap: anywhere;
+	overflow-wrap: break-word;
+}
+/* The key breaks at its hyphens, never inside a group. */
+.muted-mono span {
+	display: inline-block;
 }
 .muted-mono span {
 	color: var(--paper);
@@ -1000,13 +1071,22 @@ html.js .pan {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.625rem;
-	padding-top: 0.5rem;
+	padding: 1.375rem 1.5rem 1.5rem;
 	font-family: var(--font-body);
+}
+.game-res + .game-actions {
+	padding-top: 0;
 }
 .game-actions .btn-ghost {
 	color: var(--paper);
 	border-color: var(--line-on-ink);
 	background: transparent;
+	transition:
+		transform 0.18s var(--ease-out),
+		border-color 0.18s var(--ease-out);
+}
+.game-actions .btn-ghost:hover {
+	border-color: var(--violet-soft);
 }
 .game-actions .btn:disabled {
 	opacity: 0.45;
@@ -1087,11 +1167,12 @@ html.js .pan {
 	font-weight: 600;
 	margin-bottom: 0.75rem;
 }
+/* A label, not a control: square-ish and espresso, so it never reads as a button. */
 .store {
 	padding: 0.25rem 0.625rem;
-	border-radius: 99em;
-	border: 0.0625rem solid var(--violet-soft);
-	color: var(--violet-soft);
+	border-radius: 0.375rem;
+	background: var(--ink-2);
+	color: var(--paper);
 	font-family: var(--font-body);
 	font-size: 0.8125rem;
 	font-weight: 700;
@@ -1100,12 +1181,27 @@ html.js .pan {
 	margin-top: 0.875rem;
 	padding: 0.875rem 1rem;
 	border-radius: 0.875rem;
-	background: var(--violet);
-	color: var(--white);
+	background: var(--ink-2);
+	color: var(--paper);
 	font-family: var(--font-body);
 	font-size: 1rem;
 	font-weight: 700;
 	line-height: 1.45;
+}
+.lesson .tally span {
+	white-space: nowrap;
+}
+.lesson .tally {
+	margin-bottom: 0.25rem;
+	font-weight: 600;
+	color: var(--muted-on-ink);
+	font-variant-numeric: tabular-nums;
+}
+.es-note {
+	margin-top: 0.625rem;
+	font-family: var(--font-body);
+	font-size: 0.875rem;
+	color: var(--muted-on-ink);
 }
 .arrival {
 	display: grid;

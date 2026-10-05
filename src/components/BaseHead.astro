@@ -3,7 +3,8 @@
 import '../styles/global.css';
 import '../styles/islands.css';
 import { SITE_TITLE } from '../consts';
-import { Font } from 'astro:assets';
+import { Font, getImage } from 'astro:assets';
+import brad from '../assets/brad.jpg';
 import { base, langFromUrl, switchPath } from '../i18n';
 
 interface Props {
@@ -17,6 +18,9 @@ const lang = langFromUrl(Astro.url);
 const alternates = (['en', 'es'] as const).map((l) => ({ l, href: new URL(switchPath(Astro.url.pathname, l), Astro.site) }));
 
 const { title, description } = Astro.props;
+// His portrait as the preview when a link to the site is shared (LinkedIn, email, chat).
+const ogImage = await getImage({ src: brad, width: 1200, format: 'jpg' });
+const ogImageUrl = new URL(ogImage.src, Astro.site);
 ---
 
 <!-- Global Metadata -->
@@ -54,6 +58,9 @@ const { title, description } = Astro.props;
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:alt" content="Brad López" />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content={ogImageUrl} />
