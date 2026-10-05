@@ -1,0 +1,56 @@
+---
+title: 'Sesiones: cookies opacas que se revocan al momento'
+description: 'Un token opaco en una cookie HttpOnly que el servidor puede revocar: qué pasa al iniciar sesión, qué opciones de la cookie importan y qué comprueban los tests.'
+pubDate: '2026-10-05'
+part: 2
+draft: false
+---
+
+## Por qué cambié las sesiones
+
+En mi trabajo había usado JWT y empecé a investigar cómo evitar que el JavaScript del frontend pudiera leer el token de sesión. En Reservas elegí un token opaco en una cookie HttpOnly. También quería poder cerrar una sesión o revocarlas todas desde el servidor.
+
+Son dos decisiones distintas: qué token uso y cómo lo guardo en el navegador. Un JWT también se puede guardar en una cookie HttpOnly. Aquí el token es un valor aleatorio que el servidor usa para buscar la sesión; no contiene los datos del usuario.
+
+## Qué ocurre al iniciar sesión
+
+Cuando el servidor comprueba las credenciales, genera un token nuevo y guarda su hash en la base de datos. Envía el token al navegador en una cookie. El navegador la guarda y la manda en las siguientes peticiones que correspondan, sin que mi código de frontend tenga que leer el valor.
+
+El backend calcula el hash del token recibido y busca la sesión. Si existe y no ha caducado, identifica al usuario. Al revocarla en el servidor, ese token deja de dar acceso aunque el navegador todavía conserve la cookie.
+
+HttpOnly impide que JavaScript lea la cookie. Eso dificulta que un script inyectado robe el token por esa vía, pero no convierte la aplicación en invulnerable: un script que se ejecute dentro de la página todavía puede hacer peticiones con la sesión del usuario.
+
+## Las opciones de la cookie
+
+En producción uso `Secure` para que la cookie se envíe por HTTPS. También lo uso con `SameSite=Lax`; no es exclusivo de `SameSite=None`, aunque `None` sí exige `Secure`.
+
+```ts
+// apps/api/src/modules/auth/infra/http/sesion.plugin.ts (commit 5ad058d)
+const opciones = (ctx: Contexto) => ({ httpOnly: true, secure: ctx.config.cookieSecure, sameSite: 'lax' as const, path: '/' });
+```
+
+`SameSite=Lax` limita cuándo el navegador envía la cookie desde otro sitio. Permite, por ejemplo, determinadas navegaciones a la aplicación al seguir un enlace. No significa que todas las peticiones tengan que venir del mismo origen: sitio y origen son conceptos distintos.
+
+En Reservas, el proxy permite que el navegador vea la web y la API bajo el mismo origen. Además, el servidor comprueba `Origin` en las peticiones que modifican datos y rechaza las que no coinciden con el origen configurado. Es una defensa frente a CSRF, junto con `SameSite=Lax`. No demuestra quién hace la petición: un cliente ajeno al navegador puede escribir esa cabecera, y sigue necesitando pasar la autenticación y los permisos.
+
+## Cuándo caduca una sesión
+
+Dejé la caducidad en siete días sin actividad y treinta días como máximo desde el login. No tengo una razón concreta para esos dos valores ni los elegí a partir de un estudio. Son los plazos configurados en el proyecto.
+
+La actividad puede alargar la sesión, pero nunca más allá de los treinta días desde que se creó. El backend comprueba la caducidad aunque el navegador todavía tenga la cookie. Tener un token guardado no basta para seguir autenticado.
+
+```ts
+// apps/api/src/modules/auth/domain/sesion.ts (commit f9cafa5)
+export const SESION_DESLIZANTE_MS = 7 * 24 * 60 * 60 * 1000;
+export const SESION_MAX_MS = 30 * 24 * 60 * 60 * 1000;
+```
+
+## Qué compruebo al cerrar o revocar sesiones
+
+Los tests que destacaría son los de cambio de contraseña, caducidad, logout y cierre de todas las sesiones. Me interesa comprobar que una sesión que ha dejado de ser válida ya no permite entrar, y que el frontend deja de tratar al usuario como autenticado cuando corresponde.
+
+En el test de logout vuelvo a enviar la cookie anterior y compruebo que ya no sirve. Para la caducidad, avanzo el reloj más de siete días sin actividad y hago la misma comprobación. No hace falta que el navegador haya borrado la cookie para que el servidor rechace la sesión.
+
+Al cambiar la contraseña, la sesión desde la que se hace el cambio sigue funcionando y las demás quedan revocadas. Al cerrar todas las sesiones, tampoco se conserva la actual. Los tests comprueban esas diferencias usando las cookies de las sesiones creadas.
+
+En el frontend también hay una prueba que comprueba el aviso de sesión caducada al recibir un 401 y pruebas de acceso a rutas privadas según exista sesión. No presentaría los tests HTTP del backend como una prueba completa de la limpieza de la interfaz: comprueban que el token ya no da acceso. La cookie, el estado de la interfaz y el registro de sesión del servidor son cosas distintas.

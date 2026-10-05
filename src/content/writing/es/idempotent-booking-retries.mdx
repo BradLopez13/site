@@ -1,0 +1,55 @@
+---
+title: 'Idempotencia: un reintento que nunca reserva dos veces'
+description: 'Una Idempotency-Key para que repetir una reserva devuelva el primer resultado en vez de crear otra, y por qué el 503 nunca se guarda.'
+pubDate: '2026-10-05'
+part: 3
+draft: false
+---
+
+## Por qué la añadí
+
+En el trabajo me había encontrado con modales que creaban dos presupuestos y con registros duplicados. Son cosas que fui descubriendo con la experiencia. En Reservas quería que repetir una petición no creara otra reserva para la misma acción.
+
+Un doble clic es un ejemplo, pero también puede pasar que el servidor guarde la reserva y la respuesta no llegue al navegador. El usuario no sabe si ha funcionado y vuelve a intentarlo. Para reconocer ese reintento, mando una clave de idempotencia junto con la petición.
+
+## Una clave para el mismo intento
+
+La clave identifica un intento de reserva y se conserva al repetirlo con los mismos datos. No dura solo hasta que llega la respuesta: el servidor también la conserva después, junto con el resultado, para poder devolverlo si recibe otro reintento. El repositorio del proyecto elimina los registros de ese usuario con más de veinticuatro horas al iniciar una petición con clave.
+
+En el frontend genero un UUID para el intento y lo envío en `Idempotency-Key`. Un reintento reutiliza ese valor. Para una operación nueva hace falta otra clave; generar una en cada envío impediría reconocer que estoy repitiendo la misma acción.
+
+## Si la respuesta no llega
+
+El servidor guarda el resultado antes de enviarlo. Si el navegador no recibe la respuesta y repite la petición con la misma clave y el mismo cuerpo, el servidor devuelve el resultado guardado sin volver a ejecutar la creación. El navegador necesita hacer ese reintento: la respuesta perdida no llega por sí sola más tarde.
+
+Si la primera petición todavía está en curso, la segunda recibe `IDEMPOTENCIA_EN_CURSO`. No espera automáticamente a recibir el resultado de la primera. La marca de operación en curso se guarda en una transacción propia para que otras peticiones puedan verla.
+
+La clave se asocia al usuario y a un hash del cuerpo de la petición. Si se reutiliza con datos distintos, el servidor devuelve un 422, `IDEMPOTENCIA_CONFLICTO`. Cambiar la pista o el horario ya no es repetir la misma petición.
+
+## El 503 que no guardo
+
+El decorador guarda el resultado correcto y también los errores de dominio definitivos con estado inferior a 500. Repetir la clave devuelve esa misma respuesta.
+
+`CONTENCION` es distinto. La estrategia optimista puede agotar sus intentos aunque la franja siga libre. Si guardara ese 503, los siguientes reintentos con la misma clave se quedarían repitiendo el fallo sin intentar reservar otra vez. Por eso se elimina el registro de idempotencia de esa operación y se permite volver a ejecutarla. El decorador también abandona el registro ante otros errores que no trata como resultados definitivos.
+
+```ts
+// apps/api/src/modules/reservas/infra/http/idempotencia.ts (commit debed11)
+} catch (e) {
+  if (e instanceof ErrorDominio && e.status < 500) {
+    // Un 409 o un 422 también es una respuesta definitiva: repetir la clave devuelve lo mismo.
+    // Un 503 (contención) no: el reintento con la misma clave debe volver a ejecutarse.
+    await ctx.db.transaction((tx) => ctx.repos.idempotencia.terminar(tx, { ...registro, estadoHttp: e.status, respuesta: { error: { code: e.code, message: e.message } } }));
+  } else {
+    await ctx.db.transaction((tx) => ctx.repos.idempotencia.abandonar(tx, registro));
+  }
+  throw e;
+}
+```
+
+## Qué comprueban los tests
+
+El test que destacaría envía dos veces la misma clave con el mismo cuerpo y comprueba que devuelve la misma reserva sin crear otra. Otro cambia el cuerpo conservando la clave y comprueba `IDEMPOTENCIA_CONFLICTO`.
+
+En el frontend hay un test que comprueba que un reintento reutiliza la clave y que `nuevaClave()` la cambia. La garantía depende de que cliente y servidor mantengan esa relación entre clave e intento.
+
+La reserva y su respuesta de idempotencia se guardan en transacciones separadas. Este código no demuestra una garantía de ejecución exactamente una vez ante cualquier caída: si el proceso se interrumpe entre ambos guardados, puede quedar una reserva confirmada con la marca de idempotencia todavía en curso. Es un límite que conviene explicar al describir la implementación.

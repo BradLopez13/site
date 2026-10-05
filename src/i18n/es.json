@@ -446,13 +446,16 @@
 	},
 	"writing": {
 		"title": "Artículos",
-		"lede": "Una serie de cuatro partes sobre lo que hizo falta para que Reservas aguante. Cada parte tiene una demo en vivo y enlaces al código de cada afirmación.",
+		"lede": "Una serie de cuatro partes sobre lo que hizo falta para que Reservas aguante, con el código detrás de cada afirmación.",
 		"part": "Parte {n}",
 		"p1": "50 peticiones, una ganadora",
 		"p1d": "Tres formas de evitar reservas dobles en PostgreSQL.",
 		"p2": "Sesiones: cookies opacas que se revocan al momento",
+		"p2d": "Un token opaco en una cookie HttpOnly que el servidor puede revocar.",
 		"p3": "Idempotencia: un reintento que nunca reserva dos veces",
+		"p3d": "Una clave por intento, para que una respuesta perdida nunca reserve dos veces.",
 		"p4": "Limitar intentos de login detrás de un proxy: ¿qué IP estás contando?",
+		"p4d": "Cómo un proxy puede convertir un límite por IP en uno por email, y la corrección.",
 		"seriesCrumb": "La serie de Reservas, parte {n} de 4"
 	}
 }

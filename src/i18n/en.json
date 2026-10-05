@@ -446,13 +446,16 @@
 	},
 	"writing": {
 		"title": "Writing",
-		"lede": "A four-part series on what it took to make Reservas hold up. Each part has a live demo and links to the code behind every claim.",
+		"lede": "A four-part series on what it took to make Reservas hold up, with the code behind every claim.",
 		"part": "Part {n}",
 		"p1": "50 requests, one winner",
 		"p1d": "Three ways to prevent double bookings in PostgreSQL.",
 		"p2": "Sessions: opaque cookies you can revoke immediately",
+		"p2d": "An opaque token in an HttpOnly cookie that the server can revoke.",
 		"p3": "Idempotency: retrying without booking twice",
+		"p3d": "One key per attempt, so a lost response never books twice.",
 		"p4": "Login rate limiting behind a proxy: which IP are you counting?",
+		"p4d": "How a proxy can turn a per-IP limit into a per-email one, and the fix.",
 		"seriesCrumb": "The Reservas series, part {n} of 4"
 	}
 }

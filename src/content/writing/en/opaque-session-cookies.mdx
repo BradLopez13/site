@@ -1,0 +1,56 @@
+---
+title: 'Sessions: opaque cookies you can revoke immediately'
+description: 'An opaque token in an HttpOnly cookie that the server can revoke: what happens at login, which cookie settings matter and what the tests check.'
+pubDate: '2026-10-05'
+part: 2
+draft: false
+---
+
+## Why I changed the sessions
+
+I had used JWT at work and started looking into how to keep frontend JavaScript from reading the session token. For Reservas, I chose an opaque token in an HttpOnly cookie. I also wanted to close a session or revoke all sessions from the server.
+
+These are two separate choices: which token to use and how to store it in the browser. A JWT can also be stored in an HttpOnly cookie. Here, the token is a random value the server uses to look up the session; it does not contain user data.
+
+## What happens at login
+
+After checking the credentials, the server generates a new token and stores its hash in the database. It sends the token to the browser in a cookie. The browser stores it and includes it in subsequent requests where appropriate, without my frontend code having to read its value.
+
+The backend hashes the incoming token and looks up the session. If it exists and has not expired, it identifies the user. Once the server revokes it, that token no longer grants access, even if the browser still has the cookie.
+
+HttpOnly prevents JavaScript from reading the cookie. That makes it harder for an injected script to steal the token through that route, but it does not make the application invulnerable: a script running inside the page can still make requests using the user's session.
+
+## The cookie settings
+
+In production, I use `Secure` so the cookie is sent over HTTPS. I also use it with `SameSite=Lax`; it is not exclusive to `SameSite=None`, although `None` does require `Secure`.
+
+```ts
+// apps/api/src/modules/auth/infra/http/sesion.plugin.ts (commit 5ad058d)
+const opciones = (ctx: Contexto) => ({ httpOnly: true, secure: ctx.config.cookieSecure, sameSite: 'lax' as const, path: '/' });
+```
+
+`SameSite=Lax` limits when the browser sends the cookie from another site. It allows some navigations to the application, such as following a link. It does not mean every request must come from the same origin: site and origin are different concepts.
+
+In Reservas, the proxy makes the web app and API appear under the same origin to the browser. The server also checks `Origin` on requests that change data and rejects those that do not match the configured origin. Together with `SameSite=Lax`, this helps defend against CSRF. It does not establish who is making the request: a client outside the browser can set that header and still has to pass authentication and permission checks.
+
+## When a session expires
+
+I set expiration to seven days without activity, with a maximum of thirty days from login. I do not have a specific reason for those two values, and I did not choose them based on a study. They are the limits configured in the project.
+
+Activity can extend a session, but never beyond thirty days after it was created. The backend checks expiration even if the browser still has the cookie. Having a stored token is not enough to remain authenticated.
+
+```ts
+// apps/api/src/modules/auth/domain/sesion.ts (commit f9cafa5)
+export const SESION_DESLIZANTE_MS = 7 * 24 * 60 * 60 * 1000;
+export const SESION_MAX_MS = 30 * 24 * 60 * 60 * 1000;
+```
+
+## What I check when closing or revoking sessions
+
+The tests I would highlight cover password changes, expiration, logout and closing all sessions. I want to check that an invalid session no longer grants access, and that the frontend stops treating the user as authenticated when appropriate.
+
+In the logout test, I send the old cookie again and check that it no longer works. For expiration, I advance the clock beyond seven days without activity and make the same check. The browser does not have to delete the cookie for the server to reject the session.
+
+Changing the password keeps the session used to make the change and revokes the others. Closing all sessions also revokes the current one. The tests check these differences using the cookies from the sessions they created.
+
+The frontend also has a test for the session-expired notification after a 401, and tests for access to private routes depending on whether a session exists. I would not describe the backend HTTP tests as a complete test of clearing the interface: they check that the token no longer grants access. The cookie, the interface state and the server's session record are separate things.

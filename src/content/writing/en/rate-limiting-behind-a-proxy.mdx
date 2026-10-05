@@ -1,0 +1,48 @@
+---
+title: 'Login rate limiting behind a proxy: which IP are you counting?'
+description: 'Behind a proxy, the login limiter could be counting the platform’s address. How I found it reading the code, fixed it with three counters and checked that the tests fail on the old code.'
+pubDate: '2026-10-05'
+part: 4
+draft: false
+---
+
+## Login could work while the limit was wrong
+
+I found the problem by reading the code. There was no failed deployment or user-reported incident. I did not inspect the old logs either, so I cannot say which IP the API recorded in production before the fix.
+
+Without proxy trust configured, Fastify could use the platform connection's address as `req.ip`. If everyone shared that address, the five-attempt limit per email and IP effectively became a per-email limit. Different people attempting to log into the same account could share a counter. People using different emails did not affect each other.
+
+It was easy to miss when testing from one browser: login worked, and the counter seemed to enforce five attempts. Tests with different IP addresses were needed to check what it was counting.
+
+## Trusting the proxy hop
+
+My first attempt used `trustProxy: 1`. Typecheck rejected it, and it never reached a deployment. Reading the Fastify code used by the project confirmed that this value did not provide the hop-based trust I was trying to configure.
+
+The fix in commit `4b5d840` passes a function to `trustProxy`, controlled by `TRUST_PROXY_HOPS`. Vercel and the compose setup with nginx trust the last hop; local development uses zero. Entries the client adds earlier in `X-Forwarded-For` are not taken as the client's IP.
+
+Afterwards, I checked in production that the API recorded the public IP both when called directly and through the web's rewrite.
+
+## Three counters
+
+Login now has three limits within fifteen-minute windows: five attempts per email and IP, twenty per IP, and fifty per email. The first limits one machine targeting one account. The second covers one machine trying many accounts, and the third covers several machines targeting the same email.
+
+```ts
+// apps/api/src/modules/auth/application/commands/iniciarSesion.ts (commit 4b5d840)
+export function limitesDe(email: string, ip: string) {
+  return {
+    emailIp: { clave: `email-ip|${email}|${ip}`, max: 5 },
+    ip: { clave: `ip|${ip}`, max: 20 },
+    email: { clave: `email|${email}`, max: 50 },
+  };
+}
+```
+
+The attempt is recorded and committed before counting. Counting first and recording afterwards allowed simultaneous requests to see the same count and all pass together. A rejected request deletes its own attempt so repeated requests do not extend the lockout.
+
+A successful login clears the counters for that email, but not the IP counter. Logging into an account you own therefore cannot reset the machine's counter between attempts against other accounts.
+
+## Seeing the tests fail before the fix
+
+I added tests to check that failures from one IP do not immediately lock out another, that client-written entries in `X-Forwarded-For` do not fool the server, and that one IP trying many accounts hits its limit. Another sends simultaneous attempts and checks that at most five reach password verification.
+
+I ran all four against the old code, and they failed. That checks that they detect the problem I intended to fix. Manual testing from a single browser did not cover those cases.

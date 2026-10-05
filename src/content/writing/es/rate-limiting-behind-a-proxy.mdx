@@ -1,0 +1,48 @@
+---
+title: 'Limitar intentos de login detrás de un proxy: ¿qué IP estás contando?'
+description: 'Detrás de un proxy, el limitador de login podía estar contando la dirección de la plataforma. Cómo lo encontré leyendo el código, lo corregí con tres contadores y comprobé que los tests fallan con el código antiguo.'
+pubDate: '2026-10-05'
+part: 4
+draft: false
+---
+
+## El login podía funcionar y el límite estar mal
+
+Encontré el problema leyendo el código. No hubo un despliegue fallido ni una incidencia reportada por usuarios. Tampoco revisé los logs anteriores, así que no puedo afirmar qué IP estaba registrando la API en producción antes de corregirlo.
+
+Sin configurar la confianza en el proxy, Fastify podía usar como `req.ip` la dirección de la conexión de la plataforma. Si esa dirección era la misma para todos, el límite de cinco intentos por email e IP se comportaba como un límite por email. Intentos contra la misma cuenta desde personas distintas podían compartir contador. Quienes usaban emails diferentes no se afectaban entre sí.
+
+Era fácil pasarlo por alto probando desde un navegador: el login funcionaba y el contador parecía aplicar los cinco intentos. Hacían falta pruebas con distintas IP para comprobar qué estaba contando.
+
+## Confiar en el salto del proxy
+
+Mi primer intento fue usar `trustProxy: 1`. El typecheck lo rechazó y no llegó a desplegarse. Al revisar el código de Fastify utilizado en el proyecto, comprobé que ese valor no ofrecía la confianza en saltos que estaba intentando configurar.
+
+La corrección del commit `4b5d840` pasa una función a `trustProxy`, controlada por `TRUST_PROXY_HOPS`. En Vercel y en el compose con nginx se confía en el último salto; en desarrollo local se configura cero. Las entradas que el cliente escriba antes en `X-Forwarded-For` no se toman como su IP.
+
+Después comprobé en producción que la API registraba la IP pública tanto al llamarla directamente como a través de la reescritura de la web.
+
+## Tres contadores
+
+El login pasó a tener tres límites en ventanas de quince minutos: cinco intentos por email e IP, veinte por IP y cincuenta por email. El primero limita una máquina contra una cuenta. El segundo cubre una máquina que prueba muchas cuentas, y el tercero contempla varias máquinas contra el mismo email.
+
+```ts
+// apps/api/src/modules/auth/application/commands/iniciarSesion.ts (commit 4b5d840)
+export function limitesDe(email: string, ip: string) {
+  return {
+    emailIp: { clave: `email-ip|${email}|${ip}`, max: 5 },
+    ip: { clave: `ip|${ip}`, max: 20 },
+    email: { clave: `email|${email}`, max: 50 },
+  };
+}
+```
+
+El intento se registra y confirma antes de contar. Contar primero y registrar después permitía que varias peticiones simultáneas vieran el mismo recuento y pasaran juntas. Una petición rechazada elimina su propio intento, para que insistir no prolongue el bloqueo.
+
+Cuando el login tiene éxito se limpian los contadores de ese email, pero no el de la IP. Así, entrar con una cuenta propia no sirve para reiniciar el contador de una máquina entre intentos contra otras cuentas.
+
+## Ver fallar las pruebas antes de la corrección
+
+Añadí pruebas para comprobar que los fallos desde una IP no bloquean inmediatamente otra, que las entradas de `X-Forwarded-For` escritas por el cliente no engañan al servidor y que una IP que prueba muchas cuentas encuentra su límite. Otra lanza intentos simultáneos y comprueba que como mucho cinco llegan a verificar la contraseña.
+
+Pasé esas cuatro pruebas contra el código antiguo y fallaron. Eso me permite comprobar que detectan el problema que quería corregir. Probar a mano desde un solo navegador no cubría esos casos.

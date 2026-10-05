@@ -308,7 +308,7 @@ details.decision .body p { max-width: 38rem; }
 /* Article: the index of sections beside the text on wide screens; text keeps a readable measure,
    the summary, the demo and the code take the whole column */
 .article-head { max-width: 56rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
-.article-head h1 { max-width: 20ch; }
+.article-head h1 { max-width: 20ch; font-size: clamp(1.9rem, 6.5vw, 5rem); hyphens: auto; overflow-wrap: break-word; }
 .article-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
 .article { min-width: 0; }
 .article > p, .article > ul, .article > ol, .article > h2, .article > blockquote { max-width: 44rem; }

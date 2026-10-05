@@ -1,0 +1,55 @@
+---
+title: 'Idempotency: retrying without booking twice'
+description: 'An Idempotency-Key so a repeated booking request gets the first result back instead of a second booking, and why the 503 is never stored.'
+pubDate: '2026-10-05'
+part: 3
+draft: false
+---
+
+## Why I added it
+
+At work, I had come across modals that created two quotes and duplicate records. I learned about these problems through experience. In Reservas, I wanted a repeated request to avoid creating another booking for the same action.
+
+A double click is one example. Another is when the server saves the booking but the response never reaches the browser. The user cannot tell whether it worked and tries again. I send an idempotency key with the request so the server can recognise that retry.
+
+## One key for the same attempt
+
+The key identifies a booking attempt and stays the same when it is repeated with the same data. It does not last only until the response arrives: the server keeps it afterwards, along with the result, so it can return that result on another retry. When starting a keyed request, the project's repository deletes that user's records older than twenty-four hours.
+
+The frontend generates a UUID for the attempt and sends it in `Idempotency-Key`. A retry reuses that value. A new operation needs a new key; generating one for every request would prevent the server from recognising the repeated action.
+
+## When the response does not arrive
+
+The server stores the result before sending it. If the browser does not receive the response and repeats the request with the same key and body, the server returns the stored result without running the creation again. The browser has to retry: the lost response does not automatically arrive later.
+
+If the first request is still running, the second gets `IDEMPOTENCIA_EN_CURSO`. It does not automatically wait for the first request's result. The in-progress marker is committed in its own transaction so other requests can see it.
+
+The key is associated with the user and a hash of the request body. Reusing it with different data returns a 422, `IDEMPOTENCIA_CONFLICTO`. Changing the court or time is no longer a repeat of the same request.
+
+## The 503 I do not store
+
+The decorator stores successful results and definitive domain errors with status codes below 500. Repeating the key returns the same response.
+
+`CONTENCION` is different. The optimistic strategy can exhaust its attempts while the slot is still free. If I stored that 503, subsequent retries with the same key would keep returning the failure without attempting another booking. Instead, the operation's idempotency record is deleted so it can run again. The decorator also abandons the record for other errors it does not treat as definitive results.
+
+```ts
+// apps/api/src/modules/reservas/infra/http/idempotencia.ts (commit debed11)
+} catch (e) {
+  if (e instanceof ErrorDominio && e.status < 500) {
+    // Un 409 o un 422 también es una respuesta definitiva: repetir la clave devuelve lo mismo.
+    // Un 503 (contención) no: el reintento con la misma clave debe volver a ejecutarse.
+    await ctx.db.transaction((tx) => ctx.repos.idempotencia.terminar(tx, { ...registro, estadoHttp: e.status, respuesta: { error: { code: e.code, message: e.message } } }));
+  } else {
+    await ctx.db.transaction((tx) => ctx.repos.idempotencia.abandonar(tx, registro));
+  }
+  throw e;
+}
+```
+
+## What the tests check
+
+The test I would highlight sends the same key and body twice and checks that it returns the same booking without creating another. Another changes the body while keeping the key and checks for `IDEMPOTENCIA_CONFLICTO`.
+
+A frontend test checks that a retry reuses the key and that `nuevaClave()` changes it. The guarantee depends on both client and server keeping that relationship between key and attempt.
+
+The booking and its idempotency response are stored in separate transactions. This code does not establish exactly-once execution across every possible crash: if the process stops between those writes, a confirmed booking can remain with its idempotency marker still in progress. That is a limit worth explaining when describing the implementation.
