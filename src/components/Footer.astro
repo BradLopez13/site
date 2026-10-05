@@ -1,6 +1,6 @@
 ---
 import { LINKS } from '../consts';
-import type { Key } from '../i18n';
+import { tip, type Key } from '../i18n';
 import Icon from './Icon.astro';
 import T from './T.astro';
 
@@ -24,9 +24,9 @@ const [user, domain] = LINKS.email.split('@');
 		<div class="flex flex-wrap justify-between gap-x-8 gap-y-4 mt-10 pt-6 rule-t-band">
 			<T k="footer.place" class="muted" />
 			<span class="links">
-				<button class="btn btn-line btn-sm" type="button" data-copy={LINKS.email} hidden><Icon name="copy" /><T k="ui.copyEmail" /></button>
-				<a href={LINKS.github}><Icon name="github" />GitHub</a>
-				<a href={LINKS.linkedin}><Icon name="linkedin" />LinkedIn</a>
+				<button class="btn btn-line btn-sm" type="button" {...tip('tips.copyEmail')} data-copy={LINKS.email} hidden><Icon name="copy" /><T k="ui.copyEmail" /></button>
+				<a href={LINKS.github} {...tip('tips.github')}><Icon name="github" />GitHub</a>
+				<a href={LINKS.linkedin} {...tip('tips.linkedin')}><Icon name="linkedin" />LinkedIn</a>
 			</span>
 		</div>
 	</div>

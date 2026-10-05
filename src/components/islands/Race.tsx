@@ -52,11 +52,11 @@ export default function Race() {
 				<span className="mono muted text-[0.9rem]" aria-live="polite">
 					{done ? '1 × 201 Created, 49 × 409 PISTA_OCUPADA' : <span data-i18n="race.ready">{tr('race.ready')}</span>}
 				</span>
-				<button className="btn btn-ink" type="button" onClick={run} disabled={!ready}>
+				<button className="btn btn-ink" type="button" onClick={run} disabled={!ready} data-tip={tr('tips.race')} data-i18n-attr="data-tip:tips.race">
 					<i className="ico-box" aria-hidden="true" dangerouslySetInnerHTML={{ __html: iconSvg(runs ? 'repeat' : 'flag') }} />
 					<span data-i18n={runs ? undefined : 'race.run'}>{runs ? tr('race.again') : tr('race.run')}</span>
 				</button>
-				<a href={LINKS.raceTest} className="inline-flex items-center gap-[0.4rem]">
+				<a href={LINKS.raceTest} className="inline-flex items-center gap-[0.4rem]" data-tip={tr('tips.raceTest')} data-i18n-attr="data-tip:tips.raceTest">
 					<i className="ico-box" aria-hidden="true" dangerouslySetInnerHTML={{ __html: iconSvg('github') }} />
 					<span data-i18n="race.test">{tr('race.test')}</span>
 				</a>

@@ -5,6 +5,7 @@ import T from '../../components/T.astro';
 import Chain from '../../components/islands/Chain';
 import Race from '../../components/islands/Race';
 import { LINKS } from '../../consts';
+import { tip } from '../../i18n';
 import en from '../../i18n/en.json';
 import { getArticles } from '../../lib/content';
 import Base from '../../layouts/Base.astro';
@@ -77,8 +78,8 @@ Tests  15 passed (15)</pre>
 			<T k="cases.learnedHold1" as="p" />
 			<T k="cases.learnedHold2" as="p" />
 			<p class="links">
-				{hasArticle && <a class="btn btn-ink" href="/writing/50-requests-one-winner/"><Icon name="article" /><T k="cases.longVersion" /></a>}
-				<a href={LINKS.reservasRepo}><Icon name="github" /><T k="ui.code" /></a>
+				{hasArticle && <a class="btn btn-ink" {...tip('tips.longVersion')} href="/writing/50-requests-one-winner/"><Icon name="article" /><T k="cases.longVersion" /></a>}
+				<a href={LINKS.reservasRepo} {...tip('tips.code')}><Icon name="github" /><T k="ui.code" /></a>
 			</p>
 		</div>
 	</section>

@@ -100,7 +100,7 @@ export default function WorkThemes({ prefix = 'home', level = 3, caseHref }: { p
 				</ul>
 				{id === 'integration' && caseHref && (
 					<p className="mt-6 mb-0">
-						<a className="btn btn-line btn-sm" href={caseHref}>
+						<a className="btn btn-line btn-sm" href={caseHref} data-tip={tr('tips.readCase')} data-i18n-attr="data-tip:tips.readCase">
 							<i className="ico-box" aria-hidden="true" dangerouslySetInnerHTML={{ __html: iconSvg('bookOpenText') }} />
 							<span data-i18n="ui.readCase">{tr('ui.readCase')}</span>
 						</a>

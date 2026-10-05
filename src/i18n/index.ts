@@ -32,6 +32,9 @@ export function switchPath(path: string, to: Lang): string {
 export const dateFmt = (lang: Lang, opts: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-GB', opts);
 
 /** Language of the page being rendered, from its URL (/es/... is Spanish). */
+/** Attributes for a hover label that says what a control does, translated like any other attribute. */
+export const tip = (key: Key) => ({ 'data-tip': t(key), 'data-i18n-attr': `data-tip:${key}` });
+
 export const langFromUrl = (url: URL): Lang => (/^\/es(\/|$)/.test(url.pathname) ? 'es' : 'en');
 
 /** getStaticPaths for pages under src/pages/[...lang]: English at the root, Spanish under /es. */

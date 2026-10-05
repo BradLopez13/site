@@ -596,5 +596,20 @@
 			"fail": "Checks failing: {n} of 4. {list}.",
 			"note": "A simulation: the limits are examples, not my team’s real configuration."
 		}
+	},
+	"tips": {
+		"writeMe": "Opens your email with my address",
+		"copyEmail": "Copies my address to the clipboard",
+		"readCase": "The problem, the decisions and the result",
+		"useLive": "Loads the real app inside this page",
+		"open": "Opens the deployed app on its own",
+		"backToShot": "Closes the app and shows the screenshot again",
+		"code": "The repository on GitHub",
+		"github": "My profile on GitHub",
+		"linkedin": "My profile on LinkedIn",
+		"moreAboutMe": "Education, experience and what I work with",
+		"longVersion": "The full article, with the code and a demo",
+		"race": "Sends fifty requests at once for the last slot",
+		"raceTest": "The real test, on GitHub"
 	}
 }

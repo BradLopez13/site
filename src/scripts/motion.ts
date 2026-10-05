@@ -95,17 +95,41 @@ export function drawDiagram(d: Element) {
 }
 
 if (!reduce) {
-	/* Page load: the headline's letters come up from below their line, then the profile row */
+	/* Page load, under load: the headline's letters drop onto their line and squash on impact, as if they
+	   had weight, then spring back; the portrait opens like a curtain beside them; the profile row follows. */
 	const load = loads[0];
 	if (load) {
 		const chars = $$('.c', load);
-		const rest = $$('[data-after-load]');
-		chars.forEach((c) => { c.style.opacity = '0'; c.style.transform = 'translateY(40%)'; });
+		const photo = document.querySelector<HTMLElement>('.hero-photo');
+		const img = photo?.querySelector('img');
+		const rest = $$('[data-after-load]').filter((e) => e !== photo);
+		// The hover squash uses a CSS transition on transform; it would fight the frames, so it waits until the landing ends.
+		load.classList.add('is-landing');
+		chars.forEach((c) => { c.style.opacity = '0'; c.style.transform = 'translateY(-0.55em)'; });
 		rest.forEach((e) => (e.style.opacity = '0'));
-		const tl = createTimeline({ defaults: { ease: 'outExpo' } });
-		tl.add(chars, { opacity: [0, 1], y: ['40%', '0%'], duration: 900, delay: stagger(14) }, 100);
-		if (rest.length) tl.add(rest, { opacity: [0, 1], y: ['1rem', '0rem'], duration: 700, delay: stagger(90) }, 520);
-		tl.then(() => chars.forEach((c) => { c.style.removeProperty('transform'); c.style.removeProperty('opacity'); }));
+		const curtain = 'inset(100% 0% 0% 0% round 1.25rem)';
+		if (photo) photo.style.clipPath = curtain;
+		const tl = createTimeline();
+		tl.add(
+			chars,
+			{
+				opacity: { from: 0, to: 1, duration: 360, ease: 'inQuad' },
+				y: { from: '-0.55em', to: '0em', duration: 420, ease: 'inQuad' },
+				scaleY: [{ to: 0.72, duration: 110, delay: 420, ease: 'outQuad' }, { to: 1, duration: 620, ease: 'outElastic(1, .45)' }],
+				scaleX: [{ to: 1.16, duration: 110, delay: 420, ease: 'outQuad' }, { to: 1, duration: 620, ease: 'outElastic(1, .45)' }],
+				delay: stagger(16),
+			},
+			80,
+		);
+		if (photo) tl.add(photo, { clipPath: [curtain, 'inset(0% 0% 0% 0% round 1.25rem)'], duration: 1100, ease: 'inOutQuart' }, 260);
+		if (img) tl.add(img, { scale: [1.14, 1], duration: 1500, ease: 'outQuart' }, 260);
+		if (rest.length) tl.add(rest, { opacity: [0, 1], y: ['1rem', '0rem'], duration: 700, delay: stagger(90), ease: 'outExpo' }, 700);
+		tl.then(() => {
+			chars.forEach((c) => { c.style.removeProperty('transform'); c.style.removeProperty('opacity'); });
+			photo?.style.removeProperty('clip-path');
+			img?.style.removeProperty('transform');
+			load.classList.remove('is-landing');
+		});
 	}
 
 	/* Titles and diagrams enter once as they reach the viewport; body text is never held back */
@@ -252,3 +276,85 @@ document.querySelectorAll<HTMLElement>('.toc').forEach((toc) => {
 	addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(mark); } }, { passive: true });
 	mark();
 });
+
+/* ---------- The load gauge: how much of the page has been read ---------- */
+const gauge = document.querySelector<HTMLElement>('.gauge');
+if (gauge) {
+	let queued = false;
+	const fill = () => {
+		queued = false;
+		const room = document.documentElement.scrollHeight - innerHeight;
+		gauge.style.transform = `scaleX(${room > 0 ? Math.min(1, scrollY / room) : 0})`;
+	};
+	const ask = () => { if (!queued) { queued = true; requestAnimationFrame(fill); } };
+	addEventListener('scroll', ask, { passive: true });
+	addEventListener('resize', ask);
+	fill();
+}
+
+/* ---------- Hover labels: a few words on what a control does, after a short pause with the mouse
+   or straight away from the keyboard; never on touch, where there is no hover. ---------- */
+{
+	const tipEl = document.createElement('div');
+	tipEl.className = 'tip';
+	tipEl.id = 'tip';
+	tipEl.setAttribute('role', 'tooltip');
+	document.body.append(tipEl);
+	let owner: HTMLElement | null = null;
+	let timer = 0;
+
+	const textOf = (el: HTMLElement) => el.dataset.tip || el.getAttribute('aria-label') || '';
+	const place = (el: HTMLElement) => {
+		const r = el.getBoundingClientRect();
+		const t = tipEl.getBoundingClientRect();
+		// Positions come in screen units; the label is placed in rem, measured against the root font size.
+		const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+		const margin = 0.5 * rem;
+		const left = Math.min(Math.max(r.left + r.width / 2 - t.width / 2, margin), innerWidth - t.width - margin);
+		const below = r.bottom + margin;
+		const top = below + t.height > innerHeight - margin ? r.top - t.height - margin : below;
+		tipEl.style.transform = `translate(${(left / rem).toFixed(3)}rem, ${(top / rem).toFixed(3)}rem)`;
+	};
+	const show = (el: HTMLElement) => {
+		const text = textOf(el);
+		if (!text) return;
+		owner = el;
+		tipEl.textContent = text;
+		place(el);
+		tipEl.classList.add('on');
+		// Only describe when the label adds something to the control's own name.
+		if (el.dataset.tip) el.setAttribute('aria-describedby', 'tip');
+	};
+	const hide = () => {
+		window.clearTimeout(timer);
+		if (owner) owner.removeAttribute('aria-describedby');
+		owner = null;
+		tipEl.classList.remove('on');
+	};
+	const target = (e: Event) => (e.target instanceof Element ? e.target.closest<HTMLElement>('[data-tip]') : null);
+
+	document.addEventListener('pointerover', (e) => {
+		if (e.pointerType !== 'mouse') return;
+		const el = target(e);
+		if (!el || el === owner) return;
+		hide();
+		timer = window.setTimeout(() => show(el), 350);
+	});
+	document.addEventListener('pointerout', (e) => {
+		const el = target(e);
+		if (el && !(e.relatedTarget instanceof Node && el.contains(e.relatedTarget))) hide();
+	});
+	document.addEventListener('focusin', (e) => {
+		const el = target(e);
+		if (el && el.matches(':focus-visible')) show(el);
+	});
+	document.addEventListener('focusout', hide);
+	document.addEventListener('pointerdown', hide);
+	document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
+	addEventListener('scroll', hide, { passive: true });
+	// A click can change the label (theme, language): refresh it if the control still has focus.
+	document.addEventListener('click', (e) => {
+		const el = target(e);
+		if (el && el.matches(':focus-visible')) window.setTimeout(() => show(el), 50);
+	});
+}

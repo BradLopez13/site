@@ -1,5 +1,6 @@
 ---
 import { LINKS } from '../consts';
+import { tip } from '../i18n';
 import Icon from './Icon.astro';
 import T from './T.astro';
 
@@ -24,6 +25,8 @@ const CLOSE = 'M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,
 ---
 
 <header class="top">
+	<!-- How far down the page you are: a gauge that fills as you scroll -->
+	<span class="gauge" aria-hidden="true"></span>
 	<div class="wrap">
 		<a class="brand" href="/">Brad López</a>
 		<nav class="nav" data-i18n-attr="aria-label:ui.mainNav" aria-label="Main">
@@ -35,12 +38,13 @@ const CLOSE = 'M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,
 					</a>
 				))
 			}
-			<button class="lang" type="button" data-lang-toggle data-i18n-attr="aria-label:ui.langSwitch" aria-label="Leer en español">
+			<button class="lang" type="button" data-tip="" data-lang-toggle data-i18n-attr="aria-label:ui.langSwitch" aria-label="Leer en español">
 				<Icon name="globe" />
 				<T k="ui.langShort" />
 			</button>
 			<button
 				class="theme-btn"
+				data-tip=""
 				type="button"
 				data-theme-toggle
 				data-l-auto="ui.themeAuto"
@@ -50,8 +54,8 @@ const CLOSE = 'M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,
 				aria-label="Theme: system. Switch to light"
 				set:html={ico(SUN, 'i-light') + ico(MOON, 'i-dark') + ico(AUTO, 'i-auto')}
 			/>
-			<a class="btn btn-ink btn-sm write" href={`mailto:${LINKS.email}`}><Icon name="envelope" /><T k="ui.writeMe" /></a>
-			<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu data-i18n-attr="aria-label:ui.menu" aria-label="Menu" set:html={ico(MENU, 'i-open') + ico(CLOSE, 'i-close')} />
+			<a class="btn btn-ink btn-sm write" {...tip('tips.writeMe')} href={`mailto:${LINKS.email}`}><Icon name="envelope" /><T k="ui.writeMe" /></a>
+			<button class="menu-btn" type="button" data-tip="" aria-expanded="false" aria-controls="site-menu" data-menu data-i18n-attr="aria-label:ui.menu" aria-label="Menu" set:html={ico(MENU, 'i-open') + ico(CLOSE, 'i-close')} />
 		</nav>
 	</div>
 	<!-- Small screens: the same four destinations and the contact, one tap away -->

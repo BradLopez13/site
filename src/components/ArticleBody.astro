@@ -5,6 +5,8 @@ import type { MarkdownHeading } from 'astro';
 import { LINKS } from '../consts';
 import { articles } from '../data/articles';
 import { dict, type Lang } from '../i18n';
+import en from '../i18n/en.json';
+import es from '../i18n/es.json';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -35,7 +37,7 @@ const fromReservas = articles.find((x) => x.slug === slug)?.from === 'reservas';
 			</ol>
 			{
 				fromReservas && (
-					<a class="toc-repo" href={LINKS.reservasRepo}>
+					<a class="toc-repo" href={LINKS.reservasRepo} data-tip={(lang === 'es' ? es : en).tips.code}>
 						<Icon name="github" />
 						{d.article.repo}
 					</a>

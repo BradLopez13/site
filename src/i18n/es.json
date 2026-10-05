@@ -596,5 +596,20 @@
 			"fail": "Comprobaciones con fallo: {n} de 4. {list}.",
 			"note": "Una simulación: los límites son de ejemplo, no la configuración real de mi equipo."
 		}
+	},
+	"tips": {
+		"writeMe": "Abre tu correo con mi dirección",
+		"copyEmail": "Copia mi dirección al portapapeles",
+		"readCase": "El problema, las decisiones y el resultado",
+		"useLive": "Carga la app real dentro de esta página",
+		"open": "Abre la app desplegada por separado",
+		"backToShot": "Cierra la app y vuelve a la captura",
+		"code": "El repositorio en GitHub",
+		"github": "Mi perfil en GitHub",
+		"linkedin": "Mi perfil en LinkedIn",
+		"moreAboutMe": "Formación, experiencia y con qué trabajo",
+		"longVersion": "El artículo completo, con el código y una demo",
+		"race": "Lanza cincuenta peticiones a la vez por la última franja",
+		"raceTest": "El test real, en GitHub"
 	}
 }
