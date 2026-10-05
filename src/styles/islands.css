@@ -35,7 +35,7 @@
 /* Browser frame extras */
 .frame-live {
 	flex: none;
-	font-size: 0.8125rem;
+	font-size: 0.875rem;
 	font-weight: 700;
 	color: var(--violet-soft);
 	text-decoration: none;
@@ -168,7 +168,7 @@ html.js .pan {
 	border: 0.125rem solid var(--ok);
 	border-radius: 0.625rem;
 	color: var(--ok);
-	font-size: 0.8125rem;
+	font-size: 0.875rem;
 	font-weight: 700;
 	text-align: right;
 	line-height: 1.2;
@@ -319,7 +319,7 @@ html.js .pan {
 	background: var(--fog);
 	color: var(--ink);
 	font-weight: 700;
-	font-size: clamp(0.8125rem, 1.2vw, 1rem);
+	font-size: clamp(0.875rem, 1.2vw, 1rem);
 	line-height: 1.2;
 }
 /* Two lines per stop: the plain question a non-engineer can follow, then the name an engineer knows. */
@@ -327,7 +327,7 @@ html.js .pan {
 	display: block;
 }
 .stop-term {
-	font-size: 0.8125rem;
+	font-size: 0.875rem;
 	font-weight: 600;
 	color: var(--muted);
 }
@@ -649,7 +649,7 @@ html.js .pan {
 	border-radius: 0.5rem;
 	background: var(--ink);
 	color: var(--paper);
-	font-size: 0.8125rem;
+	font-size: 0.875rem;
 }
 .tenants,
 .people {
@@ -703,7 +703,7 @@ html.js .pan {
 	padding: 0.25rem 0.625rem;
 	border-radius: 99em;
 	background: rgb(255 255 255 / 0.2);
-	font-size: 0.8125rem;
+	font-size: 0.875rem;
 	font-style: normal;
 }
 .people > div:not(.violet) {
@@ -1179,7 +1179,7 @@ html.js .pan {
 	background: var(--ink-2);
 	color: var(--paper);
 	font-family: var(--font-body);
-	font-size: 0.8125rem;
+	font-size: 0.875rem;
 	font-weight: 700;
 }
 .lesson {
@@ -1237,7 +1237,7 @@ html.js .pan {
 	gap: 1rem;
 	margin-bottom: 1rem;
 	font-family: var(--font-body);
-	font-size: 0.8125rem;
+	font-size: 0.875rem;
 	color: var(--muted-on-ink);
 }
 .arrival-key i {

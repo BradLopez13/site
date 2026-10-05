@@ -308,9 +308,9 @@ details.decision .body { padding: 0 1.25rem 1.25rem; color: var(--soft); }
 details.decision .body p { max-width: 38rem; }
 .terminal, .code { border-radius: 1rem; overflow: hidden; background: var(--code-1); color: #e9e9ee; }
 .code { margin: 0 0 1.5rem; }
-.terminal .cap, .code .cap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1rem; padding: 0.75rem 1.25rem; background: var(--code-2); font: 500 0.82rem "Geist Mono", monospace; color: #c7c7cf; }
+.terminal .cap, .code .cap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1rem; padding: 0.75rem 1.25rem; background: var(--code-2); font: 500 0.875rem "Geist Mono", monospace; color: #c7c7cf; }
 .code .cap a { color: #fff; display: inline-flex; align-items: center; min-height: 2.75rem; margin-block: -0.75rem; }
-.terminal pre, .code pre { margin: 0; padding: 1.25rem; font: 400 0.85rem/1.8 "Geist Mono", monospace; }
+.terminal pre, .code pre { margin: 0; padding: 1.25rem; font: 400 0.875rem/1.8 "Geist Mono", monospace; }
 .terminal pre { white-space: pre-wrap; }
 .code pre { overflow-x: auto; }
 .terminal .ok { color: #9aa6ff; }
