@@ -79,9 +79,9 @@
 	"series": {
 		"parts": [
 			"50 peticiones, una ganadora: tres formas de evitar reservas dobles en PostgreSQL",
-			"Mi limitador de intentos limitaba a mi propio proxy",
-			"Sesiones sin JWT",
-			"Claves de idempotencia, y el 503 que no debes guardar"
+			"Sesiones: cookies opacas que se revocan al momento",
+			"Idempotencia: un reintento que nunca reserva dos veces",
+			"Limitar intentos de login detrás de un proxy: ¿qué IP estás contando?"
 		],
 		"draft": "Borrador",
 		"next": "El próximo",
@@ -233,14 +233,14 @@
 	"themes": {
 		"label": "Mi trabajo en VB Group",
 		"integration": {
-			"t": "Reservas que salen facturadas",
+			"t": "Entradas que salen facturadas",
 			"k": "Integración",
-			"h": "Entran reservas de eventos, salen facturas que un contable acepta",
+			"h": "Entran ventas de entradas, salen facturas que un contable acepta",
 			"d": "Una capa de mapeo y normalización entre una plataforma de eventos y un ERP de facturación: facturas simplificadas, gastos de gestión e IVA. Aprendí contabilidad desde cero para modelarlo bien.",
 			"n": [
 				[
 					"Plataforma",
-					"reservas, tarifas"
+					"entradas, tarifas"
 				],
 				[
 					"Mi capa",
@@ -350,8 +350,8 @@
 		"title": "Mi trabajo.",
 		"lede": "Desde 2025 soy desarrollador full‑stack en VB Group: entré como desarrollador web junior y me ascendieron a full stack a los tres meses. Es trabajo privado, así que aquí están los problemas, lo que hice y su forma, nunca el cliente, el código ni las cifras.",
 		"now": "En qué trabajo en VB Group",
-		"caseTitle": "El caso: reservas que salen facturadas",
-		"caseSub": "Integración entre una plataforma de eventos y un ERP de facturación.",
+		"caseTitle": "El caso: entradas que salen facturadas",
+		"caseSub": "Integración entre una plataforma de venta de entradas y un ERP de facturación.",
 		"caseText": "De la plataforma de eventos salían ventas de entradas y gastos de gestión; el ERP de facturación los necesitaba como facturas simplificadas, con el IVA desglosado como lo espera un contable. Construí la capa entre los dos.",
 		"caseHold": "Antes se pasaban las ventas de entradas a mano a contabilidad para generar las facturas simplificadas. Yo hice la integración que recoge entradas, gastos de gestión, merchandising y devoluciones y los lleva a los campos que necesita la API de facturación. Tuve que pegarme con dos APIs que no conocía y aprender contabilidad para entender los datos. Hacía llamadas directas y comparaba las respuestas para ver cómo representaba cada sistema una misma venta. Los redondeos también dieron problemas: una API mandaba los importes redondeados y la otra los recalculaba. Tuve que investigar cómo sacar más decimales del origen para que cuadraran. Aprendí a probar una integración con dos sistemas cuyo comportamiento no depende de mí.",
 		"diagramNote": "El diagrama usa nombres inventados y ningún dato real.",

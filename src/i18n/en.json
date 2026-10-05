@@ -78,10 +78,10 @@
 	},
 	"series": {
 		"parts": [
-			"50 requests, one winner: three ways to stop double bookings in PostgreSQL",
-			"My rate limiter was rate-limiting my proxy",
-			"Sessions without JWT",
-			"Idempotency keys, and the 503 you must not cache"
+			"50 requests, one winner: three ways to prevent double bookings in PostgreSQL",
+			"Sessions: opaque cookies you can revoke immediately",
+			"Idempotency: retrying without booking twice",
+			"Login rate limiting behind a proxy: which IP are you counting?"
 		],
 		"draft": "Draft",
 		"next": "Coming next",
@@ -233,14 +233,14 @@
 	"themes": {
 		"label": "My work at VB Group",
 		"integration": {
-			"t": "Bookings in, invoices out",
+			"t": "Tickets in, invoices out",
 			"k": "Integration",
-			"h": "Event bookings in, invoices an accountant accepts out",
-			"d": "A mapping and normalisation layer between an events platform and an invoicing ERP: simplified invoices, management expenses and VAT. I learned the accounting domain from scratch to model it correctly.",
+			"h": "Event tickets in, invoices an accountant accepts out",
+			"d": "A mapping and normalisation layer between an events platform and an invoicing ERP: simplified invoices, handling fees and VAT. I learned the accounting domain from scratch to model it correctly.",
 			"n": [
 				[
 					"Events platform",
-					"bookings, fees"
+					"ticket sales, fees"
 				],
 				[
 					"My layer",
@@ -350,8 +350,8 @@
 		"title": "My work.",
 		"lede": "Since 2025 I’m a full‑stack developer at VB Group: I joined as a junior web developer and was promoted to full stack after three months. This is private work, so you’ll find the problems, what I did and their shape, never the client, the code or the numbers.",
 		"now": "What I work on at VB Group",
-		"caseTitle": "The case: bookings in, invoices out",
-		"caseSub": "Integration between an events platform and an invoicing ERP.",
+		"caseTitle": "The case: tickets in, invoices out",
+		"caseSub": "Integration between a ticketing platform and an invoicing ERP.",
 		"caseText": "Ticket sales and handling fees came out of an events platform; an invoicing ERP needed them as simplified invoices, with VAT split the way an accountant expects. I built the layer between them.",
 		"caseHold": "Ticket sales used to be passed to accounting by hand to generate simplified invoices. I built the integration that takes ticket sales, handling fees, merchandise and refunds and maps them to the fields the invoicing API needs. I had to work with two unfamiliar APIs and learn enough accounting to understand the data. I made direct requests and compared the responses to see how each system represented the same sale. Rounding caused problems too: the sales API sent rounded amounts, and the invoicing API recalculated them. I had to find a way to get more decimal places from the source so the amounts would match. Working with both APIs taught me how to test an integration when I do not control either system.",
 		"diagramNote": "The diagram uses invented names and no real data.",
